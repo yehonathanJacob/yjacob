@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html sytle="font-size: unset;">
+<head>
+  <title>YAD Capital</title>
+  <base href="https://yadcapital.com">
+  <meta charset="utf-8"/>
+  <meta name="description" content="Investment Firm Focused on Alternative Credit Opportunities">
+  <!--css-->  
+  <link rel="stylesheet" href="files/home.css">  
+  <!--Responsiv-->
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+  <!--font awesome-->
+  <script src="https://use.fontawesome.com/9a4307ff22.js"></script>
+  <!-- Latest compiled and minified CSS-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!--Jquery-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="icon" href="images/ico_small.jpg" type="image/x-icon">
+  <link rel="shortcut icon" href="images/ico_small.jpg" type="image/x-icon">
+  <!--AOS OnScroll -->
+  <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+<header>
+  <div id="headerDataContainer">
+  <div id="headerData">
+    <div></div>
+    <img src="images/foolIco.png" alt="YAD Cpital icon">
+    <p>Investment Firm Focused on Alternative Credit Opportunities</p>
+    <div id="LegalDisclaimerButton" data-toggle="modal" data-target="#LegalDisclaimerModal">Legal Disclaimer</div>
+  </div>
+  </div>
+</header>
+<nav>
+<img src="images/foolIco.png" alt="YAD Cpital icon">
+<div id="menueButton" onclick="navigationOC(this)">
+  <div class="bar1"></div>
+  <div class="bar2"></div>
+  <div class="bar3"></div>
+</div><div id="menueContainer"><div id="buttonsContainer"><button type="button" onclick="ScrollTo(this)" id="homeButton">HOME
+</button><button onclick="ScrollTo(this)" type="button" id="aboutButton">ABOUT
+</button><button onclick="ScrollTo(this)" type="button" id="strategyButton">STRATEGY
+</button><button onclick="ScrollTo(this)" type="button" id="fundsButton">FUNDS
+</button><button onclick="ScrollTo(this)" type="button" id="teamButton">TEAM
+</button><button onclick="ScrollTo(this)" type="button" id="contactButton">CONTACT
+</button></div></div>
+</nav>
+<div class="form about"><div data-aos="zoom-in" class="Ftitle">ABOUT US
+</div><p data-aos="fade-up" class="dataText">YAD Capital is an alternative asset management firm that seeks to generate attractive risk-adjusted returns by opportunistically investing in financing products with average duration under one year and expected yields ranging from the mid-teens to upwards of 30%. 
+<br><br>We thoroughly build our portfolio through extensive due diligence and investment selection to ensure compliance with our strategy. We strive to provide uncorrelated alpha, low volatility, and diversification.
+</p></div><div class="form strategy"><div data-aos="zoom-in" class="Ftitle">STRATEGY
+</div><p data-aos="fade-up" class="dataText">YAD Capital provides a select group of qualified high net worth individuals, family offices, and institutions access to unique investment opportunities.
+<br><br>Marketplace lending is a relatively new segment of the alternative investment landscape that was born following the Great Recession of 2008. As banks tightened their lending standards and faced increased regulatory oversight, they exited many segments of the direct lending market.
+<br><br>The result created a void of lending solutions that YAD Capital intends to fill.
+<br><br>Our first alternative credit opportunity strategy is to focus on a unique asset class known as Merchant Cash Advance (“MCA”).  MCA is a financing solution for small businesses whereby a merchant sells a portion of their future revenues at a discounted purchase price in exchange for a lump sum payment.
+<br><br>We seek to provide attractive risk-adjusted returns by investing in participation interests sold by companies that have made MCA to various businesses. We diversify our portfolio by investing across the entire spectrum of opportunity set (industry, geography, and quality of paper) and we monitor / risk manage the portfolio on a daily basis.
+</p></div><div class="form funds"><hr data-aos="zoom-in"><div data-aos="zoom-in" class="Ftitle">FUNDS
+</div><p data-aos="fade-up" class="dataText"><strong>YAD Funding Opportunity, LP</strong>
+<br>Final Closing: March 31, 2018
+<br><i>Currently investing</i>
+</p><p data-aos="fade-up" class="dataText"><strong>YAD Funding Opportunity II, LP</strong>
+<br>Final Closing: September 30, 2018
+<br><i>Currently investing</i>
+</p></div><div class="walkingPeople" data-parallax="scroll" data-image-src="images/walkingPeople.jpg">
+</div><div class="form team"><div data-aos="zoom-in" class="Ftitle">TEAM
+</div><!--
+David Perez Card
+--><div id="davidPerez" data-aos="flip-right" class="card">
+<img class="profilePic" src="images/DavidPerez.jpg" alt="David Perez profile"><h3>
+David Perez</h3><div class="role">Co-Founding Partner &amp; <br>CIO
+</div><hr><a class="in" href="https://www.linkedin.com/in/david-perez-a65b04124/" target="_blank" ><div class="LinkIco"><i class="fa fa-linkedin" aria-hidden="true"></i></div><p>David Perez</p>
+</a><a class="mail" href="mailto:david@yadcapital.com"><div class="LinkIco"><span class="glyphicon glyphicon-envelope"></span></div><p>david@yadcapital.com</p>
+</a><div id="davidPerezBio" class="link bio" data-toggle="modal" data-target="#DavidPerezModal">Click For Bio</div>
+</div><!--
+Daniel Rubin Card
+--><div id="danielRubin" data-aos="flip-right" class="card">
+<img class="profilePic" src="images/danielRubin.jpg" alt="Daniel Rubin profile"><h3>Daniel Rubin
+</h3><div class="role">Co-Founding Partner &amp; <br>COO/CFO
+</div><hr><a class="in" href="https://www.linkedin.com/in/daniel-rubin/" target="_blank" ><div class="LinkIco"><i class="fa fa-linkedin" aria-hidden="true"></i></div><p>Daniel Rubin</p>
+</a><a class="mail" href="mailto:daniel@yadcapital.com"><div class="LinkIco"><span class="glyphicon glyphicon-envelope"></span></div><p>daniel@yadcapital.com</p>
+</a><div id="danielRubinBio" class="link bio" data-toggle="modal" data-target="#DanielRubinModal">Click For Bio</div>
+</div></div><div class="form contact"><div id="layer"></div><div data-aos="zoom-in" class="Ftitle">CONTACT
+</div><form action="javascript:sendMail();" data-aos="fade-right"><label id="description">For any general inquiries, please fill in the following contact form:
+</label><div id="inputs"><input type="text" name="name" placeholder="Name"><input type="text" name="subject" placeholder="Subject"><input type="email" name="email" placeholder="E-mail"><input type="tel" name="tel" placeholder="Telephone"></div><textarea name="message" rows="4" placeholder="Message">
+</textarea><button type="submit">Send
+</button></form><span id="htLine"></span><div id="contactDirectly" data-aos="fade-left"><a href="mailto:david@yadcapital.com" class="linkContact mailCon"><div class="CoIco"><span class="glyphicon glyphicon-envelope"></span></div><div class="adressData">david@yadcapital.com</div></a><a href="mailto:daniel@yadcapital.com" class="linkContact mailCon"><div class="CoIco"><span class="glyphicon glyphicon-envelope"></span></div><div class="adressData">daniel@yadcapital.com</div></a><a href="waze://?q=590 Madison Avenue New York, NY 10022" class="linkContact locationCon"><div class="CoIco"><span class="glyphicon glyphicon-map-marker"></span></div><div class="adressData">590 Madison Avenue
+New York, NY 10022</div></a><div id="map"></div></div></div><footer><div id="bootomTtle"><span class="glyphicon glyphicon-copyright-mark"></span> 2017-2019 YAD Capital LLC.
+</div></footer>
+<!-- Modal Daniel Rubin Card -->
+  <div class="modal fade BioCard" id="DanielRubinModal" role="dialog">
+    <div class="modal-dialog">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header media">          
+          <div class="media-left">
+            <img src="images/danielRubin.jpg" class="media-object" style="width:60px" alt="Daniel Rubin profile">
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Daniel Rubin</h4>
+          </div>
+          <div class="media-right">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p>Mr. Daniel Rubin has over 19 years of principal investing, investment banking, restructuring and operational experience, primarily in the real estate industry.
+<br>
+Prior to co-founding YAD Capital LLC, Mr. Rubin was the COO &amp; CFO of Halpern Real Estate Ventures LLC where he assumed a strategic role in the overall management of the firm and was responsible for executing and managing over $650 million of real estate transactions.
+<br>
+Prior to that, Mr. Rubin invested in and advised several real estate operating companies, REITs and private equity real estate firms on more than $4.5 billion of complex corporate finance transactions at various organizations including Silverkey Capital, JEN Partners, Lehman Brothers and EdgeRock Realty Advisors. Mr. Rubin started his career at Deloitte, first as an auditor and subsequently as a turnaround consultant.
+<br>
+Mr. Rubin holds an MBA from NYU Stern School of Business, an M.S. degree in Financial Engineering from University of Paris Creteil, and a B.S. degree in Accounting, Finance, and Corporate Taxation from University of Paris Dauphine. Mr. Rubin is a member of the NYU Stern School of Business Alumni Council and Chair of its Finance Committee.</p>
+        </div>        
+      </div>      
+    </div>
+  </div>
+ <!-- Modal David Perez Card -->
+  <div class="modal fade BioCard" id="DavidPerezModal" role="dialog">
+    <div class="modal-dialog">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header media">          
+          <div class="media-left">
+            <img src="images/DavidPerez.jpg" class="media-object" style="width:60px" alt="David Perez profile">
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">David Perez</h4>
+          </div>
+          <div class="media-right">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p>Mr. David Perez has over 18 years of trading and investment experience in liquid macro assets.
+<br>
+Prior to co-founding YAD Capital LLC, Mr. Perez was a senior Portfolio Manager and Managing Director at MKP Capital Management LLC, a $7 billion diversified alternative asset manager focused on macro and credit opportunities, where he was managing a $500 million portfolio of stocks, bonds, credit and currencies.
+<br>
+Prior to that, Mr. Perez was a Managing Director at Goldman Sachs, where he spent 14 years, most recently as the Head of its US Index Volatility Trading Business. He spent the first 6 years in London, and the last 8 years in New York.
+<br>
+Mr. Perez studied in Paris, France where he received a B.A. in Computer Sciences and Mathematics from University Paris Dauphine, as well as an M.S. degree in Finance.</p>
+        </div>        
+      </div>      
+    </div>
+  </div>
+<!-- Modal Legal Disclaimer -->
+  <div class="modal fade" id="LegalDisclaimerModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header media">
+          <div class="media-body">
+            <h4 class="media-heading">Legal Disclaimer</h4>
+          </div>
+          <div class="media-right">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <p>This website is not an offer to sell or the solicitation of an offer to buy limited partnership interests in any investment vehicles managed by YAD Capital LLC. An offering of interests will be made only by means of a confidential private placement memorandum and only to qualified investors in juridictions where permitted by law.
+<br>
+Prospective investors should not rely on the information available on this website and are strongly urged to review the confidential private placement memorandum carefully and consult with their own financial, legal and tax advisors before investing.
+<br>
+This website and its contents are proprietary information of YAD Capital LLC and any reproduction of this information, in whole or in part, without the prior written consent of YAD Capital LLC is prohibited. Additional information is available upon request.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+ <script>
+  function initMap() {
+    var location = new google.maps.LatLng(40.7624, -73.9725);
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: location,
+      zoom: 14
+    });
+    var coordInfoWindow = new google.maps.InfoWindow();
+    coordInfoWindow.setContent('YAD Capital LLC');    
+    coordInfoWindow.setPosition(location);
+    coordInfoWindow.open(map);
+  }  
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3XSPD7dNWCkDaI4JJIe3EpzvN3mhJQ5I&callback=initMap&language=en">
+</script>
+<!--parallax, FontAwesome, Bootstrap -->
+<script src="files/Libraries.js"></script>
+<!--AOS OnScroll -->
+<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+<script src="files/home.js"></script>
+</body>
+</html>
