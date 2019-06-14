@@ -175,6 +175,11 @@ nav #buttonsContainer button.selected{
 	box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);	
 }
 .funds{padding-bottom:20px;}
+.funds.form .dataText{
+	width:310px;
+	display:block;
+	margin: 0 auto;
+}
 .funds strong{ font-size:120%; font-weight:700;}
 .funds hr{
 	 width:90%;
@@ -187,24 +192,28 @@ nav #buttonsContainer button.selected{
 	margin: 0 auto;
 	display:block;
 	text-align:center;
-	color: #00305B;
+	color:black;
+	font-weight:600;
 }
 .funds #funds_circels .circel_container{
 	display:inline-block;
-	width:130px;
-	height:130px;
+	width:150px;
+	height:150px;
 	background-color:white;
 	border:solid 4px #00305B;
 	border-radius:50%;
-	margin: 0 40px;
+	margin: 0 30px;
 	vertical-align:middle;
 	padding:30px 20px;
+	background-color:#ccd5de;
 }
 .funds #funds_circels .circel_content{
-	font-size:110%;
+	font-size:120%;
 }
 .funds #funds_circels .circel_content strong{
 	display:block;
+	color:#00305B;
+	font-size:140%;
 }
 .walkingPeople{
 	width:100%;
@@ -544,8 +553,20 @@ nav #buttonsContainer button:active{
 	font-size:105%;
 }
 .funds strong{ font-size:110%; }
+.funds #funds_circels{
+	font-weight:500;
+}
+.funds #funds_circels .circel_container{
+	width:140px;
+	height:140px;
+	margin: 0 25px;
+	padding:25px 20px;	
+}
 .funds #funds_circels .circel_content{
-	font-size:105%;
+	font-size:115%;
+}
+.funds #funds_circels .circel_content strong{	
+	font-size:140%;
 }
 .walkingPeople{min-height:50vh;}
 
@@ -628,16 +649,16 @@ nav #menueContainer #buttonsContainer button{
 .funds strong{ font-size:102%; }
 .funds br{ line-height:2; }
 .funds #funds_circels .circel_container{
-	width:100px;
-	height:100px;
-	border:solid 3px #00305B;
-	border-radius:50%;
-	margin: 0 30px;
-	vertical-align:middle;
-	padding:20px 15px;
+	width:130px;
+	height:130px;
+	margin: 0 20px;
+	padding:25px 20px;	
 }
 .funds #funds_circels .circel_content{
-	font-size:100%;
+	font-size:110%;
+}
+.funds #funds_circels .circel_content strong{	
+	font-size:130%;
 }
 .team .card{
 	display:block;
