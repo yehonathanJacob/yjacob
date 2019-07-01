@@ -55,8 +55,7 @@ def moovPointerOfFile(f,index=0):
 	else:
 		print(str(f) + " is not an open file")
 
-def _getDirFromPath(path,name, result):
-	print("path: {} arr: {}".format(path,result))
+def _getDirFromPath(path,name, result):	
 	try:
 		if len(result)>1:
 			return result
@@ -159,7 +158,8 @@ def ShowFileInEnding(path,end):
 		print("path: %s\nDose not exist or is not a valid folder name."%path)
 import datetime
 import requests
-def getHebDate(day = "",month = "",year = ""):
+import pandas as pd
+def getHebDate(day = "",month = "",year = "",city="Tel+Aviv"):
 	"""
 	Input: specific date OR null and you will get now.
 	Output: str of 32 bit- signed binnary number
@@ -168,16 +168,24 @@ def getHebDate(day = "",month = "",year = ""):
 		dNow = datetime.datetime(year, month, day)
 	else:
 		dNow = datetime.datetime.now()
-	request = 'https://www.hebcal.com/converter/?cfg=json'
+	request = 'https://www.hebcal.com/shabbat/?'
 	request += '&gy='+dNow.strftime('%Y')
 	request += '&gm='+str(int(dNow.strftime('%m')))
 	request += '&gd='+str(int(dNow.strftime('%d')))
+	request += '&city='+str(city)
 	request += '&g2h=1'
+	request += '&m=40'
+	request += '&cfg=json'
 	r = requests.get(request)
 	a = r.json()
-	s = a['hebrew'][::-1]+'\n'
-	for e in a['events']:
-		s += e + '\n'
+	df = pd.DataFrame(a['items'])
+	df['hebrew'] = df['hebrew'][::-1]
+	return df[['category','hebrew','title']]
+	s = a['title']+'\nEvents:\n'
+	s += "\tHebrew\t|\tTitle\t|\tCategory\t\n"
+	#s += "______________|________________|__________________\n"
+	for value in a['items']:
+		s += "\t\t{Hebrew}|{Title}\t\t|{Category}\t\n".format(Hebrew=value['hebrew'][::-1],Title=value['title'],Category=value['category'])
 	s+= '('+dNow.strftime('%A')+', '+dNow.strftime('%B')+' '+dNow.strftime('%d')+' '+dNow.strftime('%Y')+')'
 	return s
 #requaier: import os
