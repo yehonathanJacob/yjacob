@@ -10,6 +10,8 @@ __email__ = "janjak2411@gmail.com"
 
 import inspect,os,sys
 from io import TextIOWrapper
+import json
+path_to_root = os.environ['yjacob_private_root'] + "\\PythonLab\\JJFunction" #Path to root where you have your private files
 
 def show():
 	print("## array of all JJFunction: FARR")
@@ -198,5 +200,13 @@ def changeSongs(names,files,albom,artist):
 		af.tag.artist = artist
 		af.tag.save()
 		os.rename(file,"%s.mp3"%name)
-
-FARR = [show,setInString,printDirectoris,moovPointerOfFile,getDir,getPath,getMyPath,BinToDec,HexToDec,DecToBin,ShowFileInEnding,getHebDate,changeSongs]
+def openAssets():
+	data_path = path_to_root+"\\data.json"
+	f = open(data_path)
+	data = json.loads(f.read())
+	f.close()
+	Assets_path = data["Assets"]
+	Themes_path = data["Themes"]
+	os.startfile(Themes_path)
+	ShowFileInEnding(Assets_path,".jpg")
+FARR = [show,setInString,printDirectoris,moovPointerOfFile,getDir,getPath,getMyPath,BinToDec,HexToDec,DecToBin,ShowFileInEnding,getHebDate,changeSongs,openAssets]
