@@ -4,7 +4,7 @@ Those function are made for personal use.
 """
 __author__ = "Yehonathan Jacob"
 __copyright__ = "Copyright Yehonathan Jacob 2018"
-__version__ = "28_06_2019"
+__version__ = "08_09_2019"
 __date__ = "07/10/2018"
 __email__ = "janjak2411@gmail.com"
 
@@ -209,4 +209,79 @@ def openAssets():
 	Themes_path = data["Themes"]
 	os.startfile(Themes_path)
 	ShowFileInEnding(Assets_path,".jpg")
+
+def updateBackUp():
+	root = tkM.Tk()
+	root.directory = ''
+	while root.directory == '':		
+		root.directory = filedialog.askdirectory(initialdir = "/",title="Please select a folder to copy from")
+	from_path = root.directory
+	root.directory = ''
+	while root.directory == '':		
+		root.directory = filedialog.askdirectory(initialdir = "/",title="Please select a folder to paste to")
+	to_path = root.directory
+
+
+class updateBackUp(object):
+	"""docstring for updateBackUp"""
+	def __init__(self,Src='',Dest=''):
+		super(updateBackUp, self).__init__()
+		self.root_src = Src
+		self.root_dest = Dest
+
+	def setSrcAndDest(self,Src='',Dest='')
+		root = tkM.Tk()
+		if Src != '':
+			self.root_src = Src
+		elif self.root_src == '':
+			self.root_src = filedialog.askdirectory(initialdir = "/",title="Please select a source folder to copy from")
+
+		if Dest != '':
+			self.root_dest = Dest
+		elif self.root_dest == '':
+			self.root_dest = filedialog.askdirectory(initialdir = "/",title="Please select a destination folder to copy to")
+
+	def _pritn_prog_bar(self,i_total,j_file,file_name=''):
+		'''
+		creadit: https://stackoverflow.com/questions/3173320/text-progress-bar-in-the-console
+		'''
+		total = 100
+		length = 40
+		fill = '█'
+		percent_i = ("{0:." + str(1) + "f}").format(100 * (i_total / float(total)))
+		percent_j = ("{0:." + str(1) + "f}").format(100 * (j_file / float(total)))
+		filledLength_i = int(length * i_total // total)
+		filledLength_j = int(length * j_file // total)
+		bar_i = fill * filledLength + '-' * (length - filledLength_i)
+		bar_j = fill * filledLength + '-' * (length - filledLength_j)
+
+		print('\rTotal: |%s|%s%% File: |%s|%s%% %s' % (bar_i,percent_i,bar_j,percent_j,file_name), end = '\r')
+
+		if i_total == total and j_file == total:
+			print()
+
+	def startCp(self):
+		if self.root_dest == '' or self.root_src == '':
+			self.error = 'root of destination or root of source was not set'
+			print("Unexpected error: {}".format(self.error))
+			raise
+		if not (os.path.exists(self.root_src) and os.path.isdir(self.root_src)) or not (os.path.exists(self.root_dest) and os.path.isdir(self.root_dest)):
+			self.error = 'root of destination or root of source was not found ad directory'
+			print("Unexpected error: {}".format(self.error))
+			raise
+
+	def _recursCp(self,source=''):
+		if os.path.isdir(os.path.join(self.root_src,source)):
+			if not os.path.exists(os.path.join(self.root_dest,source)):
+				os.mkdir(os.path.join(self.root_dest,source))
+			for directory in os.listdir(os.path.join(self.root_src,source)):
+				self._recursCp(os.path.join(source,directory))
+
+
+
+
+
+
+
+
 FARR = [show,setInString,printDirectoris,moovPointerOfFile,getDir,getPath,getMyPath,BinToDec,HexToDec,DecToBin,ShowFileInEnding,getHebDate,changeSongs,openAssets]
