@@ -169,45 +169,46 @@ nav #buttonsContainer button.selected{
   	width:100%;
   	padding-bottom: 26vw;
 }
-.strategy{	
+.mca{	
 	-webkit-box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);
-	box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);	
+	box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);
+	padding-bottom:20px;	
 }
-.funds{padding-bottom:20px;}
-.funds.form .TextContainer{
+
+.mca.form .TextContainer{
 	width:85%;
 	margin:auto;
 	border-bottom:dashed 1.5px;
 	margin-bottom:15px;
 }
-.funds.form .dataText{
+.mca.form .TextContainer .dataText{
 	width:25%;
 	display:inline-block;
 	margin: 0 auto;
 	text-align: left;
 	vertical-align:top;
 }
-.funds strong{ font-size:120%; font-weight:700;}
-.funds hr{
+.mca strong{ font-size:120%; font-weight:700;}
+.mca hr{
 	 width:90%;
 	 margin:auto;
 	 margin-bottom:20px;
 	 background-color:gray;
 	 height:1px;
 }
-.funds #funds_circels{
+.mca #MCA_circels{
 	margin: 0 auto;
 	display:block;
 	color:black;
 	width:85%;
 	font-weight:600;
 }
-.funds #funds_circels .circel_box{
+.mca #MCA_circels .circel_box{
 	display:inline-block;
 	width:25%;
 }
-.funds #funds_circels .circel_box .circel_container{
+.mca #MCA_circels .circel_box .circel_container{
 	text-align:center;
 	display:inline-block;
 	width:150px;
@@ -219,14 +220,51 @@ nav #buttonsContainer button.selected{
 	padding:30px 20px;
 	background-color:#ccd5de;
 }
-.funds #funds_circels .circel_content{
+.mca #MCA_circels .circel_content{
 	font-size:120%;
 }
-.funds #funds_circels .circel_content strong{
+.mca #MCA_circels .circel_content strong{
 	display:block;
 	color:#00305B;
 	font-size:140%;
 }
+.RealEs .RealEsData{margin: 0 0 10px 0;}
+.RealEs .DataLine .before{display:inline-block;width:110px;}
+.RealEs .boxContainer{
+	display:block;
+	width: 85%;
+	margin:auto;
+}
+.RealEs .boxContainer .box{	
+	color:#00305B;
+	border: 0.5em double;
+	display:inline-block;
+	height:300px;
+	width:23%;
+	margin-left:2%;
+	margin-bottom: 10px;
+	font-size:110%;
+	position:relative;
+}
+.RealEs .boxContainer .box .box_title{
+	text-align:center;
+	margin-top:10px;	
+}
+.RealEs .boxContainer .box .box_middel{
+	position:absolute;
+	top:50%;
+	left:50%;
+	width:90%;
+	transform: translate(-50%, -50%);
+	text-align:center;
+}
+.RealEs .boxContainer .box .box_bottom{
+	position:absolute;
+	width:100%;
+	bottom:10px;
+	text-align:center;
+}
+.RealEs{padding-bottom:20px;}
 .walkingPeople{
 	width:100%;
 	min-height:400px;
@@ -564,28 +602,29 @@ nav #buttonsContainer button:active{
 	line-height: 1.5;
 	font-size:105%;
 }
-.funds.form .TextContainer{
+.mca.form .TextContainer{
 	width:90%;	
 }
-.funds strong{ font-size:110%; font-weight:600;}
-.funds #funds_circels{
+.mca strong{ font-size:110%; font-weight:600;}
+.mca #MCA_circels{
 	font-weight:500;
 	width:90%;
 }
-.funds.form .dataText{
+.mca.form .TextContainer .dataText{
 	padding-bottom:30px;
 }
-.funds #funds_circels .circel_box .circel_container{
+.mca #MCA_circels .circel_box .circel_container{
 	width:120px;
 	height:120px;
 	padding:20px 20px;	
 }
-.funds #funds_circels .circel_content{
+.mca #MCA_circels .circel_content{
 	font-size:115%;
 }
-.funds #funds_circels .circel_content strong{	
+.mca #MCA_circels .circel_content strong{	
 	font-size:130%;
 }
+.RealEs .boxContainer .box{width: 31%;}
 .walkingPeople{min-height:50vh;}
 
 .team .card{
@@ -664,7 +703,7 @@ nav #menueContainer #buttonsContainer button{
 	font-size:100%;
 	width:85%;
 }
-.funds.form .TextContainer{
+.mca.form .TextContainer{
 	width:50%;
 	display:inline-block;
 	padding-left:5%;
@@ -673,34 +712,35 @@ nav #menueContainer #buttonsContainer button{
 	border-bottom:none;
 	border-right:dashed 1.5px;
 }
-.funds #funds_circels{
+.mca #MCA_circels{
 	width:50%;
 	display:inline-block;
 	vertical-align:top;
 }
-.funds.form .dataText{
+.mca.form .TextContainer .dataText{
 	width:100%;
 	display:block;
 	height:150px;
 }
-.funds #funds_circels .circel_box{
+.mca #MCA_circels .circel_box{
 	display:block;
 	width:100%;
 	text-align:center;
 	height:150px;
 }
-.funds #funds_circels .circel_box .circel_container{
+.mca #MCA_circels .circel_box .circel_container{
 	width:118px;
 	height:118px;
 	padding:20px 20px;
 	border:solid 2.5px #00305B;	
 }
-.funds #funds_circels .circel_content{
+.mca #MCA_circels .circel_content{
 	font-size:105%;
 }
-.funds #funds_circels .circel_content strong{	
+.mca #MCA_circels .circel_content strong{	
 	font-size:120%;
 }
+.RealEs .boxContainer .box{width: 48%;}
 .team .card{
 	display:block;
 	width:250px;
