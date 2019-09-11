@@ -228,11 +228,12 @@ nav #buttonsContainer button.selected{
 	color:#00305B;
 	font-size:140%;
 }
+.RealEs.form .dataText{padding-bottom:15px;}
 .RealEs .RealEsData{margin: 0 0 10px 0;}
 .RealEs .DataLine .before{display:inline-block;width:110px;}
 .RealEs .boxContainer{
 	display:block;
-	width: 85%;
+	width:60%;
 	margin:auto;
 }
 .RealEs .boxContainer .box{	
@@ -240,8 +241,8 @@ nav #buttonsContainer button.selected{
 	border: 0.5em double;
 	display:inline-block;
 	height:300px;
-	width:23%;
-	margin-left:2%;
+	width:214px;
+	margin-right:10;
 	margin-bottom: 10px;
 	font-size:110%;
 	position:relative;
@@ -624,7 +625,7 @@ nav #buttonsContainer button:active{
 .mca #MCA_circels .circel_content strong{	
 	font-size:130%;
 }
-.RealEs .boxContainer .box{width: 31%;}
+.RealEs .boxContainer{width:80%;}
 .walkingPeople{min-height:50vh;}
 
 .team .card{
@@ -740,7 +741,7 @@ nav #menueContainer #buttonsContainer button{
 .mca #MCA_circels .circel_content strong{	
 	font-size:120%;
 }
-.RealEs .boxContainer .box{width: 48%;}
+.RealEs .boxContainer {width:85%;}
 .team .card{
 	display:block;
 	width:250px;
