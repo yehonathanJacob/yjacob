@@ -276,6 +276,9 @@ class updateBackUp(object):
 				os.mkdir(os.path.join(self.root_dest,source))
 			for directory in os.listdir(os.path.join(self.root_src,source)):
 				self._recursCp(os.path.join(source,directory))
+		elif os.path.isfile(os.path.join(self.root_src,source)):
+			if not os.path.exists(os.path.join(self.root_dest,source)):
+				
 
 
 
