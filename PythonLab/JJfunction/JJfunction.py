@@ -229,7 +229,7 @@ class updateBackUp(object):
 		self.root_src = Src
 		self.root_dest = Dest
 
-	def setSrcAndDest(self,Src='',Dest='')
+	def setSrcAndDest(self,Src='',Dest=''):
 		root = tkM.Tk()
 		if Src != '':
 			self.root_src = Src
@@ -252,8 +252,8 @@ class updateBackUp(object):
 		percent_j = ("{0:." + str(1) + "f}").format(100 * (j_file / float(total)))
 		filledLength_i = int(length * i_total // total)
 		filledLength_j = int(length * j_file // total)
-		bar_i = fill * filledLength + '-' * (length - filledLength_i)
-		bar_j = fill * filledLength + '-' * (length - filledLength_j)
+		bar_i = fill * filledLength_i + '-' * (length - filledLength_i)
+		bar_j = fill * filledLength_j + '-' * (length - filledLength_j)
 
 		print('\rTotal: |%s|%s%% File: |%s|%s%% %s' % (bar_i,percent_i,bar_j,percent_j,file_name), end = '\r')
 
@@ -278,6 +278,7 @@ class updateBackUp(object):
 				self._recursCp(os.path.join(source,directory))
 		elif os.path.isfile(os.path.join(self.root_src,source)):
 			if not os.path.exists(os.path.join(self.root_dest,source)):
+				pass
 				
 
 
