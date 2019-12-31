@@ -2,8 +2,8 @@
 Options -Indexes
 
 RewriteEngine on
-RewriteRule ^admin/login files/login.html [NC]
-RewriteRule ^admin files/admin.php [NC]
+RewriteRule ^admin/login data/login.html [NC]
+RewriteRule ^admin data/admin.php [NC]
 
 DirectoryIndex files/index.html
 
