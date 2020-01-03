@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Render Page</title>
+    <meta charset="utf-8"/>
+    <meta content="Administration render page" name="description">
+    <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+    <script src="https://use.fontawesome.com/9a4307ff22.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <link href="images/ico_small.jpg" rel="icon" type="../image/x-icon">
+    <link href="images/ico_small.jpg" rel="shortcut icon" type="../image/x-icon">
+    <style type="text/css">
+
+    </style>
+    <link href="fake" rel="stylesheet">
+</head>
+<body>
+<form>
+    <h2>Render Page</h2>
+    <div id="description">
+        <div id="descriptionTitle">text description:</div>
+        <div class="explanations"><strong>{strong text}</strong></div>
+        <div class="explanations"><u>{{underline text}}</u></div>
+        <div class="explanations"><i>[italic text]</i></div>
+        <div class="explanations"><strong><i>{[strong & italic text]}</i></strong></div>
+        <div class="explanations"><strong><i>{{[underline & italic text]}}</i></strong></div>
+    </div>
+    <input name="US" type="hidden" value="">
+    <input name="PS" type="hidden" value="">
+    <div class="Conatiner">
+        <div class="titleIn">About</div>
+        <textarea name="about" required="True"></textarea>
+    </div>
+    <div class="Conatiner">
+        <div class="titleIn">Merchant Cash Advance text</div>
+        <textarea name="mcaText"></textarea>
+    </div>
+    <div class="Conatiner">
+        <div class="titleIn">Merchant Cash Advance YAD Funding</div>
+        <div class="innerContainer" id="YAD_Funding">
+            <div class="subContainer">
+                <input class="subContainer" name="fundingTitle" placeholder="Title" required="True" type="text">
+                <input class="subContainer" name="fundingDate" placeholder="Date" required="True" type="text">
+                <input class="subContainer" name="fundingStatus" placeholder="Status" required="True" type="text">
+                <button onclick="remove(this);" type="button"></button>
+            </div>
+            <div class="subContainer">
+                <input class="subContainer" name="fundingTitle" placeholder="Title" required="True" type="text">
+                <input class="subContainer" name="fundingDate" placeholder="Date" required="True" type="text">
+                <input class="subContainer" name="fundingStatus" placeholder="Status" required="True" type="text">
+                <button onclick="remove(this);" type="button"></button>
+            </div>
+        </div>
+        <button onclick="add('YAD_Funding');" type="button"></button>
+    </div>
+    <div class="Conatiner">
+        <div class="titleIn">Merchant Cash Advance bubbles</div>
+        <div class="innerContainer" id="bubbles">
+            <div class="subContainer">
+                <input class="subContainer" name="bubblesAmount" placeholder="Amount" required="True" type="text">
+                <input class="subContainer" name="bubblesStatus" placeholder="Status" required="True" type="text">
+                <button onclick="remove(this);" type="button"></button>
+            </div>
+            <div class="subContainer">
+                <input class="subContainer" name="bubblesAmount" placeholder="Amount" required="True" type="text">
+                <input class="subContainer" name="bubblesStatus" placeholder="Status" required="True" type="text">
+                <button onclick="remove(this);" type="button"></button>
+            </div>
+        </div>
+        <button onclick="add('bubbles');" type="button"></button>
+    </div>
+    <div class="Conatiner">
+        <div class="titleIn">Real Estate Debt</div>
+        <textarea name="mcaText"></textarea>
+    </div>
+</form>
+</body>
+</html>
