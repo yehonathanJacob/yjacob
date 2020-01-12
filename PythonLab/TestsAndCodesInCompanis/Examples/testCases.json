@@ -1,0 +1,46 @@
+{
+  "checkNumbers": [
+    {
+      "sum": [1,2,3,4],
+      "res": 10
+    },
+    {
+      "sum": [-1,-2,-3,4],
+      "res": -2
+    }
+  ],
+  "checkArray": [
+    {
+      "sum": [[1,2,3],[4,5,6]],
+      "res": [1,2,3,4,5,6]
+    },
+    {
+      "sum": [[0,1,2,3],[3,2,1]],
+      "res": [0,1,2,3,3,2,1]
+    }
+  ],
+  "checkStrins": [
+    {
+      "sum": ["a","b"],
+      "res": "ab"
+    },
+    {
+      "sum": ["abc","def"],
+      "res": "abcdef"
+    }
+  ],
+  "checkElse": [
+    {
+      "sum": [null],
+      "res": null
+    },
+    {
+      "sum": [true,false],
+      "res": 1
+    },
+    {
+      "sum": [false,false],
+      "res": 0
+    }
+  ]
+}
