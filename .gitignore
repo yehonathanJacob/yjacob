@@ -2,3 +2,5 @@ __pycache__/
 *.py[code]
 *$py.class
 *.exe
+.idea/
+.vs/
