@@ -1,0 +1,2 @@
+python3 -m pip install -r AppLibrary/requirements.txt
+python3 apprun.py
