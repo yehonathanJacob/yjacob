@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administration</title>
+    <meta charset="utf-8"/>
+    <meta content="Administration login page" name="description">
+    <!--css-->
+    <!--<link rel="stylesheet" href="login.css">  -->
+    <!--Responsiv-->
+    <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+    <!--font awesome-->
+    <script src="https://use.fontawesome.com/9a4307ff22.js"></script>
+    <!-- Latest compiled and minified CSS-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--Jquery-->
+    <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <link href="images/ico_small.jpg" rel="icon" type="../image/x-icon">
+    <link href="images/ico_small.jpg" rel="shortcut icon" type="../image/x-icon">
+    <!--AOS OnScroll -->
+    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+    <style type="text/css">
+        * {
+            font-family: sans-serif;
+            font-size: 100%;
+            margin: auto 0;
+            padding: 0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(230, 230, 230);
+            overflow-x: hidden;
+            position: relative;
+            height: 100vh;
+        }
+
+        form {
+            background-color: rgb(240, 240, 240);
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: solid;
+            width: 90%;
+            max-width: 500px;
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 150%;
+            text-align: center;
+        }
+
+        img {
+            margin: auto;
+            display: block;
+            width: 50px;
+        }
+
+        input {
+            width: 90%;
+            display: block;
+            margin: 10px auto;
+            padding: 5px;
+            border: 2px solid;
+            border-radius: 7px;
+        }
+
+        button {
+            width: 200px;
+            margin: 10px 5%;
+        }
+
+    </style>
+</head>
+<body>
+<form action="https://yadcapital.com/admin" method="POST">
+    <h1>Welcome to the administration page</h1>
+    <img src="../images/Ico.png">
+    <input name="thisUS" placeholder="Username" type="text">
+    <input name="thisPS" placeholder="Password" type="password">
+    <button class="btn btn-primary" type="submit">Log In</button>
+</form>
+</body>
+</html>

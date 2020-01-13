@@ -1,0 +1,22 @@
+[
+    {
+        "iterators_list":[[1, 5, 2],[4, 3, 6],[2, 6, 1]],
+        "expected_result":[1, 2, 4, 3, 5, 2, 6, 6, 1]
+    },
+    {
+        "iterators_list":[[1, 4, 6],[2, 3, 7]],
+        "expected_result":[1, 2, 3, 4, 6, 7]
+    },
+    {
+        "iterators_list":[[1, 5, 2],[]],
+        "expected_result":[1, 5, 2]
+    },
+    {
+        "iterators_list":[[],[]],
+        "expected_result":[]
+    },
+    {
+        "iterators_list":[[6,5,4],[6,5,4]],
+        "expected_result":[6,5,4,6,5,4]
+    }
+]

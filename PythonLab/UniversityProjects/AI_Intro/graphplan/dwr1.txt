@@ -1,0 +1,2 @@
+Initial state: r1 b1 a2 b2 ur uq
+Goal state: a1 b2
