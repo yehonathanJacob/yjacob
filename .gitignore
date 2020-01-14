@@ -1,6 +1,15 @@
+# Python
 __pycache__/
 *.py[code]
 *$py.class
+
+# C and Bash
 *.exe
 .idea/
 .vs/
+
+# Java
+*.class
+.settings/
+*.classpath
+*.project
