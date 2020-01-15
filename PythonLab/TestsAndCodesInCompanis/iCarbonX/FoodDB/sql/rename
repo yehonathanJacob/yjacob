@@ -1,0 +1,26 @@
+#Conection to prod@foods.icx-il.com
+ssh prod@icx1
+ssh foods.icx-il.com
+#looking at all backup
+ls /db_backups
+exit
+#coping selected backup
+[prod@icx1 ~]$ scp foods.icx-il.com:/db_backups/foods.20190114.sqldump.gz .
+# disconnect all other user
+[prod@icx1 ~]$ psql -h pgsql
+prod=# SELECT pg_terminate_backend(pg_stat_activity.pid)
+       FROM pg_stat_activity
+       WHERE pg_stat_activity.datname = 'food'
+       AND pid <> pg_backend_pid();
+#changing current database
+prod=# \connect postgres
+#looking at old backup
+prod=# \l
+# mooving current DB to backup
+prod=# alter DATABASE food rename to food_backup2;
+prod=# CREATE DATABASE food WITH ENCODING='UTF8' OWNER=food;
+prod=# \q
+# putting the backup in the new DB
+[prod@icx1 ~]$ zcat foods.20190114.sqldump.gz | psql -h pgsql food
+
+ALTER DATABASE food OWNER TO postgres;

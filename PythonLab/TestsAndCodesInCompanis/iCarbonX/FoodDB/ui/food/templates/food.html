@@ -1,0 +1,1640 @@
+{% load static %}
+
+<html>
+<head>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"  rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.css">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.js"></script>
+
+    <script>
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+        $.fn.editable.defaults.mode = 'popup';
+
+        $(document).ready(function() {
+            $('.editable').editable({
+                success: function(response, newValue) {
+                    location.reload();
+                }
+            });
+            $( "#tabs" ).tabs();
+
+            $( "#nutri-tabs" ).tabs();
+
+            var recipe = getUrlParameter('recipe');
+
+            if (recipe) {
+                $("#tabs").tabs({active: 4});
+                $("#nutri-tabs").tabs({active: 1});
+            }
+        });
+
+
+
+    </script>
+
+    <style type="text/css">
+
+
+        body
+        {
+            margin: 15px;
+            margin-bottom: 35px;
+            padding: 15px;
+        }
+
+        .tc
+        {
+            padding:5px
+        }
+
+        .ui-draggable, .ui-droppable {
+            background-position: top;
+        }
+        .select2-data
+        {
+            white-space: pre
+        }
+
+
+        th.q {
+            background-color: #4484CE;
+        }
+
+        form {
+            display: inline;
+        }
+
+        .relative2 {
+          position: absolute;
+          top: 0px;
+          right: 120px;
+
+        }
+
+        table .q {
+            font-family: Lato, Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+        }
+
+        td.q, th.q {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .head_link {
+            color: #B0B0B0;
+            font-family: Serif;
+        }
+
+        .head_link:hover {
+            color: #696969;
+        }
+
+        .q th {
+            background: #4484CE;
+            color: white;
+        }
+
+        .button-redesign {
+            background-color: white;
+            color: black;
+            border: 2px solid #4484CE;
+            border-radius: 4px;
+            font-size: 16px;
+            height: 50px;
+            width: 190px;
+        }
+
+        .button-redesign:hover {
+            background-color: #4484CE;
+            color: white;
+        }
+
+        .dropbtn {
+            background-color: white;
+            color: black;
+            border: 2px solid #4484CE;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            height: 50px;
+            width: 190px;
+        }
+
+        .dropbtn:hover {
+            background-color: #4484CE;
+            color: white;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f6f6f6;
+            min-width: 230px;
+            border: 1px solid #ddd;
+            z-index: 1;
+            max-height:250px;
+            overflow:auto;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
+
+        .show {
+            display:block;
+        }
+
+        #myInput {
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myInput:focus {
+            outline: 3px solid #ddd;
+        }
+
+        #myInput_ref {
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myInput_ref:focus {
+            outline: 3px solid #ddd;
+        }
+
+
+
+</style>
+
+    <style type="text/css">
+        #tabs {
+            border-radius: 0;
+            background: white;
+            padding: 20px 30px 20px;
+        }
+        #nutri-tabs {
+            border: none;
+        }
+
+        .ui-widget-header {
+            border-radius: 0;
+            background: white;
+            border: none;
+            border-bottom: 1px solid #abc;
+        }
+
+        .ui-widget-content {
+            border-radius: 0;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default {
+            background-color:white;
+            display: inline-block;
+            padding: 15px 25px;
+            text-align: center;
+            color: #abc;
+            border: 1px solid transparent;
+        }
+
+        .ui-state-active, .ui-widget-content .ui-state-active {
+            background-color:white;
+            text-align: center;
+            color: #4484CE;
+            border: 1px solid #abc;
+            border-top: 2px solid #4484CE;
+            border-bottom: 1px solid #4484CE;
+        }
+
+        .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+            color: #4484CE;
+        }
+
+        *:focus {
+            outline: none;
+        }
+    </style>
+
+    <style type="text/css">
+        {% for n in listRepresentative%}
+            tbody tr[icx-rep="{{n}}"]{ background-color:#8080FF !important; }
+        {% endfor %}
+        {% for n in listDublicate%}
+            #names td div[icx-text="{{n}}"]{ background-color:#b28870 !important; }
+        {% endfor %}
+        table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{background-color:unset;}
+        table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{background-color:unset;}
+        table tr[icx-nut-inherited="1"]{
+            background-color: #9091BA !important;
+        }
+        html, body {
+            margin: auto;
+            height: 100%;
+            width: 100%;
+         }
+        .table.fit{
+            width: unset;
+        }
+        .table.fit thead tr th{
+            text-align: center;
+        }
+        .form-box{padding: 5px;
+        margin-top: 5px;}
+    </style>
+
+
+</head>
+<body>
+
+<div style="width:800px; margin:0 auto;">
+<form method="post" action="/food/go_to_food">
+    <label for="search-select2">Food Name:</label>
+    <select id="search-select2" style="width:500px" name="fid" required>
+        <option value=""></option>
+    </select><input type="submit" value="Go To Food">
+    <script>
+        $('#search-select2').select2({minimumInputLength: 1, width:'450px'
+            ,ajax:{
+                url: '/food/food_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+            },
+            escapeMarkup: function(text){ return text },
+        });
+    </script>
+</form>
+</div>
+
+<div style="float:right">
+    <a href="/accounts/login?next=/food/" style="float:right">login</a><br>
+    <a href="/accounts/logout?next=/accounts/login?next=/food/" style="float:right">logout</a>
+</div>
+
+<div>
+    <h3>{% for x in root_path %}
+        <a href="/food/food_table/{{x.fid}}" class="head_link"> {{ x.name }}</a> <img src="{% static 'food/icons/arrow.png' %}" height=15 width=15>
+        {% endfor %}
+    </h3>
+
+    <div class="relative2">
+        <a href="/food/home"><img src="{% static 'food/icons/food.png' %}" height=100 width=100></a>
+    </div>
+
+    <h1><span class="editable" style="font-family: Serif" data-type="text" data-pk="{{food.fid}}" data-url="/food/update_food_symbol" data-title="Edit food name">{{ food.name }}</span>
+        <a href="/food/food_table/{{food.fid}}">
+            {% if food.get_children %}
+                <img src="{% static 'food/icons/hier.png' %}" height=35 width=35>
+            {% endif %}
+        </a>
+    </h1>
+    {% for c in comments %}
+    <p>{{ c.comment }}</p>
+    {% endfor %}
+
+    <script>
+        function drop() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+        function drop_ref(){
+            document.getElementById("myDropdown_ref").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+        function filterFunction_ref() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput_ref");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown_ref");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+        function updateColumn(columnId) {
+            var checkBox = document.getElementById("checkbox_" + columnId);
+            var table = $('#child-table');
+            var colNum = $('#child-table th:visible').length;
+
+            if (checkBox.checked) {
+                if (colNum == 10) {
+                    checkBox.checked = false;
+                    alert("You are showing too much columns");
+                } else {
+                    table.DataTable().columns(["#" + columnId]).visible(true);
+                }
+            } else {
+                table.DataTable().columns(["#" + columnId]).visible(false);
+            }
+            createCalculation();
+            setUnits();
+        }
+
+        function updateColumn_ref(columnId) {
+            var checkBox = document.getElementById("checkbox_ref_" + columnId);
+            var table = $('#ref-table');
+            var colNum = $('#ref-table th:visible').length;
+
+            if (checkBox.checked) {
+                if (colNum == 13) {
+                    checkBox.checked = false;
+                    alert("You are showing too much columns");
+                } else {
+                    table.DataTable().columns(["#ref_" + columnId]).visible(true);
+                }
+            } else {
+                table.DataTable().columns(["#ref_" + columnId]).visible(false);
+            }
+        }
+
+        function orderByButton(t) {
+            t.DataTable().order([0, "asc"]).draw();
+        }
+    </script>
+
+    <div id="tabs" style="min-height: 500px; outline:none">
+        <ul>
+            <li><a href="#names"><img src="{% static 'food/icons/names.png' %}" height=20 width=20> Names</a></li>
+            <li><a href="#wiki"><img src="{% static 'food/icons/wiki.png' %}" height=20 width=20> Wiki</a></li>
+            <li><a href="#actions"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Actions</a></li>
+            <li><a href="#comments"><img src="{% static 'food/icons/chat.png' %}" height=20 width=20> Comments</a></li>
+            <li><a href="#nutrition"><img src="{% static 'food/icons/nutrition.png' %}" height=20 width=20> Nutrition Facts</a></li>
+            <li><a href="#units"><img src="{% static 'food/icons/size.png' %}" height=20 width=20> Unit Sizes</a></li>
+            <li><a href="#attributes"><img src="{% static 'food/icons/attribute.png' %}" height=20 width=20> Attributes</a></li>
+            <li><a href="#questions"><img src="{% static 'food/icons/question.png' %}" height=20 width=20> Questions</a></li>
+            <li><a href="#activitylog"><img src="{% static 'food/icons/server.png' %}" height=20 width=20> Activity Log</a></li>
+        </ul>
+
+        <div id="names">
+           <table>
+               {% for name in names  %}
+               <tr>
+                   <form action="/food/add_food_name" method="POST">
+                       <td><select name="lang" onchange="this.form.submit()">
+                           {% for lang in langs %}
+                             <option name="{{lang.code}}" {% if lang.code == name.lang_code.code %} selected {% endif %}>{{lang.code}} </option>
+                            {% endfor %}
+                           </select>
+                       </td>
+                       <input type="hidden" name="fid" value="{{food.fid}}">
+                       <input type="hidden" name="food_name_id" value="{{name.id}}">
+                       <td><div class="editable" data-type="text" data-pk="{{name.id}}" data-url="/food/update_food_name" data-title="Edit food symbol" icx-text="{{ name.name }}">{{ name.name }}</div></td>
+
+                       <td>  &nbsp; &nbsp; <a href="https://www.google.co.il/search?q={{name.name}}" target="_blank"><img src="{% static 'food/icons/google.png' %}" height=15 width=15></a></td>
+                       <td>  &nbsp; <a href="/food/delete_food_name?fid={{food.fid}}&pk={{name.id}}"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></a></td>
+                       <td>  &nbsp;
+                             {% if "cn" == name.lang_code.code %}
+                                  <a href="https://translate.google.com/#zh-CN/en/{{name.name}}" target="_blank"><img src="{% static 'food/icons/translate.png' %}" alt="Google Translate" height=22 width=22></a>
+                             {% endif %}
+                       </td>
+                       <td> &nbsp; <a href="https://www.google.co.il/search?q={{name.name}}&tbm=isch" target="_blank"><img src="{% static 'food/icons/image_search.png' %}" height=22 width=22></a></td>
+                       <td>  &nbsp; &nbsp; <input type="checkbox" name="is_primary" {% if name.is_primary %} checked {% endif %} onClick="this.form.submit()"><label>Primary</label></td>
+                       <td>  &nbsp; &nbsp; <input type="checkbox" name="is_long" {% if name.is_long %} checked {% endif %} onClick="this.form.submit()"><label>Long</label></td>
+                   </form>
+               {% endfor %}
+                <tr class="tc">
+                <tr><form action="/food/add_food_name" method="POST">
+                       <input type="hidden" name="fid" value="{{food.fid}}">
+                       <input type="hidden" name="food_name_id" value="-1">
+                       <td><select name="lang"><option name="en">en<option name="he">he<option name="ru">ru<option name="cn">cn</select>
+                       <td><input name="name">
+                       <td colspan=4><input type="submit" value="Save">
+                    </form>
+
+           </table>
+        </div>
+        <div id="wiki">
+            <table>
+            {% for r in refs  %}
+            <tr><th class="tc">{{ r.lang_code.code }}  <td> <a href="{{ r.url }}" target="_blank"> {{ r.reftype }} {{ r.url }} </a>
+                <a href="/food/delete_food_ref?fid={{food.fid}}&pk={{r.id}}"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></a>
+                  {% endfor %}
+                <tr><form action="/food/add_food_ref" method="POST">
+                    <input type="hidden" name="fid" value="{{food.fid}}">
+                    <td><select name="lang"><option name="en">en<option name="he">he<option name="ru">ru</select>
+                    <td><select name="reftype"><option name="wiki">wiki<option name="recipe">recipe<option name="other">other</select>
+                    <input name="url"><input type="submit" value="Save">
+                    </form>
+            </table>
+        </div>
+        <div id="actions">
+
+               <form action="/food/flags" method="POST">
+                 <input type="hidden" name="fid" value="{{food.fid}}">
+                 <input type="checkbox" name="for_classification" id="for_classification" {% if food.for_classification %} checked {% endif %} onClick="this.form.submit()"> <label for="for_classification">For classification</label>
+                 <br><input type="checkbox" name="bad" id="bad" {% if food.bad %} checked {% endif %} onClick="this.form.submit()"> <label for="bad">Bad Category</label>
+                 <br><input type="checkbox" name="is_category" id="category" {% if food.is_category %} checked {% endif %} onClick="this.form.submit()"> <label for="category">Category of Foods</label>
+
+               </form>
+                <h4>Node Type:</h4>
+                <form action="/food/change_node_type" method="POST" style="display: block;">
+                    <input type="hidden" name="fid" value="{{food.fid}}">
+                    <select name="food_node_type" id="food_node_type">
+                        {% if food_node_type is not None %}
+                        <option value="{{ food_node_type.name }}">{{ food_node_type.name }}</option>
+                        {%else%}
+                        <option value=""></option>
+                        {%endif%}
+                        {% for option in node_type_option %}
+                        {% if not option == food_node_type %}
+                        <option value="{{ option.name }}">{{ option.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Save">
+                </form>
+
+                    <h4>Parent class:</h4>
+                        <form action="/food/change_food_parent" method="POST">
+                            <input type="hidden" name="fid" value="{{food.fid}}">
+                            <select id="parent-select2" style="width:400px" name="parent">
+                                <option value="{{food.parent.fid}}">{% autoescape off %}{{food.parent.formatted}}{% endautoescape %}</option>
+                            </select>
+                            <input type="checkbox" name="is_representative" {% if food.is_representative %} checked {% endif %} >
+                            <label for="is_representative">is_representative</label>
+                            <input type="submit" value="Save">
+                        </form>
+
+                        <script>
+                        $(document).ready(function(){
+                        $('#food_node_type').select2({width:'100px'});
+                        $('#parent-select2').select2({minimumInputLength: 1, width:'450px'
+                            ,ajax:{
+                                url: '/food/parent_list/{{food.fid}}',
+                                dataType: 'json',
+                                processResults: function(data) {
+                                    return {results: data}
+                                },
+                            },
+                            escapeMarkup: function(text){ return text },
+                        });
+                        $('#parent-select2').select2('dropdown').addClass('select2-data');
+                        });
+                        </script>
+
+
+                        
+
+
+                    <h4>Secondary ancestors:</h4>
+                      {% for c in food.secondary_ancestors %}
+                      <b>
+                          {% for x in c.root_path %}
+                          <a href="/food/food_table/{{x.fid}}" class="head_link"> {{ x.name }}</a> <img src="{% static 'food/icons/arrow.png' %}" height=15 width=15>
+                          {% endfor %}
+                          <a href="/food/del_secondary_ancestor?fid={{ food.fid }}&parent={{ c.fid }}">[Delete]</a>
+                        </b> <br>
+                      {% endfor %}
+                    <h4>Secondary children:</h4>
+                      {% for c in food.secondary_children %}
+                        <a href="/food/{{c.fid}}" class="head_link"> {{ c.name }}</a>
+                      {% endfor %}
+
+            <p> Add secondary ancestor:</p>
+                        <form action="/food/add_secondary_ancestor" method="POST">
+                            <input type="hidden" name="fid" value="{{food.fid}}">
+                            <select id="parent-select3" style="width:400px" name="parent">
+                                <option value="">{% autoescape off %} {% endautoescape %}</option>
+                            </select>
+                            <input type="submit" value="Save">
+                        </form>
+                        <script>
+                        $(document).ready(function(){
+                        $('#parent-select3').select2({minimumInputLength: 1, width:'450px' ,
+                             ajax:{
+                                url: '/food/parent_list/{{food.fid}}',
+                                dataType: 'json',
+                                processResults: function(data) {
+                                    return {results: data}
+                                },
+                            },
+                            escapeMarkup: function(text){return text},
+                        });
+                        $('#parent-select3').select2('dropdown').addClass('select2-data');
+                        });
+                        </script>
+
+                        <script>
+                        $(document).ready(function(){
+                        $('#parent-select2').select2({minimumInputLength: 1, width:'450px'
+                            ,ajax:{
+                                url: '/food/parent_list/{{food.fid}}',
+                                dataType: 'json',
+                                processResults: function(data) {
+                                    return {results: data}
+                                },
+                            },
+                            escapeMarkup: function(text){ return text },
+                        });
+                        $('#parent-select2').select2('dropdown').addClass('select2-data');
+                        });
+                        </script>
+
+
+
+            {% if is_superuser %}<br><br>
+            <form action="/food/delete_food" method="get" onsubmit="return tryDelete();">
+                <input type="hidden" name="fid" value="{{food.fid}}">
+                <label for="substitute_food">Substitute Food:</label>
+                <select name="substitute_food" id="substitute_food" class="food-select2"></select>
+                <button type="submit" class="btn btn-danger">Delete Food</button>
+            </form>
+            <!--<p><a href="/food/delete_food?fid={{food.fid}}" id="delete">delete this food</a> </p>-->
+            <script>
+                function tryDelete(){
+                    cell = document.getElementById('substitute_food');
+                    var flag = false;
+                    if (cell.selectedIndex > -1) {
+                        substitute_name = cell.children[cell.selectedIndex].text;
+                        flag = confirm("You are tying to delete this food with the substitute: "+substitute_name+".\nAre you sure you want to do that? This cannot be undone");
+                    }
+                    else
+                        flag = confirm("You are tying to delete this food with no substitute.\nAre you sure you want to do that? This cannot be undone");
+                    return flag;
+                }
+                /*$('#delete').click(function(){
+                    return confirm("Are you sure? This cannot be undone");
+                });*/
+                var get_food = {minimumInputLength: 1, width:'350px'
+                   ,ajax:{
+                        url: '/food/food_list',
+                        dataType: 'json',
+                        processResults: function(data) {
+                            return {results: data}
+                        },
+                   },
+                   escapeMarkup: function(text){ return text },
+                 };
+                $('.food-select2').select2(get_food);
+            </script>{% endif %}
+
+        </div>
+        <div id="comments">
+
+            {% for c in comments  %}
+            <p><div class="editable" data-type="textarea" data-pk="{{c.id}}" data-url="/food/update_food_comment" data-title="Edit comment">{{c.comment}}</div>
+               <a href="/food/delete_food_comment?fid={{food.fid}}&pk={{c.id}}"> [Delete]</a>
+            {% endfor %}
+            <p><div class="editable" data-type="textarea" data-pk="{{food.fid}}" data-url="/food/add_food_comment" data-title="Edit comment" data-value="">New Comment</div>
+
+
+        </div>
+        <div id="nutrition">
+            <div id="nutri-tabs" style="height: inherit">
+                <ul>
+                    <li><a href="#nutri-info"><img src="{% static 'food/icons/test.png' %}" height=20 width=20> Nutrition</a></li>
+                    <li><a href="#recipes"><img src="{% static 'food/icons/recipe_check.png' %}" height=20 width=20> Recipes</a></li>
+                    <li><a href="#child-info"><img src="{% static 'food/icons/child.png' %}" height=20 width=20> Child Info</a></li>
+                </ul>
+
+                <div id="nutri-info">
+                    {% if components %}
+                        <img style="float: right" src="{% static 'food/icons/recipe_check.png' %}" height=70 width=70>
+                    {% endif %}
+                    <h1 style="padding-bottom: 10px">Nutrition Facts</h1>
+                    <table id="nut-table" class="table table-bordered display q" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th id="id_column">ID</th>
+                            <th>Nutrient Name</th>
+                            <th>Avg Value</th>
+                            <th>Unit</th>
+                            <th>Deviation</th>
+                        </tr>
+                        </thead>
+                        {% for k, v, id in food.show_facts %}
+                        <tr icx-nut-inherited="{{v.4}}">
+                            <td>{{ id }}</td>
+                            <td>{{ k }}</td>
+                            <td>{{ v.0 | floatformat:-1 }}</td>
+                            <td>{{ v.1 }}</td>
+                            {% if v.2 > 0 %}
+                            <td>&pm;{{ v.2 | floatformat:-1 }} {{ v.3 }}</td>
+                            {% elif v.2 < 0 %}
+                            <td>(From FoodDB)</td>
+                            {% else %}
+                            <td>-</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                    <script>
+                        var t = $('#nut-table').DataTable({
+                            "columnDefs": [
+                                {
+                                    "targets": 0,
+                                    "visible": false,
+                                    "searchable": false
+                                },
+                                {
+                                    "targets": 1,
+                                    "orderData": 3
+                                }
+                            ],
+                            "order": [[0, "asc"]]
+                        });
+
+                    </script>
+
+                    <button type="button" class="button-redesign" id="order-button" onclick="orderByButton($('#nut-table'));">Sort By Nutrient</button>
+
+
+                    <h1 style="padding-bottom: 10px">Nutrition Refs</h1>
+                    <table style="width: 100%; font-size: unset;">
+                        <tr>
+                            <td>
+                                <table id="ref-table" width="100%" height="100%" frameborder="0" class="table table-bordered display q">
+                                    <thead>
+                                    <tr>
+                                        <th id="can_remove_ref"> </th>
+                                        <th id="reference-name">Reference name</th>
+                                        <th id="Category">Category</th>
+                                        <th id="dataset" >dataset</th>
+                                        {% for nutri in food.nutrients_list_ref %}
+                                        <th id="ref_{{nutri.0.name}}" title="{{nutri.1}}">{{nutri.0.name}}</th>
+                                        {% endfor %}
+
+                                    </tr>
+                                    </thead>
+                                    {% if nutrition_refs_all %}
+                                    {% for nutri_refs in nutrition_refs_all %}
+                                    <tr>
+                                        <td>
+                                            {% if can_remove %}
+                                            <a href="/food/remove_ref?fid={{food.fid}}&refid={{nutri_refs.0}}">
+                                                <img src="{% static 'food/icons/delete.png' %}" height=15 width=15>
+                                            </a>
+                                            {%else%}
+                                            remove
+                                            {%endif%}
+                                        </td>
+                                        <td>{{ nutri_refs.1 }}</td>
+                                        <td>{{ nutri_refs.2 }}</td>
+                                        <td>{{ nutri_refs.3 }}</td>
+                                        {%for nutri in nutri_refs.4 %}
+                                            <td>{{ nutri.1 | floatformat:-1 }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </table>
+                                <div id="nutri_list_ref" class="dropdown" style="display: inline-block; vertical-align:middle">
+                                <button onclick="drop_ref()" class="dropbtn">Show More Nutrients  <img src="{% static 'food/icons/menu.png' %}" height=18 width=18></button>
+                                <div id="myDropdown_ref" class="dropdown-content">
+                                    <input type="text" placeholder="Search.." id="myInput_ref" onkeyup="filterFunction_ref()">
+                                    {% for nutri in nutrition_refs_all.0.4 %}
+                                    <a><input id="checkbox_ref_{{nutri.0}}" type="checkbox" onchange="updateColumn_ref('{{nutri.0}}')"
+                                              {% if nutri.0 == "energy" or nutri.0 == "total_carbohydrate" or nutri.0 == "protein" or nutri.0 == "total_fat" %}checked{%endif%}
+                                    />  {{nutri.0}}</a>
+                                    {% endfor %}
+                                </div>
+                                </div>
+                                <script>
+                                    $(document).ready(function(){
+                                        var otable = $('#ref-table').DataTable({
+                                            "columnDefs": [
+                                                { "targets": "_all", "visible": false, "searchable": true }
+                                            ]
+                                        }).columns(["#can_remove_ref","#reference-name", "#Category", "#dataset","#ref_energy","#ref_total_carbohydrate","#ref_protein","#ref_total_fat"]).visible(true);
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+                        <tr><td style="padding-top: 40px;">
+                            <form method="post" action="/food/add_or_edit_ref" style="display: inline-block;border: solid 1px black; border-radius: 5px; padding: 5px;border-collapse:unset;" onsubmit="return validateForm_Ref()" id="add_or_edit_ref_form">
+                                <h4>Create or update reference</h4>
+                                <input type="hidden" name="fid" value="{{food.fid}}">
+                                Reference id: <input type="text" name="usda_id" id="add_ref_usda-id" value="-1" readonly size="4">
+                                <div class="form-box">
+                                    <label>Reference Name:</label>
+                                    <input type="text" class="form-control" style="width: 400px;" id="add_ref_usda-name" name="usda-name" onkeyup="showRefResult(this.value)" placeholder="type old or new reference, and select from list" required>
+                                    <div id="usda-livesearch" class="dropdown-content"></div>
+                                    <label>Select Database:</label>
+                                    <input type="text" class="form-control" id="add_ref_usda-database" style="width: 120px;" value="food_labels" name="usda-db" readonly required>
+                                </div>
+                                <div class="form-box">
+                                    <label>Edit Nutrients:</label>
+                                    <table id="nutrient_usda_table" class="table table-bordered display q fit">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>nutrient</th>
+                                                <th>amount</th>
+                                                <th>unit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <button type="button" class="btn btn-primary" onclick="add_nutrient_usda('nutrient_usda_table')">Add Nutrient</button>
+                                </div>
+                                <div class="form-box">
+                                    <input type="checkbox" name="add_food_nutrient_ref" checked>
+                                    <label>Add reference to this food({{food.name}}:{{food.fid}})</label>
+                                </div>
+                                <div class="form-box">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </form>
+                            <script>
+                                function showRefResult(str) {
+                                  //document.getElementById("add_ref_usda-database").value = '';
+                                  if (str.length==0) {
+                                    document.getElementById("usda-livesearch").innerHTML="";
+                                    document.getElementById("usda-livesearch").classList.remove('show');
+                                    return;
+                                  }
+                                  if (window.XMLHttpRequest) {
+                                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                                    xmlhttp=new XMLHttpRequest();
+                                  } else {  // code for IE6, IE5
+                                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                                  }
+                                  xmlhttp.open("GET","/food/search_usda?usda="+str,true);
+                                  xmlhttp.onreadystatechange = function() {
+                                      if (this.readyState==4 && this.status==200) {
+                                          document.getElementById('usda-livesearch').innerHTML= JSON.parse(this.responseText)['dataHTML'];
+                                          document.getElementById("usda-livesearch").classList.add('show');
+                                      }
+                                  };
+                                  xmlhttp.send();
+                                }
+                                var defultNutrientAdd = '{% for nut in all_nutrients_list %}' +
+                                    '<tr><td><button type="button" onclick="remove_parent(this.parentNode)"><img src="/static/food/icons/delete.png" height="15" width="15"></button></td>'+
+                                     '<td><select name="nutr_id" class="nutrients-select2" required><option value="{{nut.id}}">{{nut.name}}</option></select></td>' +
+                                     '<td><input type="number" name="amount" min="0" step=any style="width:auto;" value="" required></td>' +
+                                     '<td><select name="unit" class="unit-nutrients-select2" required></select></td></tr>'+
+                                    '{%endfor%}';
+                                function selectUsda(a) {
+                                    var name = a.getAttribute('usda-name');
+                                    var database  =a.getAttribute('usda-database');
+                                    var id = a.getAttribute('usda-id');
+                                    document.getElementById("add_ref_usda-id").value = id;
+                                    document.getElementById("add_ref_usda-name").value = name;
+                                    document.getElementById("add_ref_usda-database").value = database;
+                                    document.getElementById("usda-livesearch").classList.remove('show');
+                                    var tbody = $("#nutrient_usda_table tbody")[0];
+                                    if ((id+"")!="-1")
+                                    {
+                                        $.ajax({
+                                            url: '/food/get_nutrient/?usda_id='+id,
+                                            dataType: '',
+                                            success: function (res) {
+                                                tbody.innerHTML = res['dataHTML'];
+                                                $('.nutrients-select2').select2(get_nutrient);
+                                                $('.unit-nutrients-select2').select2(get_unit_nutrients);
+                                            }
+                                        });
+                                    }else{
+                                        tbody.innerHTML = defultNutrientAdd;
+                                        $('.nutrients-select2').select2(get_nutrient);
+                                        $('.unit-nutrients-select2').select2(get_unit_nutrients);
+                                    }
+                                }
+                                function add_nutrient_usda(id){
+                                    var tbody = $("#"+id+" tbody")[0];
+                                    var tr = document.createElement("TR");
+                                    tr.innerHTML = '<tr><td><button type="button" onclick="remove_parent(this.parentNode)"><img src="/static/food/icons/delete.png" height="15" width="15"></button></td>'+
+                                        '<td><select name="nutr_id" class="nutrients-select2" required></select></td>\n' +
+                                        '<td><input type="number" name="amount" min="0" step=any style="width:auto;" value="" required></td>\n' +
+                                        '<td><select name="unit" class="unit-nutrients-select2" required></select></td></tr>';
+                                    tbody.appendChild(tr);
+                                    $('.nutrients-select2').select2(get_nutrient);
+                                    $('.unit-nutrients-select2').select2(get_unit_nutrients);
+                                }
+                                function remove_parent(cell) {
+                                    var row = cell.parentNode;
+                                    row.remove();
+                                }
+                                var get_nutrient = {minimumInputLength: 1, width:'150px'
+                                   ,ajax:{
+                                        url: '/food/nutrient_list',
+                                        dataType: 'json',
+                                        processResults: function(data) {
+                                            return {results: data}
+                                        },
+                                   },
+                                   escapeMarkup: function(text){ return text },
+                                 };
+                                var get_unit_nutrients = {width:'150px'
+                                   ,data:[{id:'g',text:'g'},
+                                        {id:'kcal',text:'kcal'},
+                                        {id:'mg',text:'mg'},
+                                        {id:'mcg',text:'mcg'},
+                                        {id:'iu',text:'iu'}
+                                    ]
+                                 };
+                                function validateForm_Ref() {
+                                    flag = true;
+                                    nutArr = $('#add_or_edit_ref_form [name="nutr_id"]');
+                                    unitArr = $('#add_or_edit_ref_form [name="unit"]');
+                                    permit_iu = ["98"];
+                                    permit_kacl = ["86"];
+                                    errTxt ="";
+                                    for (var i=0;i<nutArr.length;i++){
+                                        nut = nutArr[i].value;
+                                        unit = unitArr[i].value;
+                                        if(permit_iu.indexOf(nut) == -1 && unit == 'iu') {
+                                            flag = false;
+                                            errTxt += "There is a none permit nutrient with 'iu' unit\n";
+                                        }
+                                        if ((permit_kacl.indexOf(nut) == -1 && unit == 'kcal') || (permit_kacl.indexOf(nut) >-1 && unit != 'kcal')){
+                                            flag = false;
+                                            if(permit_kacl.indexOf(nut) == -1 && unit == 'kcal')
+                                                errTxt += "There is a none permit nutrient with 'kcal' unit\n";
+                                            else
+                                                errTxt += "There is a nutrient energy with NOT 'kcal' unit\n";
+                                        }
+                                    }
+                                    if (!flag)
+                                        alert('There are some errors:\n'+errTxt);
+                                    return flag;
+                                }
+                                </script>
+                        </td></tr>
+                        <tr>
+                            <td style="padding-top: 40px">
+                                <form method="post" action="/food/change_ref">
+                                    <input type="hidden" name="fid" value="{{food.fid}}">
+                                    <input type="hidden" name="ref-id" value="-1">
+                                    <label for="add_ref-select2">Reference:</label>
+                                    <select id='add_ref-select2' class="ref-select2" name="usda-name" style="min-width:450px">
+                                    </select>
+                                    <input type="submit" value="save">
+                                </form>
+
+
+                                <script>
+                                    $(document).ready(function(){
+                                        var eventSelect = $('.ref-select2').select2({minimumInputLength: 1, width:'450px'
+                                            ,ajax:{
+                                            url: '/food/ref_list',
+                                                dataType: 'json',
+                                                processResults: function(data) {
+                                                return {results: data}
+                                            }
+                                        }
+                                        });
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <form action="/food/add_all_refs" method="post">
+                                    <input type="hidden" name="fid" value="{{food.fid}}">
+                                    <label for="add-all-refs">Add all references
+                                        <select name="action">
+                                            <option value="contain">contain</option>
+                                            <option value="start-with">start with</option>
+                                        </select>:
+                                    </label>
+                                    <input type="text" name="all_refs" id="add-all-refs">
+                                    <input type="submit" value="add"></form></td></tr>
+                        {% if can_remove %}
+                        <tr>
+                            <td>
+                                <form action="/food/remove_all_refs" method="post">
+                                    <input type="hidden" name="fid" value="{{food.fid}}">
+                                    <label for="remove-all-refs">remove all references
+                                        <select name="action">
+                                            <option value="contain">contain</option>
+                                            <option value="start-with">start with</option>
+                                        </select>:
+                                    </label>
+                                    <input type="text" name="all_refs" id="remove-all-refs">
+                                    <input type="submit" value="remove">
+                                </form>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+
+                <div id="recipes">
+                    <table>
+                        {% if components %}
+                        <tr><td><h3>Food recipe:</h3></td></tr>
+                        <tr><td>
+                            <table id="comp-table" style="margin-left: 0; width: 100%;" class="table table-bordered display q">
+                                <thead>
+                                <tr>
+                                    <th>Component Name</th>
+                                    <th>Percentage</th>
+                                    <th>Unit</th>
+                                    <th>Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for c in components %}
+                                <tr>
+                                    <td>{{c.component.name}}</td>
+                                    <td>{{c.amount |floatformat:-1}}</td>
+                                    <td>{{c.unit.name}}</td>
+                                    <td>{{c.unit_amount|floatformat:-1}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <tr>
+                                <td>
+                                    <p class="q">total amount: {{food.total_amount|floatformat}}%</p>
+                                </td>
+                            </tr>
+                            <script>
+                            $(document).ready(function(){
+                                var compTable = $('#comp-table').DataTable({
+                                    "columnDefs": [
+                                                { "targets": "_all", "searchable": true }
+                                            ],
+                                    "order": [[ 1, "desc" ]]
+                                });
+                            });
+                            </script>
+                        </td></tr>
+                        <td class="q">
+                                    <div style="display:inline-block;margin-right: 5px;">Liquid loss:</div>
+                                    <input type="number" name="amount" value="{{food.liquid_loss}}" placeholder="undefined" style="width:80px" readonly>
+                        </td>
+                        <tr>
+                            <td>
+                            <form action="/food/recipe" method="POST">
+                                <input type="hidden" name="fid" value="{{food.fid}}">
+                                <input type="hidden" name="edit" value="True">
+                                <input type="submit" style="padding: 5px;" value="Edit recipe">
+                            </form>
+                            <form action="/food/recipe" method="POST">
+                                <input type="hidden" name="food_id" value="{{food.fid}}">
+                                <input type="submit" style="padding: 5px;margin-left: 5px;" value="Delete recipe">
+                            </form>
+                            </td>
+                        </tr>
+                        {%endif%}
+                        <tr>
+                            <td style="padding-top: 10px;">
+                                <form action="/food/recipe" method="get">
+                                    <input type="hidden" name="food_id" value="{{food.fid}}">
+                                    <label>Create recipe from free text</label><br>
+                                    <textarea name="recipe_text" id="recipe_text" cols="30" rows="15"></textarea>
+                                    <br>
+                                    <button>Create</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr><td><h3>Food component of:</h3></td></tr>
+                        <tr><td id="food_component_of">
+                        </td></tr>
+                        <script>
+                            $(document).ready(function(){
+                                $.ajax({
+                                    url: '/food/get_food_component_of?fid={{food.fid}}',
+                                    dataType: '',
+                                    success: function (data) {
+                                        var container = document.getElementById('food_component_of');
+                                        if (data.length>0){
+                                            for (var i=0;i<data.length;i++){
+                                                container.appendChild(document.createElement("BR"));
+                                                var a = document.createElement("A");
+                                                var obj = data[i];
+                                                a.href = '/food/'+obj['fid'];
+                                                a.innerHTML = '[ '+obj['name']+' ]';
+                                                a.target="_blank";
+                                                container.appendChild(a);
+                                            }
+                                        }
+                                        else{
+                                            container.innerHTML = "<h4>This food is not component of any food</h4>";
+                                        }
+                                    }
+                                });
+                                /*$.ajax({
+                                    url: '/food/food_category_percentage/?fid={{food.fid}}&asArray=True',
+                                    dataType: '',
+                                    success: function (res) {
+                                        var data = res['data'];
+                                        var container = $('#food_component_of')[0];
+                                        alert('length: '+data.lenght+'\nres:\n'+res+'data:\n'+data);
+                                        if (false && data.lenght>0){
+                                            for (var i=0;i<data.lenght;i++){
+                                                container.appendChild(document.createElement("BR"));
+                                                var a = document.createElement("A");
+                                                var obj = data[i];
+                                                a.href = '/food/'+obj['fid'];
+                                                a.innerHTML = '[ '+obj['name']+' ]';
+                                                container.appendChild(a);
+                                            }
+                                        }
+                                        else{
+                                            //container.innerHTML = "<h4>This food is not component of any food</h4>";
+                                        }
+                                    }
+                                });*/
+                            });
+                            </script>
+                    </table>
+                </div>
+
+                <div id="child-info">
+
+                    {% if food.get_children|length < 31 %}
+
+                        {% if food.get_children|length != 0 %}
+
+                        <table id="child-table" class="table table-bordered display q" style="width: 100%">
+                            <thead>
+                            <tr>
+                                <th id="col_id">ID</th>
+                                <th id="name">Food Name</th>
+
+                                {% for nut in nutrients_list %}
+                                    <th id="{{nut}}">{{ nut }}</th>
+                                {% endfor %}
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for ref_name, info in food.create_child_nutrients.items %}
+                                    <tr icx-rep="{{ ref_name }}">
+                                        <td>1</td>
+                                        <td>{{ ref_name }}</td>
+                                        {% for nutri_name, value in info %}
+                                            <td>{{ value | floatformat:-3}}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr class="no-sort" id="average" style="background-color: #D7E5F5">
+                                    <td>2</td>
+                                    <td>Average</td>
+                                    {% for nut in nutrients_list %}
+                                        <td></td>
+                                    {% endfor %}
+                                </tr>
+
+                                <tr class="no-sort" id="stdv" style="background-color: #D7E5F5">
+                                    <td>3</td>
+                                    <td>Standard Deviation</td>
+                                    {% for nut in nutrients_list %}
+                                        <td></td>
+                                    {% endfor %}
+                                </tr>
+                                <tr class="no-sort" id="averageRI" style="background-color: #D7E5F5;border:solid 1px #8080FF;border-collapse: collapse;">
+                                    <td>4</td>
+                                    <td>Average representative items</td>
+                                    {% for nut in nutrients_list %}
+                                        <td></td>
+                                    {% endfor %}
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div>
+                            <!--<button type="button" class="button-redesign" style="display: inline-block; vertical-align:middle" id="order-button#2" onclick="orderByButton($('#child-table'));">Retrieve Original Order</button>-->
+
+                            <div id="nutri_list" class="dropdown" style="display: inline-block; vertical-align:middle">
+                                <button onclick="drop()" class="dropbtn">Show More Nutrients  <img src="{% static 'food/icons/menu.png' %}" height=18 width=18></button>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+                                    {% for nutri in nutrients_list %}
+                                    {% if nutri != "energy" and nutri != "protein" and nutri != "total_carbohydrate" and nutri != "total_fat" %}
+                                    <a><input id="checkbox_{{nutri}}" type="checkbox" onchange="updateColumn('{{nutri}}')"/>   {{nutri}}</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <a href="/food/download_csv/?fid={{food.fid}}"><img src="{% static 'food/icons/download.png' %}"title="Download CSV" height=50 width=50></a>
+                        </div>
+
+                        <script>
+                            function createCalculation() {
+                                var colNum = $('#child-table th:visible').length;
+                                var rowNum = parseInt("{{food.create_child_nutrients.keys|length}}");
+                                var rowNumRI = parseInt("{{listRepresentative|length}}");
+                                for (var i=2; i<colNum + 1; i++) {
+                                    $('#child-table>tfoot>tr#average>td:nth-child(' + i + ')').html(0);
+                                    $('#child-table>tfoot>tr#stdv>td:nth-child(' + i + ')').html(0);
+                                    $('#child-table>tfoot>tr#averageRI>td:nth-child(' + i + ')').html(0);
+                                }
+
+                                for (var i=2; i<colNum + 1; i++) {
+                                    var valueList = [];
+                                    var valueList_RI = [];
+                                    // iteration through all td's in the column
+                                    for (var row=0; row<rowNum; row++) {
+                                        var flagRI = $("#child-table>tbody>tr:nth-child("+(row+1)+")").css("background-color") == "rgb(128, 128, 255)"; //representative items flag
+                                        var cell = $('#child-table>tbody>tr>td:nth-child(' + i + ')')[row];
+                                        var text = cell.innerText.toString();
+                                        //if (text != "0" && text != "No Value" && text) {
+                                        if (text != "No Value" && text) {
+                                            valueList.push(parseFloat(text));
+                                            if (flagRI){
+                                                valueList_RI.push(parseFloat(text));
+                                            }
+                                        }
+                                    }
+                                    // set average + set standard deviation + set important back-color
+                                    if (valueList.length != 0) {
+                                        var sum = valueList.reduce((a, b) => a + b, 0);
+                                        var average = (sum / valueList.length).toFixed(3);
+                                        // set average
+                                        $('#child-table>tfoot>tr#average>td:nth-child(' + i + ')').html(average);
+
+                                        // set standard deviation
+                                        if (average != 0.00) {
+                                            var mean = valueList.reduce((a, b) => a + b) / valueList.length;
+                                            s = Math.sqrt(valueList.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / valueList.length);
+                                            $('#child-table>tfoot>tr#stdv>td:nth-child(' + i + ')').html(s.toFixed(3));
+                                        } else {
+                                            if (average == 0.00) {
+                                                s = null;
+                                                $('#child-table>tfoot>tr#stdv>td:nth-child(' + i + ')').html("-");
+
+                                            } else {
+                                                s = null;
+                                                $('#child-table>tfoot>tr#stdv>td:nth-child(' + i + ')').html("Can't Calculate");
+                                            }
+                                        }
+
+                                        for (var row=0; row<rowNum; row++) {
+                                            var cell = $('#child-table>tbody>tr>td:nth-child(' + i + ')')[row];
+                                            if (cell.innerText) {
+                                                var val = parseFloat(cell.innerText) - average;
+                                                if (Math.abs(val) > 2*s) {
+                                                    $(cell).css('background-color', '#D3D3D3 !important');
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    //set representative items average
+                                    if (valueList_RI.length != 0) {
+                                        var sum = valueList_RI.reduce((a, b) => a + b, 0);
+                                        var average = (sum / valueList_RI.length).toFixed(3);
+                                        // set averageRI
+                                        $('#child-table>tfoot>tr#averageRI>td:nth-child(' + i + ')').html(average);
+                                    }
+                                }
+                            }
+
+                            function setUnits() {
+                                var colNum = $('#child-table th:visible').length;
+                                var a = "{{food.nutrients_units}}".toString().split("u&#39;").join('"').split("&#39;").join('"');
+                                var unitsJson = JSON.parse(a);
+
+                                for (var i=2; i<colNum + 1; i++) {
+                                    var cell = $('#child-table>thead>tr>th:nth-child(' + i + ')')[0];
+                                    var text = cell.innerText.toString();
+                                    $(cell).attr("title", unitsJson[text]);
+                                }
+
+                            }
+
+                        </script>
+
+                        <script>
+                            var t = $('#child-table').DataTable({
+                                paging: false,
+                                "columnDefs": [
+                                    { "targets": "_all", "visible": false, "searchable": true }
+                                ]
+                            }).columns(["#name", "#energy", "#total_carbohydrate", "#protein", "#total_fat"]).visible(true);
+                            orderByButton($('#child-table'));
+                            createCalculation();
+                            setUnits();
+
+                        </script>
+
+                        {% else %}
+
+                        <h2>Sorry, no children further</h2>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <h2>Sorry, over 30 children!</h2>
+                        <h4>Download csv if needed.</h4>
+                        <a href="/food/download_csv/?fid={{food.fid}}"><img src="{% static 'food/icons/download.png' %}" title="Download CSV" height=50 width=50></a>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="units">
+            <h3>Default Unit</h3>
+            {% if default_unit.fid_id != food.fid %}
+            [inhereted from <a href="/food/{{ default_unit.fid_id }}/#units">{{ default_unit.fid.name }}</a>]
+            <br>
+            {% endif %}
+            <form method="post" action="/food/change_default_unit">
+                <input type="hidden" name="food" value="{{ food.fid  }}">
+                <select name="unit" class="gpu">
+                    <option value="{{ default_unit.unit.pk }}">{{ default_unit.unit }}</option>
+                </select>
+                <input type="number" step="0.1"  name="amount" value="{{ default_unit.amount }}">
+                <input type="submit" value="save">
+                {% if default_unit.fid_id == food.fid %}
+                    <a href="/food/remove_default_unit?fid={{default_unit.fid_id}}"><img src="{% static 'food/icons/delete.png' %}" height=15  width=15></a>
+                {% endif %}
+            </form>
+            <form method="post" action="/food/change_is_countable"><p>
+                <input type="hidden" value="{{food.fid}}" name="fid">
+                <label>Is countable:
+                    <input type="checkbox" name="for_classification" {% if is_countable.is_countable %} checked {% endif %} onChange="x(this.form)">
+                </label>
+                {% if is_countable.fid == food.fid %}
+                    <a href="/food/remove_is_countable?fid={{is_countable.fid}}"><img src="{% static 'food/icons/delete.png' %}" height=15  width=15></a>
+                {% else %}
+                    [inhereted from <a href="/food/{{is_countable.fid}}/#units">{{ is_countable.name }}</a>]
+                {% endif %}
+                </p>
+            </form>
+            <h3>Food Units</h3>
+            <script>
+                function x($form){
+                      console.log(5 + 6);
+                      $.post($form.action, $($form).serialize(), function(response){ },'json');
+                      return false;
+                }
+            </script>
+                {% for g in grams_per_unit_rec %}
+                  <form method="post" action="/food/change_weight">
+                    <p>
+                      <input type="hidden" name="q_id" value="{% if g.fid == food.fid %}{{g.id}}{% else %}-1{% endif %}">
+                      <input type="hidden" value="{{food.fid}}" name="fid">
+                      <label>Grams per
+                        <select name="quantity_type" id="gpu-{{g.id}}-select2" class="gpu">
+                          <option value="{{g.unit_id}}">{{g.quantity_name}}</option>
+                        </select>:
+                      <input type="number" value="{{g.weight}}" step="0.1"  id="gpu-{{g.id}}" name="weight"></label>
+                      <input type="submit" value="save">
+
+                      {% if g.fid == food.fid %}
+                            <a href="/food/remove_weight?fid={{g.fid}}&q_id={{g.id}}"><img src="{% static 'food/icons/delete.png' %}" height=15  width=15></a>
+                      {% else %}
+                          [inhereted from <a href="/food/{{g.fid}}/#units">{{ g.name }}</a>]
+                      {% endif %}
+                    </p>
+                  </form>
+                  <script>
+                       $(document).ready(function(){
+                        $('.gpu').select2({placeholder:'Select unit',ajax:{
+                                url: '/food/unit_list_with_no_gram',
+                                dataType: 'json',
+                                processResults: function(data) {
+                                   return {results: data}
+                                    }
+                                },
+                                escapeMarkup: function(text){ return text },
+                                width:'120px'
+                               });
+                        });
+                  </script>
+                {% endfor %}
+
+                <form method="post" action="/food/change_weight">
+                  <p><input type="hidden" name="q_id" value="-1">
+                    <input type="hidden" value="{{food.fid}}" name="fid">
+                    <label>Grams per <select name="quantity_type" id="add_quantity_type"></select>:
+                                     <input type="number" value="{{g.weight}}" id="gpu" name="weight">
+                    </label>
+                    <input type="submit" value="save"></p>
+                   <script>
+                       $(document).ready(function(){
+                        $('#add_quantity_type').select2({placeholder:'Select unit',ajax:{
+                                url: '/food/unit_list_with_no_gram',
+                                dataType: 'json',
+                                processResults: function(data) {
+                                   return {results: data}
+                                    }
+                                },
+                                escapeMarkup: function(text){ return text },
+                                width:'120px'
+                               });
+                        });
+                   </script>
+               </form>
+
+        </div>
+        <div id="attributes" style="width: fit-content;">
+                <h3>Attributes</h3>
+               {% for type, f_atr in food_attributes %}
+                  <label>{{ type }}: </label>  <b>{{f_atr.attr.value}}</b>{% if f_atr.attr.comment%} : {{f_atr.attr.comment}} {% endif %}
+                  <a href="/food/remove_food_attribute?fid={{food.fid}}&f_atr_id={{f_atr.id}}"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></a>
+                  <br>
+               {% endfor %}
+
+               <form method="post" action="/food/change_food_attribute">
+                   <input type="hidden" name="f_atr_id" value="-1">
+                   <input type="hidden" value="{{food.fid}}" name="fid">
+                   <label>Add attribute</label>
+                   <select name="attr_type"  onChange="change_attributes(this.value);">
+                       {% for t in attribute_types %}
+                       <option value="{{ t.pk }}" title="{{ t.description }}"> {{ t.name }}</option>
+                       {% endfor %}
+                   </select>
+                   <select name="attribute" id="attribute_select">
+                       <option value="" disabled selected>Select</option>
+                   </select>:
+                   <input type="submit" value="save">
+               </form>
+               <h3>Categories:</h3>
+                <form action="/food/food_category_percentage_change/" method="post">
+                    <input type="hidden" value="{{food.fid}}" name="fid">
+                   <table id="category_table" style="margin-left: 0; width: fit-content;" class="table table-bordered display q">
+                       <thead>
+                            <tr>
+                                <th>Food Category</th>
+                                <th>Percentage</th>
+                            </tr>
+                       </thead>
+                   </table>
+                    <input type="submit" value="Save Changes">
+                </form>
+           </div>
+
+        <script>
+            $(document).ready(function() {
+                var inherited_category;
+                $('#category_table').DataTable({
+                    "columnDefs": [
+                        { "targets": "_all", "searchable": true }
+                    ],
+                    "paging": false,
+                    "processing" : true,
+                    "ajax" : {
+                        "url" : "/food/food_category_percentage/?fid={{food.fid}}&asArray=True",
+                        'dataSrc': function ( res ){
+                            data = res['data'];
+                            inherited_category = res['inherited'];
+                            tableData = [];
+                            for (var i=0;i<data.length;i++)
+                            {
+                                var obj = data[i];
+                                var percentage = obj["percentage"];
+                                var food_category = obj["food_category"];
+                                obj["percentage"] = "<input type=\"number\" step=\"0.1\" min=\"0.0\" max=\"100.0\" name=\""+food_category+"\" value=\""+percentage+"\">"
+                                data[i]["percentage"] = obj["percentage"];
+                            }
+                            if (inherited_category != null){
+                                var Dad = document.getElementById("attributes");
+                                div = document.createElement("DIV");
+                                div.innerHTML = "[ inherited from <a href='/food/"+inherited_category["fid"]+"'>"+inherited_category["name"]+"</a> ]";
+                                Dad.appendChild(div);
+                            }
+                            return data;
+                        }
+                    },
+                    "columns" : [ {
+                        "data" : "food_category"
+                    }, {
+                        "data" : "percentage"
+                    }]
+                });
+            });
+            function change_attributes(type) {
+                    if (type.length == 0) document.getElementById("attribute_select").innerHTML = "<option></option>";
+                    else {
+                        var options = "";
+                        var request = new XMLHttpRequest();
+
+                        request.open('GET', '/food/attribute_types/?type=' + type, true);
+                        request.onload = function () {
+                          var data = JSON.parse(this.response);
+
+                          if (request.status >= 200 && request.status < 400) {
+                            data['attribute_types'][0]['values'].forEach(attribute => {
+                              options += `<option value=${attribute["id"]}>` + attribute['value'] + "</option>";
+                            });
+                            document.getElementById("attribute_select").innerHTML = options;
+                          }
+                        }
+                        request.send();
+                    }
+                }
+        </script>
+
+        <div id="questions">
+        <h3>Amount Questions</h3>
+        <table>
+            <tr>
+                <th class="q">text</th>
+                <th class="q">add</th>
+                <th class="q">default type</th>
+                <th class="q">default amount</th>
+            </tr>
+            {% for q in food_amount_questions %}
+            <tr>
+                <!--<td>{{ q.amount_question.id }}</td>-->
+                <td class="q">{{ q.get_text }}</td>
+                <td class="q">{{ q.amount_question.food_to_add }}</td>
+                <td class="q">{{ q.amount_question.quantity_type }}</td>
+                <td class="q">{{ q.amount_question.default_amount }}</td>
+                <!--<td><a href="/food/remove_food_amount_question?fid={{food.fid}}&id={{q.pk}}"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></a></td>-->
+           </tr>
+           {% endfor %}
+        </table>
+        <!--<form method="post" action="/food/add_food_amount_question">-->
+            <!--<input type="hidden" value="{{food.fid}}" name="fid">-->
+            <!--<label>Add New Question:</label>-->
+            <!--<select name="question_id">-->
+                <!--{% for a in amount_questions %}-->
+                <!--<option value="{{a.pk}}"> {{ a }} </option>-->
+                <!--{% endfor %}-->
+            <!--</select>:-->
+               <!--<input type="submit" value="save">-->
+        <!--</form>-->
+
+        <br>
+        <br>
+
+        <h3>Boolean Questions</h3>
+        {% for q in boolean_questions %}
+        <table class="q">
+            <tr>
+                <td> <label> Text: </label>{{ q.get_text }} </td>
+                {% for k, v in q.to_dict.items %}
+                <td>
+                    <label>{{ k }}:</label> {{ v }}
+                </td>
+                {% endfor %}
+                <!--<td>-->
+                    <!--<a href="/food/remove_food_boolean_question?fid={{food.fid}}&id={{q.pk}}"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></a>-->
+                <!--</td>-->
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <br>
+
+        <h3>Multiple Choice Questions</h3>
+        <table class="q">
+            <tr>
+                <!--<th class="q"></th>-->
+                <th class="q">English</th>
+                <th class="q">Hebrew</th>
+                <th class="q">Chinese</th>
+                <th class="q">Answers</th>
+            </tr>
+            {% for q in choice_questions %}
+            <tr>
+                <!--<td class="q"><form action="/food/food_multiple_choice_question?fid={{food.fid}}" method="get">-->
+                    <!--<input type="hidden" name="id" value="{{q.pk}}">-->
+                    <!--<input type="submit" value="edit" style="margin:10px;"/>-->
+                <!--</form>-->
+                    <!--<a href="/food/remove_choice_question?fid={{food.fid}}&id={{q.pk}}"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></a>-->
+                <!--</td>-->
+                <td class="q">{{ q.question.en }}</td>
+                <td class="q">{{ q.question.he }}</td>
+                <td class="q">{{ q.question.cn }}</td>
+                <td class="q">
+                    <ul>
+                        {% for ans in q.question.get_answers %}
+                        <li>{{ ans.answer }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <!--<a href="/food/food_multiple_choice_question?fid={{food.fid}}">Add New</a>-->
+
+        <script>
+              $( "select.search-select3" ).select2({minimumInputLength: 1, width:'450px'
+                   ,ajax:{
+                        url: '/food/food_list',
+                        dataType: 'json',
+                        processResults: function(data) {
+                            return {results: data}
+                        },
+                   },
+                   escapeMarkup: function(text){ return text },
+              });
+        </script>
+
+        </div>
+        <div id="activitylog">
+            <iframe src="/food/activityLog/?fid={{food.fid}}" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+
+    </div>
+
+</div>
+
+<h4><a href="/food/fast_view/{{food.fid}}">view all nested datasets</a></h4>
+
+<table>
+    {% for ds in datasets %}
+    <tr>
+        <th style="text-align: center;"><a href="/food/dataset_view/{{ds.dataset.name}}">{{ds.dataset.name}}</a>:{{ds.category_id}}
+           <a href="/food/dataset/{{ds.dataset.name}}/{{ds.category_id}}" >[more {{ ds.image_count}}]</a>
+
+           <form action="/food/move_category" method="POST">
+               <label for ="{{ds.category_id}}-{{ds.dataset.name}}-select2">Move To: </label>
+                    <input type="hidden" name="cid" value="{{ds.category_id}}">
+                    <input type="hidden" name="dataset" value="{{ds.dataset.name}}">
+                    <input type="hidden" name="cur_fid" value="{{food.fid}}">
+                    <select id="{{ds.category_id}}-{{ds.dataset.name}}-select2" style="width:250px" name="fid">
+                        <option value="{{food.fid}}">{% autoescape off %}{{food.formatted}}{% endautoescape %}</option>
+                    </select>
+                    <input type="submit" value="Move">
+                </form>
+           <form method="post" action="/food/remove_category">
+               <input type="hidden" name="cur_fid" value="{{food.fid}}">
+               <input type="hidden" name="cid" value="{{ds.category_id}}">
+               <input type="hidden" name="dataset" value="{{ds.dataset.name}}">
+               <input type="submit" value="Remove">
+           </form>
+                <script>
+                $('#{{ds.category_id}}-{{ds.dataset.name}}-select2').select2({minimumInputLength: 1, width:'450px'
+                   ,ajax:{
+                        url: '/food/food_list',
+                        dataType: 'json',
+                        processResults: function(data) {
+                            return {results: data}
+                        },
+                   },
+                   escapeMarkup: function(text){ return text },
+                });
+                </script>
+       <tr>
+    <th>
+        {% for url in  ds.sample_image_urls %}
+        <a href="{{images_host}}/static/food/images/{{url}}"><img src="{{images_host}}/food/thumbnail/{{url}}"></a>
+        {% endfor %}
+    {% endfor %}
+</table>
+
+</body>
+</html>

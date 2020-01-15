@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create recipe</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"  rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.css">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.js"></script>
+    <style>
+        .errClass *{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="recipe">
+        <input type="hidden" name="food_id" value="{{ food_id }}">
+        <table id="itemsTable" class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Component Free text</th>
+                <th>Component Name</th>
+                <th>Amount</th>
+                <th>Unit</th>
+                <th>Grams</th>
+                <th>Error</th>
+            </tr>
+            </thead>
+            <tbody id="itemsTable_tbody">
+            {% for c, original_text, error in components %}
+            <tr>
+                <td>
+                    <button type="button" onclick="delete_row(this.parentElement.parentElement)">Remove</button>
+                    <button type="button" onclick='evaluation(this.parentElement.parentElement)'>Re-evaluate Text</button>
+                </td>
+                {% if c %}
+                    <!--Original Text-->
+                    <td>
+                        <input type="text" name="free-text" value="{{ original_text }}">
+                    </td>
+                    <!--Name-->
+                    <td>
+                        <select name="comp" class="search-select2" onchange="new_food_select(this)" required>
+                            <option value="{{ c.food.fid }}">{% autoescape off %}{{c.food.name}}{% endautoescape %}</option>
+                        </select><a href="/food/{{ c.food.fid }}">{{ c.food.name }}</a>
+                    </td>
+                    <!--Amount-->
+                    <td>
+                        <input type="number" class="amu" name="amount" id="weight_{{ c.food.fid }}" value="{{ c.amount }}" step="0.5" onchange="new_grams_amount(this)">
+                    </td>
+                    <!--Units-->
+                    <td>
+                        <select class="gpu" id="unit_{{ c.food.fid }}" name="gpu" onchange="new_grams_units(this)">
+                            <option value="{{ c.unit_type }}">{% if c.unit_type %}{{ c.unit_type.name }}{%endif%}</option>
+                            {% for unit in c.food.units %}
+                            {% if not unit.quantity_name ==  c.unit_type.name %}
+                                <option value="{{ unit.quantity_name }}">{{ unit.quantity_name }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <!--Grams-->
+                    <td id="grams_{{ c.food.fid }}">
+                        <input type="number" name="weights" placeholder="No Unit Selected" value="{%if c.unit_type %}{{ c.weight }}{% endif%}" readonly>
+                    </td>
+                    <!--Error-->
+                    <td>{{ error }}</td>
+
+                {% else %}
+
+                    <!--Original Text-->
+                    <td>
+                        <input type="text" name="free-text" value="{{ original_text }}">
+                    </td>
+                    <!--Name-->
+                    <td>
+                        <select name="comp" onchange="new_food_select(this)" class="search-select2" required>
+                        </select><a href=""></a>
+                    </td>
+                    <!--Amount-->
+                    <td>
+                        <p>-</p>
+                    </td>
+                    <!--Units-->
+                    <td>
+                        <select class="gpu" name="gpu" class="search-select2">
+                        </select>
+                    </td>
+                    <!--Grams-->
+                    <td>
+                        <p>-</p>
+                    </td>
+                    <!--Error-->
+                    <td>{{ error }}</td>
+
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+            <br>
+            <tfoot>
+            <tr>
+                <td class="q">
+                    <div style="display:inline-block;font-weight: bold; margin-right: 5px;">Total grams:</div>
+                    <input type="number" name="total_grams" value="" placeholder="undefined" style="width:80px" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td class="q">
+                    <div style="display:inline-block;font-weight: bold; margin-right: 5px;">Liquid loss:</div>
+                    <input type="number" name="liquid_loss" value="{{liquid_loss}}" placeholder="undefined" step="0.1" style="width:80px" min="0" max="100.0" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="q">
+                    <div style="display:inline-block;font-weight: bold; margin-right: 5px;">Number of servings:</div>
+                    <input type="number" name="" onchange="calc_grams();" id="NOS_select" value="1" placeholder="undefined" step="0.1" style="width:80px" min="0.01">
+                </td>
+                <td class="q">
+                    <div style="display:inline-block;font-weight: bold; margin-right: 5px;">Servings weight:</div>
+                    <input type="number" name="" id="NOS_calac" value="0" placeholder="undefined" step="0.1" style="width:80px" min="0" readonly>
+                </td>
+            </tr>
+            </tfoot>
+            </table>
+        <br>
+    </form>
+    <button onclick="trySubmit()">Submit</button>
+    <button onclick="add_row()">Add Row</button>
+
+    <script>
+
+        function delete_row(row) {
+            document.getElementById("itemsTable_tbody").deleteRow(row.rowIndex -1);
+            calc_grams();
+        }
+
+        function add_row() {
+            var row = document.getElementById("itemsTable_tbody").insertRow(-1);
+            var cell_btn = row.insertCell(0);
+            var cell_text = row.insertCell(1);
+            var cell_name = row.insertCell(2);
+            var cell_amount = row.insertCell(3);
+            var cell_unit = row.insertCell(4);
+            var cell_weight = row.insertCell(5);
+            var cell_error = row.insertCell(6);
+
+            cell_btn.innerHTML = "<button onclick='delete_row(this.parentElement.parentElement)'>Remove</button><button type='button' onclick='evaluation(this.parentElement.parentElement)'>Re-evaluate Text</button>";
+
+            cell_text.innerHTML = '<input type="text" name="free-text">';
+
+            var select = document.createElement("SELECT");
+            select.name = "comp";
+            select.classList.add('search-select2');
+            select.setAttribute('onchange','new_food_select(this);');
+            select.setAttribute('required','true');
+            var a = document.createElement("A");
+            a.href="";
+            cell_name.appendChild(select);
+            cell_name.appendChild(a);
+            $(select).select2(get_food);
+
+        }
+        function calc_grams(){
+            var arr = $('input[name="weights"]');
+            sum=0;
+            for(var i=0;i<arr.length;i++){
+                if ($('input[name="weights"]')[i].value != "")
+                    sum+=parseFloat($('input[name="weights"]')[i].value);
+            }
+            $('input[name="total_grams"]')[0].value = sum;
+            NOS_select = parseFloat(document.getElementById("NOS_select").value);
+            document.getElementById("NOS_calac").value = sum/NOS_select;
+        }
+        function check_free_text(free_text) {
+            var tx = ""+free_text;
+            while (tx.indexOf(" ")>0)
+                tx = tx.replace(" ","");
+            while (tx.indexOf("\t")>0)
+                tx = tx.replace("\t","");
+            return tx != "";
+        }
+        function evaluation(row) {
+            var free_text = $(row).find("td:eq(1)").children()[0].value;
+            if (check_free_text(free_text)) {
+                $.ajax({
+                    url: '/food/nlp_recipe_component?text=' + free_text,
+                    dataType: '',
+                    success: function (data) {
+                        var info_json = data;
+
+                        console.log(data);
+
+                        var cell_text = row.cells[1];
+                        var cell_name = row.cells[2];
+                        var cell_amount = row.cells[3];
+                        var cell_unit = row.cells[4];
+                        var cell_weight = row.cells[5];
+                        var cell_error = row.cells[6];
+
+                        cell_text.innerHTML = '<input type="text" name="free-text" value="' + info_json["original_text"] + '">';
+                        cell_error.innerText = info_json["errors"];
+
+                        if (!info_json["errors"]) {
+                            var fid = info_json["components"]["fid"];
+                            var select = document.createElement("SELECT");
+                            select.name = "comp";
+                            select.classList.add('search-select2');
+                            select.setAttribute('onchange', 'new_food_select(this);');
+                            cell_name.innerHTML = '';
+                            var option = document.createElement("OPTION");
+                            option.innerText = info_json["components"]["food"];
+                            option.value = fid;
+                            select.appendChild(option);
+                            cell_name.appendChild(select);
+                            var link = document.createElement("A");
+                            link.href = "/food/" + fid;
+                            link.innerText = info_json["components"]["food"];
+                            cell_name.appendChild(link);
+                            $(select).select2(get_food);
+
+                            cell_amount.innerHTML = '<input type="number" name="amount" class="amu" id="weight_' + fid + '" value="' + info_json["components"]["amount"] + '" step="0.1" onchange="new_grams_amount(this)">';
+
+                            var unitSelect = document.createElement("SELECT");
+                            unitSelect.classList.add('gpu');
+                            unitSelect.setAttribute('onchange', 'new_grams_units(this)');
+                            cell_unit.innerHTML = '';
+                            var unitOption = document.createElement("OPTION");
+                            unitOption.innerText = info_json["components"]["unit_type"];
+                            unitOption.value = info_json["components"]["unit_type"];
+                            unitSelect.appendChild(unitOption);
+                            var UnitsList = info_json['listUnit'];
+                            unitSelect.id = "unit_" + fid;
+                            unitSelect.name = "gpu";
+                            for (var i = 0; i < UnitsList.length; i++) {
+                                if (UnitsList[i] != info_json["components"]["unit_type"]) {
+                                    unitOption = document.createElement("OPTION");
+                                    unitOption.innerText = UnitsList[i];
+                                    unitOption.value = UnitsList[i];
+                                    unitSelect.appendChild(unitOption);
+                                }
+                            }
+                            cell_unit.appendChild(unitSelect);
+                            $(unitSelect).select2({
+                                placeholder: 'Select unit'/*,ajax: {
+                                url: '/food/unit_list',
+                                dataType: 'json',
+                                processResults: function(data) {
+                                    return {results: data}
+                                }
+                            }*/,
+                                escapeMarkup: function (text) {
+                                    return text
+                                },
+                                width: '120px'
+                            });
+                            cell_weight.id = "grams_" + fid;
+                            cell_weight.innerHTML = '<input type="number" name="weights" placeholder="No Unit Selected" value="' + info_json["components"]["weight"] + '" readonly>';
+                            calc_grams();
+                        }
+                    },
+                    fail: function () {
+                        alert("Sorry, failed to turn to nlp");
+                    }
+                });
+            }else{
+                alert("evaluation can be only on real text");
+            }
+        }
+
+        var get_food = {minimumInputLength: 1, width:'350px'
+           ,ajax:{
+                url: '/food/food_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+
+        $('.search-select2').select2(get_food);
+    </script>
+    <script>
+        var parents = [{%for par in parents%}{{par}}, {%endfor%}]
+        function trySubmit(){
+            var flag1 = false; //check all units
+            var flag2 = false; //check all amounts
+            var flag3 = false; //check all component appear only ones
+            var flag4 = false; //check no component is parent of food
+            var arr1 = $('.gpu');
+            var arr2 = $('.amu');
+            var arr3 = $('select[name="comp"]');
+            var fidList = [];
+            for (var i=0; i<arr1.length;i++){
+                if(arr1[i].value == "" || arr1[i].value == "null" || arr1[i].value == "None")
+                {
+                    arr1[i].className += ' errClass ';
+                    flag1 = true;
+                }
+                else
+                {
+                    arr1[i].className = arr1[i].className.replace(" errClass ","");
+                }
+            }
+            if (flag1)
+                alert('there are some units that are not selected');
+            for (var i=0; i<arr2.length;i++){
+                if(! $.isNumeric( arr2[i].value ))
+                {
+                    arr2[i].className += ' errClass ';
+                    flag2 = true;
+                }
+                else
+                {
+                    arr2[i].className = arr2[i].className.replace(" errClass ","");
+                }
+            }
+            if (flag2)
+                alert('there are some units amount that are not defined');
+            for (var i=0;i<arr3.length;i++)
+            {
+                if (fidList.indexOf(arr3[i].value) >= 0 )
+                {
+                    flag3 = true;
+                }
+                else
+                {
+                    fidList.push(arr3[i].value)
+                }
+                if (parents.indexOf(Number(arr3[i].value)) > -1)
+                    flag4 = true;
+            }
+            if(flag3)
+                alert('the same food appears more than once');
+            if(flag4)
+                alert('there are some components that are the parent of the food');
+            if(!(flag1 || flag2 || flag3 || flag4))
+            {
+                $("form")[0].submit();
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('.gpu').select2({
+                placeholder:'Select unit',/*ajax: {
+                    url: '/food/unit_list',
+                    dataType: 'json',
+                    processResults: function(data) {
+                        return {results: data}
+                    }
+                },*/
+                escapeMarkup: function(text){ return text },
+                width:'120px'
+            });
+          $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+              event.preventDefault();
+              return false;
+           }
+          });
+        });
+        calc_grams();
+        function new_grams_units(cell) {
+            var fid = cell.id.slice(5);
+            var row = cell.parentNode.parentNode;
+            calc_specific_gram(fid,row);
+        }
+
+        function new_grams_amount(cell) {
+            var row = cell.parentNode.parentNode;
+            var fid = cell.id.slice(7);
+            calc_specific_gram(fid,row);
+        }
+
+        function calc_specific_gram(fid,row){
+            if($('#weight_'+fid+'').length >0 && $('#weight_'+fid+'')[0].value != "" && $('#unit_'+fid+'').length >0 && $('#unit_'+fid+'')[0].value!="" && $('#unit_'+fid+'')[0].value!="null" && $('#unit_'+fid+'')[0].value!="None"){
+                var amount = document.getElementById("weight_" + fid).value;
+                var unitName = row.cells[4].children[0][row.cells[4].children[0].selectedIndex].value;
+                if (unitName && amount) {
+                    $.ajax({
+                        url: '/food/grams_by_unit?unit=' + unitName + '&amount=' + amount + '&fid=' + fid,
+                        dataType: '',
+                        success: function (data) {
+                            var grams_cell = document.getElementById('grams_' + fid);
+                            grams_cell.children[0].value = data.toString();
+                            calc_grams();
+                        },
+                        fail: function () {
+                            var error_cell = document.getElementById('error_' + fid);
+                            error_cell.innerHTML = "Couldn't convert units to grams"
+                        }
+                    });
+                    }
+            }
+            else{
+                var grams_cell = document.getElementById('grams_' + fid);
+                grams_cell.children[0].value = "";
+            }
+        }
+        function new_food_select(cell) {
+            var row = cell.parentNode.parentNode;
+            var cell_amount= row.cells[3];
+            var cell_unit = row.cells[4];
+            var cell_weight = row.cells[5];
+            var parrent = cell.parentNode;
+            var fid = cell.children[cell.selectedIndex].value;
+            var text = cell.children[cell.selectedIndex].text;
+            parrent.getElementsByTagName('a')[0].href = '/food/'+fid;
+            parrent.getElementsByTagName('a')[0].text = text;
+            //cell_amount.innerHTML='';
+            var old = null;
+            if (cell_unit.innerHTML != "")
+                old = cell_unit.children[0].value;
+            cell_unit.innerHTML='';
+            cell_weight.innerHTML='';
+            $.ajax({
+                    url: '/food/get_units?fid=' + fid,
+                    dataType: '',
+                    success: function (data) {
+                        if (cell_amount.innerHTML.indexOf("<p>-</p>")>0 || cell_amount.innerHTML == "")
+                            cell_amount.innerHTML = '<input type="number" name="amount" class="amu" id="weight_' + fid + '" value="0" step="0.1" onchange="new_grams_amount(this)">';
+                        else
+                            cell_amount.children[0].id = "weight_" + fid ;
+                        var info_json = data;
+                        var unitSelect = document.createElement("SELECT");
+                        unitSelect.classList.add('gpu');
+                        unitSelect.setAttribute('onchange', 'new_grams_units(this)');
+                        var UnitsList = info_json['lsUnits'];
+
+                        var unitOption = document.createElement("OPTION");
+                        if (UnitsList.indexOf(old)>0)
+                        {
+                            unitOption.innerText = old;
+                            unitOption.value = old;
+                        }
+                        else{
+                            unitOption.innerText = "";
+                            unitOption.value = "null";
+                        }
+                        unitSelect.appendChild(unitOption);
+
+                        unitSelect.id = "unit_" + fid;
+                        unitSelect.name="gpu";
+                        for (var i=0; i<UnitsList.length; i++)
+                        {
+                            if (UnitsList[i] != old)
+                            {
+                                unitOption = document.createElement("OPTION");
+                                unitOption.innerText = UnitsList[i];
+                                unitOption.value = UnitsList[i];
+                                unitSelect.appendChild(unitOption);
+                            }
+                        }
+                        cell_unit.appendChild(unitSelect);
+                        $(unitSelect).select2({
+                            placeholder:'Select unit'/*,ajax: {
+                                url: '/food/unit_list',
+                                dataType: 'json',
+                                processResults: function(data) {
+                                    return {results: data}
+                                }
+                            }*/,
+                            escapeMarkup: function(text){ return text },
+                            width:'120px'
+                        });
+                        cell_weight.innerHTML = '<input type="number" name="weights" placeholder="No Unit Selected" value="" readonly>';
+                        cell_weight.id = "grams_" + fid;
+                        calc_specific_gram(fid,row);
+                        },
+                        fail: function () {
+                            var error_cell = document.getElementById('error_' + fid);
+                            error_cell.innerHTML = "Couldn't convert units to grams"
+                        }
+                    });
+        }
+    </script>
+</body>
+</html>
