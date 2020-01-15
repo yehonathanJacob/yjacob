@@ -1,0 +1,25 @@
+git clone git@github.com:IcarbonX-il/icx.git //חיבור לגיט פעם ראשונה
+cd icx/   //כניסה לתיקיה לוקאלית שמכילה את כל הקוד
+git checkuot // מעבר לנק' בציר הזמן (אפשר לעבור פשוט לבראנץ' ספציפי ולהמשיך לעבוד משם
+git checkuot -b branch_name // יצירת בראנץ' חדש בשם branch_name
+git checkuot -b branch_name = git branch branch_name + git checkuot branch_name
+git pull origin master   //עדכון המידע במחשב
+git fetch //עדכון כל המידע מהשרת (נעשה במחשבים אחרים לאחר יצירת בראנצ' חדש במחשב שלי')
+
+git add file_name // עדכון קובץ בשם ספציפי
+git add . // עדכון כלל הקבצים
+git add -u // עדכון הקבצים המתוייגים בגיט
+git reset //מחיק כל ההתחייבויות
+git status //בדיקת סטטוס ויזואלי לכלל הקבצים
+git stash // השמת כל השינויים בקובץ זמני
+
+git commit -m myCommitName //התחייבות על קובץ זה
+git push // העברת כלל הקבצים לשרת
+
+git branch branch_name //יוצר בראנצ' חדש
+git branch --help
+git branch --list --all
+
+git reset --hard origin/html_page_reports //מחיקת כל השינויים ועדכון לפי הבארנצ
+
+git cherry-pick branch_or_commit_name // הוספת קומית או בראנצ ספציפי לבראנץ שלך

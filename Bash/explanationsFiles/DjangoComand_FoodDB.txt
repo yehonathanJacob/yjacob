@@ -16,9 +16,6 @@ python3 manage.py createsuperuser //יצירת משתמש ראשוני
 python3 manage.py sqlmigrate blog 0001
 
 
-tree // פקודת לינוקס לראות את כלל הקבצים בתיקיה
-
-
 
 python manage.py shell
 >>> from food.models import Food
@@ -46,58 +43,44 @@ python3 manage.py shell
 >>> ps.save()
 
 
+# Modify db scheme:
+psql -h pgsql -U food
+e.g.:
+ALTER TABLE food add liquid_loss double precision
+# add sql code to:
+~/icx/tools/image/food/FoodDB/sql/sql
 
+# Modify django accordingly:
+export FOODDB_POSTGRES_HOST=pgsql
+cd $ICX_ROOT/tools/image/food/FoodDB/ui
+python manage.py inspectdb > ~/tmp
+# compare output to models.py and update required code
+E.g: grep -A15 -B10 "food_qattributes" ~/tmp
 
-Help on module food.models in food:
+# update test:
+psql -h  foods-test.icx-il.com -U food
+run sql command as written in ~/icx/tools/image/food/FoodDB/sql/sql
+git commit models.py and ~/icx/tools/image/food/FoodDB/sql/sql
+Pull request and merge to master
 
-NAME
-    food.models
+# update production:
+psql -h foods.icx-il.com -U food
+Ask Alex to deploy to production
 
-FILE
-    /home/yjacob/icx/tools/image/food/FoodDB/ui/food/models.py
+#=============================================================
+Up docker:
+cd $ICX_ROOT
+docker-compose -f docker-compose.fooddb.local.yml up
 
-CLASSES
-    django.db.models.base.Model(__builtin__.object)
-        AmountQuestion
-        Attribute
-        AttributeName
-        AttributeType
-        Attributes
-        BooleanQuestion
-        DatasetCategories
-        Datasets
-        Food
-        FoodAmountQuestion
-        FoodAnswer
-        FoodAttributes
-        FoodBooleanQuestion
-        FoodComments
-        FoodComponents
-        FoodDefaultUnit
-        FoodHier
-        FoodMultipleChoiceQuestion
-        FoodNames
-        FoodNutrient
-        FoodNutritionRefs
-        FoodQAttributes
-        FoodReferences
-        FoodUnits
-        GrammarAddingWord
-        GrammarMeasureWord
-        GrammerIntentWord
-        Lang
-        MultipleChoiceQuestion
-        NamedTimestamp
-        Units
-        UsdaFood
-        UsdaFoodDescription
-        UsdaFoodGroup
-        UsdaFoodNutrient
-        UsdaNutrient
-        UserActivityLog
-    exceptions.Exception(exceptions.BaseException)
-        CircuitClosedException
-    Foods
+Run server:
+manage.py runserver 0:8123
+
+export FOODDB_POSTGRES_HOST=foodstest.icx-il.com
+export FOODDB_POSTGRES_HOST=foods.icx-il.com
+
+python $ICX_ROOT/tools/image/food/FoodDB/scripts/which_db.py
+
+export DJANGO_SETTINGS_MODULE=ui.settings_dev
 
 
 psql -h foods.icx-il.com -U food          #prod
