@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>activity log</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"  rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.css">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.js"></script>
+    <style>
+        .dropbtn {
+            background-color: white;
+            color: black;
+            border: 2px solid #4484CE;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            height: 50px;
+            width: 190px;
+        }
+
+        .dropbtn:hover {
+            background-color: #4484CE;
+            color: white;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f6f6f6;
+            min-width: 230px;
+            border: 1px solid #ddd;
+            z-index: 1;
+            max-height:250px;
+            overflow:auto;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
+
+        .show {
+            display:block;
+        }
+
+        #myInput {
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myInput:focus {
+            outline: 3px solid #ddd;
+        }
+
+        #myInput_ref {
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myInput_ref:focus {
+            outline: 3px solid #ddd;
+        }
+        #myInput_uncheckAll{
+            display: block;
+            font-size: 16px;
+            padding: 5px;
+            border: none;
+            text-align: center;
+            width: 100%;
+        }
+        form{
+            margin: 5px;
+            -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);
+            padding: 6px;
+        }
+
+    </style>
+</head>
+<body>
+<form id="get_activitylog" action="/food/activityLog" method="get">
+    <table>
+        <tr><td><label style="display: block;text-decoration: underline;font-size: large;">Filter table:</label></td></tr>
+        <tr><td><label>Food:</label>
+            <select name="fid" class="search-select2-food">
+                {% if food is not None%}
+                <option value="{{food.fid}}">{{food.name}}</option>
+                {%endif%}
+            </select>
+        </td><td><label>User:</label>
+            <select name="user" class="search-select2-user">
+                {% if user is not None%}
+                <option value="{{user.id}}">{{user.username}}</option>
+                {%endif%}
+            </select>
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <label>From:</label>
+                {% if fromDate is not None %}
+                <input name="is_from" type="checkbox" onchange="togelDate(this,'from')" checked>
+                <input type="date" name="from" value="{{fromDate}}" required>
+                {%else%}
+                <input name="is_from" type="checkbox" onchange="togelDate(this,'from')">
+                <input type="date" name="from" disabled>
+                {%endif%}
+            </td>
+            <td>
+                <label>Until:</label>
+                {% if untilDate is not None %}
+                <input name="is_until" type="checkbox" onchange="togelDate(this,'until')" checked>
+                <input type="date" name="until" value="{{untilDate}}" required>
+                {%else%}
+                <input name="is_until" type="checkbox" onchange="togelDate(this,'until')">
+                <input type="date" name="until" disabled>
+                {%endif%}
+            </td>
+        </tr>
+        <tr><td>
+            <input type="hidden" name="fromPage" value="yes">
+            <button onclick="drop_ref()" type="button" class="dropbtn">Select Tables <img src="{% static 'food/icons/menu.png' %}" height=18 width=18></button>
+            <div id="myDropdown_ref" class="dropdown-content">
+                <input type="button" value="Uncheck all" id="myInput_uncheckAll" onclick="uncheckAll()">
+                <input type="text" placeholder="Search.." id="myInput_ref" onkeyup="filterFunction_ref()">
+                {% for table in tables %}
+                <a><input id="checkbox_ref_{{table.name}}" type="checkbox" class="TableCheckbox" name="{{table.name}}" {{table.checked}}>  {{table.name}}</a>
+                {% endfor %}
+            </div>
+        </td></tr>
+        <tr>
+            <td><button type="submit" class="btn btn-success">Submit filter</button></td>
+            <td><input type="submit" formtarget="_blank" value="Submit in new tab" class="btn btn-success"></td></td>
+
+        </tr>
+    </table>
+</form>
+<table id="activitylog-table" style="width: 100%;" class="table table-bordered display q">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Table</th>
+            <th>Food</th>
+            <th>Date</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for obj in data %}
+        <tr>
+            <td>{{obj.id}}</td>
+            <td>{{obj.Table}}</td>
+            <td><a href="/food/{{obj.Food.fid}}">{{obj.Food.username}}</a></td>
+            <td>{{obj.Date}}</td>
+            <td>{{obj.User}}</td>
+            <td>{{obj.Action}}</td>
+            <td>{{obj.Description}}</td>
+        </tr>
+    {%endfor%}
+    </tbody>
+</table>
+<script>
+    $(document).ready(function(){
+        var otable = $('#activitylog-table').DataTable({
+            "columnDefs": [
+                {   "targets": "_all",/*"visible": false,*/ "searchable": true }
+            ],
+            "order": [[ 0, "desc" ]]
+        })
+        //.columns(["#Food","#Date", "#User", "#Action","#Description"]).visible(true);
+    });
+</script>
+<script>
+    function togelDate(cell,name) {
+        var checkbox = $(cell);
+        if (checkbox.is(':checked')){
+            $('#get_activitylog input[name="'+name+'"]').removeAttr("disabled");
+            $('#get_activitylog input[name="'+name+'"]').attr("required","true");
+        }
+        else{
+            $('#get_activitylog input[name="'+name+'"]').removeAttr("required");
+            $('#get_activitylog input[name="'+name+'"]').attr("disabled","true");
+        }
+    }
+    var get_food = {minimumInputLength: 1, width:'350px'
+           ,ajax:{
+                url: '/food/food_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+    $('.search-select2-food').select2(get_food);
+    var get_user = {minimumInputLength: 1, width:'350px'
+           ,ajax:{
+                url: '/food/user_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+    $('.search-select2-user').select2(get_user);
+    function drop_ref(){
+            document.getElementById("myDropdown_ref").classList.toggle("show");
+        }
+    function filterFunction_ref() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput_ref");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown_ref");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+    function uncheckAll() {
+        div = document.getElementById("myDropdown_ref");
+        checkboxs = div.getElementsByClassName("TableCheckbox");
+        for (var i = 0; i < checkboxs.length; i++) {
+            checkbox = checkboxs[i];
+            checkbox.checked = false;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,1677 @@
+{% load static %}
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"  rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.css">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        *{
+            font-size: 100%;
+            margin: auto 0;
+            padding:0;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+        }
+        /*html {
+          scroll-behavior: smooth;
+        }*/
+        body { background-color:#fafafa;}
+
+        .relative2 {
+            position: absolute;
+            top: 0px;
+            right: 70px;
+            z-index: 11;
+        }
+        .body{
+            width:50%;
+            margin:auto;
+        }
+        h1{
+            text-align:center;
+        }
+        section{
+             margin-top:20px;
+            border-radius: 7px 7px 7px 7px;
+        -moz-border-radius: 7px 7px 7px 7px;
+        -webkit-border-radius: 7px 7px 7px 7px;
+        border: none;
+        /*-webkit-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);*/
+        padding: 7px;
+        }
+        .form_title{
+            font-size:19pt;
+            text-decoration:underline;
+        }
+        .form_box{
+            border: solid 1px grey;
+            padding:5px;
+        }
+        .form_subtitle{font-size:13pt;}
+        .selcetion-container{margin-bottom:5px;}
+        .form_end{
+            border: solid 1px #46b8da;
+            padding:5px;
+        }
+        .form_step{margin-top:6px;}
+        .form_step_title{font-size:13pt;}
+
+        #load_page{
+            position:fixed;
+            top:0;
+            lef:0;
+            width:100%;
+            height:100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index:100;
+            display:none;
+        }
+        #load_page.show{
+            display:block;
+        }
+        #load_page #loader_container{
+            position:fixed;
+            top:50%;
+            left:50%;
+            -webkit-transform: translateX(-50%);
+            -webkit-transform: translateY(-50%);
+            transform:translate(-50%,-50%);
+            width:20%;
+            height:300px;
+            min-width:300px;
+            min-height:300px;
+            background-color:#9aa6ad;
+            padding:10px;
+            -webkit-box-shadow: 0px 0px 28px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 28px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 28px 0px rgba(0,0,0,0.75);
+            border-radius: 10px 10px 10px 10px;
+            -moz-border-radius: 10px 10px 10px 10px;
+            -webkit-border-radius: 10px 10px 10px 10px;
+            border: 0px solid #000000;
+        }
+        #load_page #loader_container .title{
+            color:white;
+            font-size:25pt;
+            width:100%;
+            text-align:center;
+        }
+        #load_page #loader_container .sub_title{
+            color:white;
+            font-size:15pt;
+            width:100%;
+            text-align:center;
+            margin-bottom:30px;
+        }
+        .loader {
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 16px solid #3498db;
+          width: 120px;
+          height: 120px;
+          margin:auto;
+        }
+        #load_page.show .loader {
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+        }
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        #page_table {width:100%;}
+        .q th {
+            background: #4484CE;
+            color: white;
+        }
+        .table thead>tr>th{
+            text-align:center;
+            vertical-align:middle;
+        }
+        nav{
+            width:100%;
+            padding-left:25%;
+            padding-right:25%;
+            position:fixed;
+            top:0;
+            background-color:#fafafa;
+            z-index:10;
+        }
+        #h1_comtainer{text-align: center;
+        margin-bottom: 5px;}
+        #h1_comtainer *{
+            vertical-align: middle;
+            display: inline-block;
+        }
+        #defult_selection{
+            /*height: 150px;*/
+            width:100%;
+            overflow: hidden;
+            height: 0px;
+        }
+        #defult_selection.show{
+            height: auto;
+        }
+        #rules_table td {
+            padding: 2px !important;
+        }
+        #page_data{
+            margin-top:15px;
+            border-top:double black;
+            padding:5px;
+            display:none;
+        }
+        #page_data #page_description{display:none;}
+        #page_data #page_description p{
+            border: ridge;
+            background-color:white;
+            padding:5px;
+            font-size:110%;
+        }
+        @media only screen and (max-width: 1530px){
+            .body{
+                width:70%;
+            }
+            nav{
+                padding-left:15%;
+                padding-right:15%;
+            }
+        }
+        @media only screen and (max-width: 750px){
+            .body{
+                width:98%;
+            }
+            nav{
+                padding-left:1%;
+                padding-right:1%;
+            }
+        }
+    </style>
+    <style type="text/css">
+        #MainTabs {
+            border-radius: 0;
+            background: white;
+            padding: 5px;
+        }
+        .subTabs {
+            border: 1px solid #abc;
+            padding: 2px;
+        }
+        .ui-tabs .ui-tabs-panel{padding: 3px;}
+
+        .ui-widget-header {
+            border-radius: 0;
+            background: white;
+            border: none;
+            border-bottom: 1px solid #abc;
+        }
+
+        .ui-widget-content {
+            border-radius: 0;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default {
+            background-color:white;
+            display: inline-block;
+            padding: 15px 25px;
+            text-align: center;
+            color: #abc;
+            border: 1px solid transparent;
+        }
+
+        .ui-state-active, .ui-widget-content .ui-state-active {
+            background-color:white;
+            text-align: center;
+            color: #4484CE;
+            border: 1px solid #abc;
+            border-top: 2px solid #4484CE;
+            border-bottom: 1px solid #4484CE;
+        }
+
+        .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+            color: #4484CE;
+        }
+
+        a:focus {
+            outline: none !important;
+        }
+    </style>
+</head>
+<body onresize="fixMargin()">
+<div class="relative2">
+  <a href="/food/home"><img src="{% static 'food/icons/food.png' %}" height=100 width=100></a>
+  <p style="text-align: center"><a href="/accounts/login?next=/food/" >login</a>
+  <br><a href="/accounts/logout?next=/accounts/login?next=/food/"  style="float: center">logout</a>
+</div>
+<nav>
+    <div id="h1_comtainer"><img src="{% static 'food/icons/pros-and-cons.png' %}" height=50 width=50><h1>FoodDB Queries</h1></div>
+    <!--<ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a href="javascript:scrolto('Find_outlier_nutrients');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Find outlier nutrients</a></li>
+        <li role="presentation"><a href="javascript:scrolto('report_inconsistent_default_units');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report inconsistent default units</a></li>
+        <li role="presentation"><a href="javascript:scrolto('report_inconsistent_units_fid_to_parent');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report inconsistent units as compared to their parent</a></li>
+        <li role="presentation"><a href="javascript:scrolto('getlistDublicate');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report all duplicate names</a></li>
+        <li role="presentation"><a href="javascript:scrolto('connect_attr_to_food_by_attr_name');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Connect attributes to food by attribute name</a></li>
+        <li role="presentation"><a href="javascript:scrolto('nutrient_TO_fid');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Connect attributes to food by nutrients rules</a></li>
+        <li role="presentation"><a href="javascript:scrolto('fid_with_child_and_recipe');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report food with children and recipes</a></li>
+        <li role="presentation"><a href="javascript:scrolto('fid_NO_with_child_and_recipe');"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report food that don have neither children or recipes</a></li>
+    </ul>-->
+    <div id="defult_selection">
+        <div class="form_box">
+            <lable class="form_subtitle">nutrient names:</lable>
+            <div class="selcetions">
+                <div class="selcetion-container">
+                    <select name="nutrients" class="nutrients-select2">
+                        <option value="{{ defult.UsdaNutrient.id }}">{{ defult.UsdaNutrient.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'nutrients','nutrients-select2',get_nutrient)">Add Nutrient</button>
+                <button type="button" class="btn btn-primary" onclick="set_to_all(this,'nutrients')">Set to all</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+            <div class="selcetions">
+                <div class="selcetion-container">
+                    <select name="root" class="food-select2" required="true">
+                        <option value="1">food</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+               <!--<div class="selcetion-container">
+                    <select name="root" class="food-select2">
+                        <option value=" food.fid ">food.name</option>
+                    </select>
+                </div>-->
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                <button type="button" class="btn btn-primary" onclick="set_to_all(this,'roots')">Set to all</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+            <div class="selcetions">
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="1922">chinese ingredients</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="2205">chinese missing ingredients</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="2208">chinese dishes</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="1816">ingredients</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                <button type="button" class="btn btn-primary" onclick="set_to_all(this,'excludes')">Set to all</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">node type:</lable>
+            <div class="selcetions">
+                {% for node_type in defult.node_type%}
+                <div class="selcetion-container">
+                    <select name="node_type" class="node_type-select2">
+                        <option value="{{ node_type.id }}">{{ node_type.name }}</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                {%endfor%}
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'node_type','node_type-select2',get_node_type)">Add Nutrient</button>
+                <button type="button" class="btn btn-primary" onclick="set_to_all(this,'node_types')">Set to all</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">attributes:</lable>
+            <div class="selcetions attributes">
+                <div class="selcetion-container">
+                    <select name="attributes" class="attribute-select2" required="true">
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+               <!--<div class="selcetion-container">
+                    <select name="root" class="food-select2">
+                        <option value=" food.fid ">food.name</option>
+                    </select>
+                </div>-->
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'attributes','attribute-select2',get_attribute)">Add attribute</button>
+                <button type="button" class="btn btn-primary" onclick="set_to_all(this,'attributes')">Set to all</button>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="javascript:document.getElementById('defult_selection').classList.toggle('show');">toggle default section</button>
+</nav>
+<div class="body">
+    <div id="MainTabs">
+        <ul>
+            <li><a href="#data_integrity"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Data Integrity</a></li>
+            <li><a href="#Inconsistencies"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Inconsistencies</a></li>
+            <li><a href="#food_attributes"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Food Attributes</a></li>
+        </ul>
+        <div id="data_integrity" class="subTabs">
+            <ul>
+                <li><a href="#getlistDublicate"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report all duplicate names</a></li>
+                <li><a href="#fid_with_child_and_recipe"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report foods with both recipe and children</a></li>
+                <li><a href="#fid_NO_with_child_and_recipe"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report food that don't have neither children or recipes or reference</a></li>
+                <li><a href="#fid_with_missing_nutrients"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Find food with missing nutrients</a></li>
+                <li><a href="#fid_with_nutrient_out_of_given_range"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Find nutrient out of given range</a></li>
+                <li><a href="#food_units_with_zero_weight"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Find food units with zero weight</a></li>
+                <li><a href="#fid_component_loop"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report recipe that create a loop in the data base</a></li>
+                <li><a href="#find_parent_with_no_rep"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report food with no representative child</a></li>
+            </ul>
+            <section id="getlistDublicate">
+                <form action="javascript:try_submit('getlistDublicate');" method="post">
+                    <input type="hidden" name="queryName" value="getlistDublicate">
+                    <lable class="form_title">Report all duplicate names</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">Select language to exclude:</lable>
+                        <div class="selcetions">
+                           <!--<div class="selcetion-container">
+                                <select name="exclude_lan" class="exclude_lan-select2">
+                                    <option value=""></option>
+                                    <option value="he">עברית</option>
+                                    <option value="en">English</option>
+                                    <option value="cn">中国</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_exclude_lan(this,'exclude_lan')">Add exclude language</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~9 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('getlistDublicate')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('getlistDublicate')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="fid_with_child_and_recipe">
+                <form action="javascript:try_submit('fid_with_child_and_recipe');" method="post">
+                    <input type="hidden" name="queryName" value="fid_with_child_and_recipe">
+                    <lable class="form_title">Report foods with both recipe and children</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~10 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('fid_with_child_and_recipe')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('fid_with_child_and_recipe')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="fid_NO_with_child_and_recipe">
+                <form action="javascript:try_submit('fid_NO_with_child_and_recipe');" method="post">
+                    <input type="hidden" name="queryName" value="fid_NO_with_child_and_recipe">
+                    <lable class="form_title">Report food that don't have neither children or recipes or reference</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~10 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('fid_NO_with_child_and_recipe')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('fid_NO_with_child_and_recipe')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="fid_with_missing_nutrients">
+                <form action="javascript:try_submit('fid_with_missing_nutrients');" method="post">
+                    <input type="hidden" name="queryName" value="fid_with_missing_nutrients">
+                    <lable class="form_title">Find food with missing nutrients</lable>
+                    <!--<div class="form_box">
+                        <lable class="form_subtitle">check all nutrients:</lable>
+                        <input type="checkbox" name="all_nutrient" >
+                    </div>-->
+                    <div class="form_box">
+                        <lable class="form_subtitle">nutrient names:</lable>
+                        <div class="selcetions nutrients">
+                            {% for nutrient in defult.UsdaNutrients %}
+                            <div class="selcetion-container">
+                                <select name="nutrients" class="nutrients-select2" required="true">
+                                    <option value="{{ nutrient.id }}">{{ nutrient.name }}</option>
+                                </select>
+                                <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'nutrients','nutrients-select2',get_nutrient)">Add Nutrient</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~10 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('fid_with_missing_nutrients')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('fid_with_missing_nutrients')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="fid_with_nutrient_out_of_given_range">
+                <form action="javascript:try_submit('fid_with_nutrient_out_of_given_range');" method="post">
+                    <input type="hidden" name="queryName" value="fid_with_nutrient_out_of_given_range">
+                    <lable class="form_title">Find nutrient out of given range</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">Minimum:</lable>
+                        <input type="number" name="min" step="0.01" value="0" placeholder="defult is 0" style="width:80px" required>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">Maximum gram:</lable>
+                        <input type="number" name="max_g" step="0.01" value="100" placeholder="defult is 100" style="width:80px" required>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">Maximum kcalories:</lable>
+                        <input type="number" name="max_kcal" step="0.01" value="900" placeholder="defult is 900" style="width:80px" required>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~10 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('fid_with_nutrient_out_of_given_range')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('fid_with_nutrient_out_of_given_range')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="food_units_with_zero_weight">
+                <form action="javascript:try_submit('food_units_with_zero_weight');" method="post">
+                    <input type="hidden" name="queryName" value="food_units_with_zero_weight">
+                    <lable class="form_title">Find food units with zero weight</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~10 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('food_units_with_zero_weight')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('food_units_with_zero_weight')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="fid_component_loop">
+                <form action="javascript:try_submit('fid_component_loop');" method="post">
+                    <input type="hidden" name="queryName" value="fid_component_loop">
+                    <lable class="form_title">Report recipe that create a loop in the data base</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~10 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('fid_component_loop')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('fid_component_loop')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="find_parent_with_no_rep">
+                <form action="javascript:try_submit('find_parent_with_no_rep');" method="post">
+                    <input type="hidden" name="queryName" value="find_parent_with_no_rep">
+                    <lable class="form_title">Report food with no representative child</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">take only foods with childer:</lable>
+                        <input type="checkbox" name="only_with_children" checked>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~10 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('find_parent_with_no_rep')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('find_parent_with_no_rep')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div id="Inconsistencies" class="subTabs">
+            <ul>
+                <li><a href="#Find_outlier_nutrients"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Find outlier nutrients as compared to their parents</a></li>
+                <li><a href="#report_inconsistent_default_units"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report inconsistent default units</a></li>
+                <li><a href="#report_inconsistent_units_fid_to_parent"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Report inconsistent units as compared to their parent</a></li>
+                <li><a href="#fid_with_nutrient_out_of_standard_deviation"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Find food with nutrient out of standard_deviation</a></li>
+                <li><a href="#find_usda_reference_more_one_food"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Find Usda that reference to more the one food</a></li>
+                <li><a href="#present_category_by_nutrition_variability"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Define node type by nutrition variability</a></li>
+            </ul>
+            <section id="Find_outlier_nutrients">
+                <form action="javascript:try_submit('Find_outlier_nutrients');" method="post">
+                    <input type="hidden" name="queryName" value="Find_outlier_nutrients">
+                    <lable class="form_title">Find outlier nutrients as compared to their parents</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">standard deviations filter:</lable>
+                        <input type="number" name="standard_deviations" step="0.5" value="{{defult.standard_deviations}}" placeholder="default is 2" style="width:80px">
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">take only representatives childs:</lable>
+                        <input type="checkbox" name="is_representative" >
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">nutrient names:</lable>
+                        <div class="selcetions nutrients">
+                            <div class="selcetion-container">
+                                <select name="nutrients" class="nutrients-select2">
+                                    <option value="{{ defult.UsdaNutrient.id }}">{{ defult.UsdaNutrient.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'nutrients','nutrients-select2',get_nutrient)">Add Nutrient</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~31 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('Find_outlier_nutrients')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('Find_outlier_nutrients')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="report_inconsistent_default_units">
+                <form action="javascript:try_submit('report_inconsistent_default_units');" method="post">
+                    <input type="hidden" name="queryName" value="report_inconsistent_default_units">
+                    <lable class="form_title">Report inconsistent default units</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">maximal percent:</lable>
+                        <input type="number" name="maximal_percent" step="0.5" value="{{defult.maximal_percent}}" placeholder="defult is 125%" style="width:80px">%
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~37 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('report_inconsistent_default_units')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('report_inconsistent_default_units')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="report_inconsistent_units_fid_to_parent">
+                <form action="javascript:try_submit('report_inconsistent_units_fid_to_parent');" method="post">
+                    <input type="hidden" name="queryName" value="report_inconsistent_units_fid_to_parent">
+                    <lable class="form_title">Report inconsistent units as compared to their parent</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">maximal percent:</lable>
+                        <input type="number" name="maximal_percent" step="0.5" value="{{defult.maximal_percent}}" placeholder="defult is 125%" style="width:80px">%
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~24 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('report_inconsistent_units_fid_to_parent')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('report_inconsistent_units_fid_to_parent')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="fid_with_nutrient_out_of_standard_deviation">
+                <form action="javascript:try_submit('fid_with_nutrient_out_of_standard_deviation');" method="post">
+                    <input type="hidden" name="queryName" value="fid_with_nutrient_out_of_standard_deviation">
+                    <lable class="form_title">Find food with nutrient out of standard_deviation</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">standard deviation:</lable>
+                        <input type="number" name="standard_deviation" step="0.5" value="4" placeholder="defult is 4" style="width:80px" required>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">check all nutrients:</lable>
+                        <input type="checkbox" name="all_nutrient" checked>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">nutrient names:</lable>
+                        <div class="selcetions nutrients">
+                           <!--{% for nutrient in defult.UsdaNutrients %}
+                            <div class="selcetion-container">
+                                <select name="nutrients" class="nutrients-select2" required="true">
+                                    <option value="{{ nutrient.id }}">{{ nutrient.name }}</option>
+                                </select>
+                                <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                            </div>
+                            {% endfor %}-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'nutrients','nutrients-select2',get_nutrient)">Add Nutrient</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~20 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('fid_with_nutrient_out_of_standard_deviation')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('fid_with_nutrient_out_of_standard_deviation')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="find_usda_reference_more_one_food">
+                <form action="javascript:try_submit('find_usda_reference_more_one_food');" method="post">
+                    <input type="hidden" name="queryName" value="find_usda_reference_more_one_food">
+                    <lable class="form_title">Find Usda that reference to more the one food</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">ignore mapping to descendants:</lable>
+                        <input type="checkbox" name="alow_parent" checked>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">database: <ins>(default will be all database)</ins></lable>
+                        <div class="selcetions database">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'database','database-select2',get_database)">Add database to filter</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~7 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('find_usda_reference_more_one_food')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('find_usda_reference_more_one_food')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="present_category_by_nutrition_variability">
+                <form action="javascript:try_submit('present_category_by_nutrition_variability');" method="post">
+                    <input type="hidden" name="queryName" value="present_category_by_nutrition_variability">
+                    <lable class="form_title">Define node type by nutrition variability</lable>
+                    <div class="form_box">
+                        <lable class="form_subtitle">calculate only representative children:</lable>
+                        <input type="checkbox" name="only_representative" checked>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">nutrient names:</lable>
+                        <div class="selcetions nutrients">
+                            <div class="selcetion-container">
+                                <select name="nutrients" class="nutrients-select2" required="true">
+                                    <option value="{{ defult.UsdaNutrient.id }}">{{ defult.UsdaNutrient.name }}</option>
+                                </select>
+                                <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                            </div>
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'nutrients','nutrients-select2',get_nutrient)">Add Nutrient</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">node type:</lable>
+                        <div class="selcetions node_types">
+                            {% for node_type in defult.node_type%}
+                            <div class="selcetion-container">
+                                <select name="node_type" class="node_type-select2">
+                                    <option value="{{ node_type.id }}">{{ node_type.name }}</option>
+                                </select>
+                                <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                            </div>
+                            {%endfor%}
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'node_type','node_type-select2',get_node_type)">Add Node type</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~7 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('present_category_by_nutrition_variability')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('present_category_by_nutrition_variability')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div id="food_attributes" class="subTabs">
+            <ul>
+                <li><a href="#connect_attr_to_food_by_attr_name"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Connect attributes to food by attribute name</a></li>
+                <li><a href="#nutrient_TO_fid"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Connect attributes to food by nutrients rules</a></li>
+                <li><a href="#output_Atrribute_from_FNNDS"><img src="{% static 'food/icons/action.png' %}" height=20 width=20> Add new attributes from FNDDS</a></li>
+            </ul>
+            <section id="connect_attr_to_food_by_attr_name">
+                <form action="javascript:try_submit('connect_attr_to_food_by_attr_name');" method="post">
+                    <input type="hidden" name="queryName" value="connect_attr_to_food_by_attr_name">
+                    <lable class="form_title">Connect attributes to food by attribute name</lable>
+                    <a href="/admin/food/attribute" style="display: block;font-size: 110%;" target="_blank"><i>go to attribute table</i></a>
+                    <div class="form_box">
+                        <lable class="form_subtitle">Only New:</lable>
+                        <input type="checkbox" name="only_new" style="width:80px" checked>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">attributes:</lable>
+                        <div class="selcetions attributes">
+                            <div class="selcetion-container">
+                                <select name="attributes" class="attribute-select2" required="true">
+                                </select>
+                                <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                            </div>
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'attributes','attribute-select2',get_attribute)">Add attribute</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~5 * (number of attributes) sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('connect_attr_to_food_by_attr_name')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('connect_attr_to_food_by_attr_name')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="nutrient_TO_fid">
+                <form action="javascript:try_submit('nutrient_TO_fid');" method="post">
+                    <input type="hidden" name="queryName" value="nutrient_TO_fid">
+                    <lable class="form_title">Connect attributes to food by nutrients rules</lable>
+                    <a href="/admin/food/attribute" style="display: block;font-size: 110%;" target="_blank"><i>go to attribute table</i></a>
+                    <div class="form_box">
+                        <lable class="form_subtitle">Only New:</lable>
+                        <input type="checkbox" name="only_new" style="width:80px" checked>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+                        <div class="selcetions roots">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+                        <div class="selcetions excludes">
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+                        </div>
+                    </div>
+                    <div class="form_box">
+                        <lable class="form_subtitle">rules:</lable>
+                        <div class="rules">
+                            <div class="rule_box">
+                                <table id="rules_table">
+                                    <thead>
+                                        <tr>
+                                            <th>nutrient</th>
+                                            <th>min</th>
+                                            <th>max</th>
+                                            <th>attribute</th>
+                                            <th>second nutrient</th>
+                                            <th>action</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                           <!--<div class="selcetion-container">
+                                <select name="root" class="food-select2">
+                                    <option value=" food.fid ">food.name</option>
+                                </select>
+                            </div>-->
+                        </div>
+                        <div class="button-add-container">
+                            <button type="button" class="btn btn-secondary" onclick="add_rule('rules_table')">Add a rule</button>
+                        </div>
+                    </div>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~24 sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('nutrient_TO_fid')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('nutrient_TO_fid')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section id="output_Atrribute_from_FNNDS">
+                <form action="javascript:try_submit('output_Atrribute_from_FNNDS');" method="post">
+                    <input type="hidden" name="queryName" value="output_Atrribute_from_FNNDS">
+                    <lable class="form_title">Add new attributes from FNDDS</lable>
+                    <a href="/admin/food/attribute" style="display: block;font-size: 110%;" target="_blank"><i>go to attribute table</i></a>
+                    <div class="form_end">
+                        <lable class="form_subtitle">Submit Query</lable>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step1:</lable>
+                            <button type="submit" class="btn btn-info">Load Data</button>
+                            <lable class="form_step_title"><i>~5 * (number of attributes) sec</i></lable>
+                        </div>
+                        <div class="form_step">
+                            <lable class="form_step_title">Step2:</lable>
+                            <button type="button" class="btn btn-success" onclick="download_data('output_Atrribute_from_FNNDS')">Download as tsv</button>
+                            <button type="button" class="btn btn-success" onclick="show_ata('output_Atrribute_from_FNNDS')">Show in table</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+<div id="page_data">
+    <div id="page_description">
+        <h3>text result from output:</h3>
+        <p>one<br>two<br>trree<br>foure</p>
+    </div>
+    <h3>data table from output:</h3>
+    <table id="page_table" style="width: 100%;" class="table table-bordered display q">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div id="load_page">
+    <div id="loader_container">
+        <p class="title">Loading</p>
+        <p class="sub_title">(It can take a while)</p>
+        <div class="loader"></div>
+    </div>
+</div>
+<script>
+    /*function add_nutrient_names(cell,name){
+        var conatainer = cell.parentNode.parentNode;
+        var div = document.createElement("DIV");
+        div.classList.add("selcetion-container");
+        var select = document.createElement("SELECT");
+        select.name = name;
+        select.classList.add('nutrients-select2');
+        select.setAttribute('required','true');
+        div.appendChild(select);
+        var button = document.createElement("button");
+        button.setAttribute('type','button');
+        button.setAttribute('onclick','remove_parent(this)');
+        button.innerHTML="<img src=\"{% static 'food/icons/delete.png' %}\" height=15 width=15>";
+        div.appendChild(button);
+        conatainer.children[1].appendChild(div);
+        $(select).select2(get_nutrient);
+    }
+    function add_food_names(cell,name) {
+        var conatainer = cell.parentNode.parentNode;
+        var div = document.createElement("DIV");
+        div.classList.add("selcetion-container");
+        var select = document.createElement("SELECT");
+        select.name = name;
+        select.classList.add('food-select2');
+        select.setAttribute('required','true');
+        div.appendChild(select);
+        var button = document.createElement("button");
+        button.setAttribute('type','button');
+        button.setAttribute('onclick','remove_parent(this)');
+        button.innerHTML="<img src=\"{% static 'food/icons/delete.png' %}\" height=15 width=15>";
+        div.appendChild(button);
+        conatainer.children[1].appendChild(div);
+        $(select).select2(get_food);
+    }*/
+    function add_rule(id) {
+        var tbody = $("#"+id+" tbody")[0];
+        var tr = document.createElement("TR");
+        tr.innerHTML = '<td><select name="nutr_id" class="nutrients-select2" required></select></td>\n' +
+            '<td><input type="number" title="-1 for disable" name="min" min="-1" step="0.000001" style="width:80px" value="-1" required></td>\n' +
+            '<td><input type="number" title="-1 for disable" name="max" min="-1" step="0.000001" style="width:80px" value="-1" required></td>\n' +
+            '<td><select name="attr_id" class="attribute-select2" required></select></td>\n' +
+            '<td><select name="nutr_id_2" class="nutrients-select2" required><option value="None"></option></select></td>\n' +
+            '<td><select name="action" class="" required>\n' +
+            '    <option value="None"></option>\n' +
+            '    <option value="+">+</option>\n' +
+            '    <option value="-">-</option>\n' +
+            '    <option value="*">*</option>\n' +
+            '    <option value="/">/</option>\n' +
+            '</select></td>\n' +
+            '<td><button type="button" onclick="remove_parent(this.parentNode)"><img src="/static/food/icons/delete.png" height="15" width="15"></button></td>';
+        tbody.appendChild(tr);
+        $('.nutrients-select2').select2(get_nutrient);
+        $('.attribute-select2').select2(get_attribute);
+    }
+    add_rule('rules_table');
+
+    function add_exclude_lan(cell,name) {
+        var conatainer = cell.parentNode.parentNode;
+        var div = document.createElement("DIV");
+        div.classList.add("selcetion-container");
+        var select = document.createElement("SELECT");
+        select.name = name;
+        select.classList.add('exclude_lan-select2');
+        select.setAttribute('required','true');
+        div.appendChild(select);
+        var button = document.createElement("button");
+        button.setAttribute('type','button');
+        button.setAttribute('onclick','remove_parent(this)');
+        button.innerHTML="<img src=\"{% static 'food/icons/delete.png' %}\" height=15 width=15>";
+        div.appendChild(button);
+        conatainer.children[1].appendChild(div);
+        select.innerHTML = '<option value="he">עברית</option>\n' +
+            '<option value="en">English</option>\n' +
+            '<option value="cn">中国</option>';
+    }
+    function remove_parent(cell) {
+        var row = cell.parentNode;
+        row.remove();
+    }
+    function add_selection(cell,name,cls,get_function) {
+        var conatainer = cell.parentNode.parentNode;
+        var div = document.createElement("DIV");
+        div.classList.add("selcetion-container");
+        var select = document.createElement("SELECT");
+        select.name = name;
+        select.classList.add(cls);
+        select.setAttribute('required','true');
+        div.appendChild(select);
+        var button = document.createElement("button");
+        button.setAttribute('type','button');
+        button.setAttribute('onclick','remove_parent(this)');
+        button.innerHTML="<img src=\"{% static 'food/icons/delete.png' %}\" height=15 width=15>";
+        div.appendChild(button);
+        conatainer.children[1].appendChild(div);
+        $(select).select2(get_function);
+    }
+    var get_food = {minimumInputLength: 1, width:'350px'
+           ,ajax:{
+                url: '/food/food_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+        $('.food-select2').select2(get_food);
+    var get_nutrient = {minimumInputLength: 1, width:'150px'
+           ,ajax:{
+                url: '/food/nutrient_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+        $('.nutrients-select2').select2(get_nutrient);
+    var get_attribute = {minimumInputLength: 1, width:'150px'
+           ,ajax:{
+                url: '/food/attribute_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+    $('.attribute-select2').select2(get_attribute);
+    var get_database = {minimumInputLength: 1, width:'150px'
+           ,ajax:{
+                url: '/food/database_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+    $('.database-select2').select2(get_database);
+    var get_node_type = {minimumInputLength: 1, width:'150px'
+           ,ajax:{
+                url: '/food/node_type_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+    $('.node_type-select2').select2(get_node_type);
+    function set_to_all(cell,classname) {
+        var conatainer = cell.parentNode.parentNode;
+        var selections = conatainer.children[1];
+        var data = selections.innerHTML;
+        var selectionsArr = $('.'+classname);
+        for (var i =0;i<selectionsArr.length;i++){
+            var selectionsContainer = selectionsArr[i];
+            selectionsContainer.innerHTML = data;
+        }
+    }
+</script>
+<script>
+    var data = {};
+    var obj;
+    var compTable = null;
+    function try_submit(id){
+        if(!(id in data) || confirm("The data for that query is already loaded.\nWould you like to load again?")) {
+            var section = document.getElementById(id);
+            var form = document.getElementById(id).getElementsByTagName('form')[0];
+            var flag = false;
+            document.getElementById("load_page").classList.add("show");
+            $.ajax({
+                type: "POST",
+                url: "/food/fooddb_queries/",
+                data: $(form).serialize(), // serializes the form's elements.
+                success: function (result) {
+                    flag = (result['status'] >= 0);
+                    if (flag) {
+                        data[id] = result;
+                        alert('you can now press on:\n"Download as tsv" or "Show in table"');
+                    } else {
+                        alert("Error message:\n" + result['Error']);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("AJAX Error message:\n" + xhr+"\n"+ ajaxOptions+"\n"+ thrownError);
+                },
+                complete: function (data) {
+                    document.getElementById("load_page").classList.remove("show");
+                }
+            });
+        }
+    }
+    function download_data(id) {
+        if(id in data){
+            arr = data[id]['data'];
+            Columns = data[id]['Columns'];
+            txt = "";
+            txt += ' '+'\t';
+            for (j in Columns){
+                col = Columns[j];
+                txt += col+'\t';
+            }
+            txt+='\n';
+            for (i in arr){
+                row = arr[i];
+                txt += i+'\t';
+                for (j in Columns){
+                    col = Columns[j];
+                    t = row[col];
+                    if (typeof t == "number" && !Number.isInteger(t))
+                        txt += t.toFixed(3)+'\t';
+                    else
+                        txt += t+'\t';
+                }
+                txt+='\n';
+            }
+            download(id+"_OUT.tsv",txt);
+        }else{
+            alert('You must first load the data and then click on "Download as tsv" or "Show in table"');
+        }
+    }
+    function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+    function show_ata(id) {
+        if(id in data){
+            if (compTable != null){
+                compTable.destroy();
+            }
+            if (data[id]['status']>1){
+                document.getElementById("page_description").style.display = "block";
+                var txt = data[id]['description'];
+                while (txt.indexOf("\n")>=0)
+                    txt = txt.replace("\n","<br>");
+                while (txt.indexOf("\t")>=0)
+                    txt = txt.replace("\t","&ensp;");
+                $("#page_description p")[0].innerHTML=txt;
+            }
+            else {
+                document.getElementById("page_description").style.display = "none";
+            }
+            arr = data[id]['data'];
+            Columns = data[id]['Columns'];
+            head="<tr>";
+            head += "<th>id</th>";
+            for (j in Columns){
+                col = Columns[j];
+                while (col.indexOf("_")>=0)
+                    col = col.replace("_"," ");
+                head += "<th>"+col+"</th>";
+            }
+            head += "</tr>";
+            document.getElementById("page_table").getElementsByTagName("thead")[0].innerHTML = head;
+            body="";
+            for (i in arr){
+                row = arr[i];
+                body += "<tr>";
+                body += "<td>"+i+"</td>";
+                for (j in Columns){
+                    body+= "<td>";
+                    col = Columns[j];
+                    t = row[col];
+                    if (typeof t == "number" && !Number.isInteger(t)){
+                        if (t<0.1)
+                            t = t.toExponential(2);
+                        else
+                            t = t.toFixed(3);}
+                    if (col.indexOf('fid') >=0)
+                    {
+                        if ((t+"").indexOf("#")>=0)
+                        {
+                            linkArr = (t+"").split("#");
+                            t = "<a href='../"+linkArr[0]+"' target=\"_blank\">"+linkArr[0]+"</a>";
+                            for (var i =1;i<linkArr.length;i++){
+                                t += ", "+"<a href='../"+linkArr[i]+"' target=\"_blank\">"+linkArr[i]+"</a>";
+                            }
+                        }
+                        else {
+                            t  = "<a href='../"+t+"' target=\"_blank\">"+t+"</a>"
+                        }
+                    }
+                    body += t;
+                    body+= "</td>";
+                }
+                body+= "</tr>";
+            }
+            document.getElementById("page_table").getElementsByTagName("tbody")[0].innerHTML = body;
+            compTable = $('#page_table').DataTable( {"columnDefs": [ { "targets": "_all", "searchable": true } ], "order": [[ 0, "asc" ]] });
+            document.getElementById("page_data").style.display = "block";
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#page_data").offset().top
+                }, 2000);
+        }else{
+            alert('You must first load the data and then click on "Download as tsv" or "Show in table"');
+        }
+    }
+    var BodyTop;
+    function fixMargin() {
+        BodyTop = document.getElementsByTagName('nav')[0].offsetHeight + 10;
+        $('body').css("margin-top", BodyTop+"px");
+    }
+    function scrolto(id){
+        to = $('#'+id).offset().top - BodyTop;
+        $('html,body').animate({ scrollTop: to }, 'slow');
+    }
+    fixMargin();
+    $( "#MainTabs" ).tabs();
+    $( ".subTabs" ).tabs();
+    $(document).ready(function() {
+        nutRullTable = $('#rules_table').DataTable({
+            bFilter: false, bInfo: false,paging: false
+        });
+    });
+</script>
+</body>
+</html>

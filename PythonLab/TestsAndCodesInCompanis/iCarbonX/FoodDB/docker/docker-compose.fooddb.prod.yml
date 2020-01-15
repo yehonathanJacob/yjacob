@@ -1,0 +1,65 @@
+version: '2'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ng02
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/icx
+      - .:/FoodDB/conf/local/nginx:/etc/nginx/conf.d
+      - /tmp/food/static:/static
+      - /data/images2:/images
+      - /icxssl:/icxssl
+    links:
+      - web
+    depends_on:
+      - web
+    restart: always 
+
+  web:
+    build:
+      context: ..
+      dockerfile: Dockerfile.fooddb
+    container_name: dg02
+    environment:
+      # - FOODDB_POSTGRES_HOST=fooddb-prod.icx-il.com
+      - FOODDB_POSTGRES_HOST=foods.icx-il.com
+
+      - DJANGO_SETTINGS_MODULE=ui.settings
+      - LC_CTYPE=en_US.UTF-8
+
+      # - IMAGE_ANALYSIS=http://imgam2.icx-il.com:5000
+      - IMAGE_ANALYSIS=http://foodimage:5000
+
+    volumes:
+      - .:/icx
+      - .:/FoodDB
+      - /tmp/food/static:/static
+      - /data/images2:/images
+    expose:
+      - "8000"
+
+    restart: always 
+
+
+  #############################################
+  foodimage:
+
+    image: docker.icx-il.com/icx:0.1
+    container_name: foodimage
+
+    ports:
+      - "5000:5000"
+
+    volumes:
+      - /data/icx/models/S1/test:/data/icx/models/S1/ 
+      - /data/tmp/:/data/tmp/
+
+    environment:
+       - TFS_HOST=tfs-prod.icx-il.com
+
+    restart: always
+
+    command: bash -c 'echo ICX_ROOT:$$ICX_ROOT; echo;echo;python3 $$ICX_ROOT/tools/Deep/servers/server_food_detection_v1_tfs.py --tfs_host $$TFS_HOST --models /data/icx/models/S1/models/'

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FoodDB Filter</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"  rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.css">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.16/fh-3.1.3/datatables.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        *{
+            font-size: 100%;
+            margin: auto 0;
+            padding:0;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+        }
+        html {
+          scroll-behavior: smooth;
+        }
+        body { background-color:#fafafa;}
+
+        .relative2 {
+            position: absolute;
+            top: 0px;
+            right: 70px;
+            z-index: 11;
+        }
+        .body{
+            width:50%;
+            margin:auto;
+        }
+        h1{
+            text-align:center;
+        }
+        section{
+             margin-top:20px;
+            border-radius: 7px 7px 7px 7px;
+        -moz-border-radius: 7px 7px 7px 7px;
+        -webkit-border-radius: 7px 7px 7px 7px;
+        border: none;
+        /*-webkit-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.75);*/
+        padding: 7px;
+        }
+        .form_title{
+            font-size:19pt;
+            text-decoration:underline;
+        }
+        .form_box{
+            border: solid 1px grey;
+            padding:5px;
+        }
+        .form_subtitle{font-size:13pt;}
+        .selcetion-container{margin-bottom:5px;}
+        .form_end{
+            border: solid 1px #46b8da;
+            padding:5px;
+        }
+        .form_step{margin-top:6px;}
+        .form_step_title{font-size:13pt;}
+
+        #load_page{
+            position:fixed;
+            top:0;
+            lef:0;
+            width:100%;
+            height:100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index:100;
+            display:none;
+        }
+        #load_page.show{
+            display:block;
+        }
+        #load_page #loader_container{
+            position:fixed;
+            top:50%;
+            left:50%;
+            -webkit-transform: translateX(-50%);
+            -webkit-transform: translateY(-50%);
+            transform:translate(-50%,-50%);
+            width:20%;
+            height:300px;
+            min-width:300px;
+            min-height:300px;
+            background-color:#9aa6ad;
+            padding:10px;
+            -webkit-box-shadow: 0px 0px 28px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 0px 28px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 28px 0px rgba(0,0,0,0.75);
+            border-radius: 10px 10px 10px 10px;
+            -moz-border-radius: 10px 10px 10px 10px;
+            -webkit-border-radius: 10px 10px 10px 10px;
+            border: 0px solid #000000;
+        }
+        #load_page #loader_container .title{
+            color:white;
+            font-size:25pt;
+            width:100%;
+            text-align:center;
+        }
+        #load_page #loader_container .sub_title{
+            color:white;
+            font-size:15pt;
+            width:100%;
+            text-align:center;
+            margin-bottom:30px;
+        }
+        .loader {
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 16px solid #3498db;
+          width: 120px;
+          height: 120px;
+          margin:auto;
+        }
+        #load_page.show .loader {
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+        }
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        #page_table {width:100%;}
+        .q th {
+            background: #4484CE;
+            color: white;
+        }
+        .table thead>tr>th{
+            text-align:center;
+            vertical-align:middle;
+        }
+        nav{
+            width:100%;
+            background-color:#fafafa;
+        }
+        #h1_comtainer{text-align: center;}
+        #h1_comtainer *{
+            vertical-align: middle;
+            display: inline-block;
+        }
+        #rules_table td {
+            padding: 2px !important;
+        }
+        @media only screen and (max-width: 1530px){
+            .body{
+                width:70%;
+            }
+        }
+        @media only screen and (max-width: 750px){
+            .body{
+                width:98%;
+            }
+        }
+    </style>
+    <!--<style type="text/css">
+        #MainTabs {
+            border-radius: 0;
+            background: white;
+            padding: 5px;
+        }
+        .subTabs {
+            border: 1px solid #abc;
+            padding: 2px;
+        }
+        .ui-tabs .ui-tabs-panel{padding: 3px;}
+
+        .ui-widget-header {
+            border-radius: 0;
+            background: white;
+            border: none;
+            border-bottom: 1px solid #abc;
+        }
+
+        .ui-widget-content {
+            border-radius: 0;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default {
+            background-color:white;
+            display: inline-block;
+            padding: 15px 25px;
+            text-align: center;
+            color: #abc;
+            border: 1px solid transparent;
+        }
+
+        .ui-state-active, .ui-widget-content .ui-state-active {
+            background-color:white;
+            text-align: center;
+            color: #4484CE;
+            border: 1px solid #abc;
+            border-top: 2px solid #4484CE;
+            border-bottom: 1px solid #4484CE;
+        }
+
+        .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+            color: #4484CE;
+        }
+
+        a:focus {
+            outline: none !important;
+        }
+    </style>-->
+</head>
+<body>
+<div class="relative2">
+  <a href="/food/home"><img src="{% static 'food/icons/food.png' %}" height=100 width=100></a>
+  <p style="text-align: center"><a href="/accounts/login?next=/food/" >login</a>
+  <br><a href="/accounts/logout?next=/accounts/login?next=/food/"  style="float: center">logout</a>
+</div>
+<nav>
+    <div id="h1_comtainer"><img src="{% static 'food/icons/selective.png' %}" height=50 width=50><h1>FoodDB Filter</h1></div>
+</nav>
+<div class="body">
+<section>
+    <form id="mainForm" action="javascript:submit_form();">
+        <div id="loaded_data">
+        </div>
+        <!--<div class="form_box">
+            <lable class="form_subtitle">Open in new tab:</lable>
+            <input id="oint_container" type="checkbox" name="" checked>
+        </div>-->
+        <div class="form_box">
+            <lable class="form_subtitle">Load from already filter data:</lable>
+            <input id="oint_container" type="checkbox" name="load_from_data">
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">Calculate by default unit:</lable>
+            <input id="default_unit" type="checkbox" name="default_unit">
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">root: <ins>(default will be: [food])</ins></lable>
+            <div class="selcetions roots">
+               <div class="selcetion-container">
+                    <select name="root" class="food-select2" required="true">
+                        <option value="1">food</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'root','food-select2',get_food)">Add food to root</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">exclude: <ins>(default will be: [chinese_ingredients, chinese_missing_ingredients, chinese_dishes, ingredients])</ins></lable>
+            <div class="selcetions excludes">
+               <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="1922">chinese ingredients</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="2205">chinese missing ingredients</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="2208">chinese dishes</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="1707">chinese food</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+                <div class="selcetion-container">
+                    <select name="exclude" class="food-select2" required="true">
+                        <option value="1816">ingredients</option>
+                    </select>
+                    <button type="button" onclick="remove_parent(this)"><img src="{% static 'food/icons/delete.png' %}" height=15 width=15></button>
+                </div>
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'exclude','food-select2',get_food)">Add food to exclude</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">filter by food names:</lable>
+            <input type="text" name="food_names" class="form-control" style="width:280px;">
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">node type:</lable>
+            <div class="selcetions node_types">
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'node_type','node_type-select2',get_node_type)">Add Node type</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">attributes:</lable>
+            <div class="selcetions attributes">
+                <div class="selcetion-container">
+                </div>
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'attributes','attribute-select2',get_attribute)">Add attribute</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">nutrients value in range:</lable>
+            <div class="rules">
+                <div class="rule_box">
+                    <table id="rules_table">
+                        <thead>
+                            <tr>
+                                <th>nutrient</th>
+                                <th>min</th>
+                                <th>max</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_rule('rules_table')">Add a rule</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">nutrient 100 highest:</lable>
+            <div class="selcetions nutrients">
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'nutrient_100_hights','nutrients-select2',get_nutrient)">Add Nutrient</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">nutrient 100 lowest:</lable>
+            <div class="selcetions nutrients">
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_selection(this,'nutrient_100_lowest','nutrients-select2',get_nutrient)">Add Nutrient</button>
+            </div>
+        </div>
+        <div class="form_box">
+            <lable class="form_subtitle">nutrient in standard deviations:</lable>
+            <div class="selcetions nutrients">
+            </div>
+            <div class="button-add-container">
+                <button type="button" class="btn btn-secondary" onclick="add_box(this)">Add Nutrient</button>
+            </div>
+        </div>
+        <div class="form_end">
+            <lable class="form_subtitle">Submit Filter</lable>
+            <div class="form_step">
+                <lable class="form_step_title">Step1:</lable>
+                <button type="submit" class="btn btn-info">Load Filter</button>
+                <lable class="form_step_title"><i>~24 sec</i></lable>
+            </div>
+            <div class="form_step">
+                <lable class="form_step_title">Step2:</lable>
+                <button type="button" class="btn btn-success" onclick="download_data()">Download as tsv</button>
+                <button type="button" class="btn btn-success" onclick="show_ata()">Show in table</button>
+            </div>
+        </div>
+    </form>
+</section>
+</div>
+<div id="page_result">
+    <h3>Hier of filter:</h3>
+    <div id="page_text"></div>
+    <h3>Table of filter:</h3>
+    <table id="page_table" style="width: 100%;" class="table table-bordered display q">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div id="load_page">
+    <div id="loader_container">
+        <p class="title">Loading</p>
+        <p class="sub_title">(It can take a while)</p>
+        <div class="loader"></div>
+    </div>
+</div>
+<script>
+    function add_rule(id) {
+        var tbody = $("#"+id+" tbody")[0];
+        var tr = document.createElement("TR");
+        tr.innerHTML = '<td><select name="rule_nutr_id" class="nutrients-select2" required></select></td>\n' +
+            '<td><input type="number" title="-1 for disable" name="rule_min" min="-1" step="0.000001" style="width:80px" value="-1" required></td>\n' +
+            '<td><input type="number" title="-1 for disable" name="rule_max" min="-1" step="0.000001" style="width:80px" value="-1" required></td>\n' +
+            '<td><button type="button" onclick="remove_parent(this.parentNode)"><img src="/static/food/icons/delete.png" height="15" width="15"></button></td>';
+        tbody.appendChild(tr);
+        $('.nutrients-select2').select2(get_nutrient);
+    }
+    //add_rule('rules_table');
+
+    function add_exclude_lan(cell,name) {
+        var conatainer = cell.parentNode.parentNode;
+        var div = document.createElement("DIV");
+        div.classList.add("selcetion-container");
+        var select = document.createElement("SELECT");
+        select.name = name;
+        select.classList.add('exclude_lan-select2');
+        select.setAttribute('required','true');
+        div.appendChild(select);
+        var button = document.createElement("button");
+        button.setAttribute('type','button');
+        button.setAttribute('onclick','remove_parent(this)');
+        button.innerHTML="<img src=\"{% static 'food/icons/delete.png' %}\" height=15 width=15>";
+        div.appendChild(button);
+        conatainer.children[1].appendChild(div);
+        select.innerHTML = '<option value="he">עברית</option>\n' +
+            '<option value="en">English</option>\n' +
+            '<option value="cn">中国</option>';
+    }
+    function remove_parent(cell) {
+        var row = cell.parentNode;
+        row.remove();
+    }
+    function add_selection(cell,name,cls,get_function) {
+        var conatainer = cell.parentNode.parentNode;
+        var div = document.createElement("DIV");
+        div.classList.add("selcetion-container");
+        var select = document.createElement("SELECT");
+        select.name = name;
+        select.classList.add(cls);
+        select.setAttribute('required','true');
+        div.appendChild(select);
+        var button = document.createElement("button");
+        button.setAttribute('type','button');
+        button.setAttribute('onclick','remove_parent(this)');
+        button.innerHTML="<img src=\"{% static 'food/icons/delete.png' %}\" height=15 width=15>";
+        div.appendChild(button);
+        conatainer.children[1].appendChild(div);
+        $(select).select2(get_function);
+    }
+    function add_box(cell) {
+        var conatainer = cell.parentNode.parentNode;
+        var div = document.createElement("DIV");
+        div.classList.add("selcetion-container");
+        var select = document.createElement("SELECT");
+        select.name = 'nutrient_in_std';
+        select.classList.add('nutrients-select2');
+        select.setAttribute('required','true');
+        div.appendChild(select);
+        var int_num = document.createElement("INPUT");
+        int_num.setAttribute('type','number');
+        int_num.setAttribute('name','standard_deviations');
+        int_num.setAttribute('step','0.5');
+        int_num.setAttribute('placeholder','set standard deviations');
+        int_num.classList.add('form-control');
+        int_num.setAttribute('style','width:200px;display: inline-block;margin-left:3px;');
+        int_num.setAttribute('required','true');
+        div.appendChild(int_num);
+        var button = document.createElement("button");
+        button.setAttribute('type','button');
+        button.setAttribute('onclick','remove_parent(this)');
+        button.innerHTML="<img src=\"{% static 'food/icons/delete.png' %}\" height=15 width=15>";
+        div.appendChild(button);
+        conatainer.children[1].appendChild(div);
+        $(select).select2(get_nutrient);
+    }
+    var get_node_type = {minimumInputLength: 1, width:'150px'
+           ,ajax:{
+                url: '/food/node_type_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+    $('.node_type-select2').select2(get_node_type);
+    var get_food = {minimumInputLength: 1, width:'350px'
+           ,ajax:{
+                url: '/food/food_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+        $('.food-select2').select2(get_food);
+    var get_nutrient = {minimumInputLength: 1, width:'150px'
+           ,ajax:{
+                url: '/food/nutrient_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+        $('.nutrients-select2').select2(get_nutrient);
+    var get_attribute = {minimumInputLength: 1, width:'150px'
+           ,ajax:{
+                url: '/food/attribute_list',
+                dataType: 'json',
+                processResults: function(data) {
+                    return {results: data}
+                },
+           },
+           escapeMarkup: function(text){ return text },
+         };
+        $('.attribute-select2').select2(get_attribute);
+    function set_to_all(cell,classname) {
+        var conatainer = cell.parentNode.parentNode;
+        var selections = conatainer.children[1];
+        var data = selections.innerHTML;
+        var selectionsArr = $('.'+classname);
+        for (var i =0;i<selectionsArr.length;i++){
+            var selectionsContainer = selectionsArr[i];
+            selectionsContainer.innerHTML = data;
+        }
+    }
+</script>
+<script>
+    var data = {};
+    var compTable = null;
+    function submit_form() {
+        var form = document.getElementsByTagName('form')[0];
+        var flag = false;
+        document.getElementById("load_page").classList.add("show");
+        $.ajax({
+            type: "POST",
+            url: "/food/fooddb_filter/",
+            data: $(form).serialize(), // serializes the form's elements.
+            success: function (result) {
+                flag = (result['status'] >= 0);
+                if (flag) {
+                    data['food_list'] = result['food_list'];
+                    data['columns'] = result['columns'];
+                    data['text'] = result['text'];
+                    html_fids = "";
+                    arr = data['food_list'];
+                    for (var i=0;i<arr.length && i <500;i++) {
+                        fid = arr[i]['fid'];
+                        html_fids += '<input type="hidden" value="{0}" name="load_from">'.replace('{0}',fid);
+                    }
+                    document.getElementById("loaded_data").innerHTML = html_fids;
+                } else {
+                    alert("Error message:\n" + result['Error']);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("AJAX Error message:\n" + xhr+"\n"+ ajaxOptions+"\n"+ thrownError);
+            },
+            complete: function (data) {
+                document.getElementById("load_page").classList.remove("show");
+                if(flag)
+                    show_ata();
+            }
+        });
+    }
+    function download_data() {
+        arr = data['food_list'];
+        Columns = data['columns'];
+        txt = "";
+        txt += ' '+'\t';
+        for (j in Columns){
+            col = Columns[j];
+            txt += col+'\t';
+        }
+        txt+='\n';
+        for (i in arr){
+            row = arr[i];
+            txt += i+'\t';
+            for (j in Columns){
+                col = Columns[j];
+                t = row[col];
+                if (typeof t == "number" && !Number.isInteger(t))
+                    txt += t.toFixed(3)+'\t';
+                else
+                    txt += t+'\t';
+            }
+            txt+='\n';
+        }
+        download("OUT.tsv",txt);
+    }
+    function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+    function show_ata() {
+        if (compTable != null){
+                compTable.destroy();
+            }
+        arr = data['food_list'];
+        Columns = data['columns'];
+        head="<tr>";
+        head += "<th>id</th>";
+        for (j in Columns){
+            col = Columns[j];
+            while (col.indexOf("_")>=0)
+                col = col.replace("_"," ");
+            head += "<th>"+col+"</th>";
+        }
+        head += "</tr>";
+        document.getElementById("page_table").getElementsByTagName("thead")[0].innerHTML = head;
+        body="";
+        for (i in arr){
+            row = arr[i];
+            body += "<tr>";
+            body += "<td>"+i+"</td>";
+            for (j in Columns){
+                body+= "<td>";
+                col = Columns[j];
+                t = row[col];
+                if (typeof t == "number" && !Number.isInteger(t)){
+                    if (t<0.1)
+                        t = t.toExponential(2);
+                    else
+                        t = t.toFixed(3);}
+                if (col.indexOf('fid') >=0)
+                {
+                    if ((t+"").indexOf("#")>=0)
+                    {
+                        linkArr = (t+"").split("#");
+                        t = "<a href='../"+linkArr[0]+"' target=\"_blank\">"+linkArr[0]+"</a>";
+                        for (var i =1;i<linkArr.length;i++){
+                            t += ", "+"<a href='../"+linkArr[i]+"' target=\"_blank\">"+linkArr[i]+"</a>";
+                        }
+                    }
+                    else {
+                        t  = "<a href='../"+t+"' target=\"_blank\">"+t+"</a>"
+                    }
+                }
+                body += t;
+                body+= "</td>";
+            }
+            body+= "</tr>";
+        }
+        txt = data['text'];
+        document.getElementById('page_text').innerHTML = txt;
+        document.getElementById("page_table").getElementsByTagName("tbody")[0].innerHTML = body;
+        compTable = $('#page_table').DataTable( {"columnDefs": [ { "targets": "_all", "searchable": true } ], "order": [[ 0, "asc" ]] });
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#page_result").offset().top
+            }, 0);
+    }
+</script>
+</body>
+</html>
