@@ -1,0 +1,2 @@
+tail -n 25 /var/log/apt/history.log
+#https://serverfault.com/questions/175504/how-do-i-get-the-history-of-apt-get-install-on-ubuntu

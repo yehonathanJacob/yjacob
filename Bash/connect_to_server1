@@ -1,0 +1,2 @@
+ssh server1
+#IF dosn't work, check your instancs and public ip on https://us-east-2.console.aws.amazon.com/ec2/home?region=us-east-2#Instances:sort=monitoring
