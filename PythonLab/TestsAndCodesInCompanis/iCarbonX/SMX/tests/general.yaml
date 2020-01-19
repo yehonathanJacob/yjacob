@@ -1,0 +1,87 @@
+work_flow:
+  number_of_sets: 3
+  exercises_per_set : 4
+  groups_flow : ["cardio", "cardio", "balance", "upper_body", "cardio", "balance", "cardio", "cardio", "upper_body", "balance", "cardio", "flexibility"]
+  flow_duration : 900
+  groups:
+    cardio: ["jumping_jack", "jump", "jump_high_knees", "squat", "deep_squat", "lunges"]
+    balance: ["balance", "balance_eyes_closed", "leg_to_side", "leg_to_side_eyes_closed"]
+    flexibility: ["stretch", "ankle_to_toe"]
+    upper_body: ["hands_up", "hands_down", "hands_out"]
+  categories:
+    cardio: ["jumping_jack", "jump", "jump_high_knees", "squat", "deep_squat", "lunges"]
+    balance: ["balance", "balance_eyes_closed", "leg_to_side", "leg_to_side_eyes_closed"]
+    flexibility: ["stretch", "ankle_to_toe"]
+    upper_body: ["hands_up", "hands_down", "hands_out"]
+exercises:
+  jumping_jack:
+    ranks: [1, 60.4, 75.25, 90.1, 100]
+    repeats: [5, 20, 40, 52, 72]
+    durations: [10, 22, 35, 45, 60]
+  jump :
+    ranks: [21, 40.75, 60.5, 80.25, 100]
+    repeats: [5, 17, 25, 55, 75]
+    durations: [10, 20, 25, 50, 60]
+  jump_high_knees:
+    ranks: [71, 78.25, 85.5, 92.75, 100]
+    repeats: [6, 12, 25, 45, 75]
+    durations: [20, 24, 35, 53, 60]
+  squat:
+    ranks: [1, 60.4, 70.3, 82.18, 100]
+    repeats: [4, 15, 22, 45, 80]
+    durations: [10, 30, 30, 48, 60]
+  deep_squat:
+    ranks: [71, 78.25, 85.5, 92.75, 100]
+    repeats: [8, 12, 22, 45, 65]
+    durations: [10, 21, 32, 48, 60]
+  lunges:
+    ranks: [31, 48.25, 65.5, 82.75, 100]
+    repeats: [6, 12, 18, 25, 35]
+    durations: [10, 30, 43, 51, 60]
+    two_sides: True
+  balance:
+    ranks: [1, 25.75, 50.5, 75.25, 100]
+    repeats:
+    durations: [10, 15, 20, 25, 30]
+    two_sides: True
+  balance_eyes_closed :
+    ranks: [51, 63.25, 75.5, 87.75, 100]
+    repeats:
+    durations: [10, 15, 20, 25, 30]
+    two_sides: True
+    closed_eyes: True
+  leg_to_side:
+    ranks: [21, 40.75, 60.5, 80.25, 100]
+    repeats:
+    durations: [10, 15, 20, 25, 30]
+    two_sides: True
+  leg_to_side_eyes_closed:
+    ranks: [61, 70.75, 80.5, 90.25, 100]
+    repeats:
+    durations: [10, 15, 20, 25, 30]
+    two_sides: True
+    closed_eyes: True
+  stretch:
+    ranks: [1, 50.5, 70.3, 85.15, 100]
+    repeats:
+    durations: [15, 20, 30, 50, 60]
+  ankle_to_toe:
+    ranks: [31, 48.25, 65.5, 82.75, 100]
+    repeats:
+    durations: [10, 15, 20, 25, 30]
+    two_sides : True
+  hands_up:
+    ranks: [1, 50.5, 75.25, 85.15, 100]
+    repeats: [6, 10, 22, 32, 30]
+    durations: [12, 14, 32, 40, 27]
+    weights_required : True
+  hands_down:
+    ranks: [1, 50.5, 75.25, 85.15, 100]
+    repeats: [6, 10, 22, 32, 30]
+    durations: [12, 14, 32, 40, 27]
+    weights_required : True
+  hands_out:
+    ranks: [1, 50.5, 75.25, 85.15, 100]
+    repeats: [6, 10, 22, 32, 30]
+    durations: [12, 14, 32, 40, 27]
+    weights_required : True
