@@ -1,0 +1,122 @@
+{% load static %}
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <style>
+        div#link_container {
+            display: inline-block;
+            width: 310px;
+        }
+        div#link_container * {
+            vertical-align: middle;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            text-decoration: none;
+            outline: none;
+        }
+        a.link_a {
+            width: 100%;
+            display: inline-block;
+            text-align: left;
+            padding-left: 5px;
+            border: solid 2px;
+            margin: 5px 0;
+            color: #2874A6;
+            font-family: sans-serif;
+            font-size: 100%;
+            border-radius: 8px;
+        }
+        a.link_a img {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+        }
+        a.link_a p {
+            width: 270px;
+            display: inline-block;
+            padding: 7px;
+            margin: 0;
+            margin-left: 2px;
+            border-left: groove 1px black;
+        }
+    </style>
+</head>
+<body>
+
+  <p> &nbsp; </p><p> &nbsp; </p>
+  <h1 align="center">Welcome to FoodDB! <img src="{% static 'food/icons/food.png' %}"  align="middle" height=100 width=100></h1>
+  <p> &nbsp; </p><p> &nbsp; </p>
+
+  <div align="center">
+
+    <form method="post" action="/food/go_to_food">
+
+        <label for="search-select2">Food Name:</label>
+        <select id="search-select2" style="width:500px" name="fid" required>
+          <option value=""></option>
+        </select><input type="submit" value="Go To Food">
+        <script>
+          $('#search-select2').select2({minimumInputLength: 1, width:'450px'
+               ,ajax:{
+                    url: '/food/food_list',
+                    dataType: 'json',
+                    processResults: function(data) {
+                        return {results: data}
+                    },
+               },
+               escapeMarkup: function(text){ return text },
+          });
+        </script>
+
+    </form>
+    <a href="/food/"><img src="/static/food/icons/hier.png" width="40" height="auto"  align="middle" >The Hierarchy </a>
+  <p> &nbsp; </p><p> &nbsp; </p>
+
+
+<p>     <!--<a href="/food/missing_nutrition">View foods with missing nutrition facts</a>-->
+    <!-- <br>     <a href="/food/missing_units">View foods with missing units data</a>
+    <br>     <a href="/food/missing_serving_size">View foods with missing serving size data</a>  -->
+    <div id="link_container">
+        <!--<a class="link_a" href="/food/missing_nutrition">View foods with missing nutrition facts</a>-->
+        <a class="link_a" href="/food/foods_csv"><img src="{% static 'food/icons/hier.png' %}"><p>Download hierarchy csv</p></a>
+        <a class="link_a" href="/food/foods_csv_serving"><img src="{% static 'food/icons/dinner.png' %}"><p>Download serving size data</p></a>
+        <a class="link_a" href="/food/foods_csv_classification"><img src="{% static 'food/icons/sheets.png' %}"><p>Download classification summary</p></a>
+        <a class="link_a" href="/food/fooddb_queries"><img src="{% static 'food/icons/pros-and-cons.png' %}"><p>Go to the FoodDB queries</p></a>
+        <a class="link_a" href="/food/fooddb_filter"><img src="{% static 'food/icons/selective.png' %}"><p>Go to the FoodDB filter</p></a>
+        <a class="link_a" href="/food/activityLog"><img src="{% static 'food/icons/server.png' %}"><p>Go to the FoodDB history audit</p></a>
+        <a class="link_a" href="/food/barcode_scanner"><img src="{% static 'food/icons/barcode.png' %}"><p>Go to the Barcode scanner</p></a>
+    </div>
+    <!--<br><a href="/food/foods_csv">Download hierarchy csv</a>
+    <br><a href="/food/foods_csv_serving">Download serving size data </a>
+    <br><a href="/food/foods_csv_classification">Download classification summary </a>
+    <br><a href="/food/fooddb_queries">Go to the FoodDB queries </a>
+    <br><a href="/food/fooddb_filter">Go to the FoodDB filter </a>
+    <br><a href="/food/activityLog">Go to the FoodDB history audit </a>-->
+
+  <p> &nbsp; </p><p> &nbsp; </p>
+
+  <br><a href="/food/update_nutrients">Refresh Nutrients</a>
+
+  <p> &nbsp; </p><p> &nbsp; </p>
+
+<p>
+        <a href="/accounts/login?next=/food/">login</a>                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/accounts/logout?next=/accounts/login?next=/food/" >logout</a>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/admin/" >admin</a> 
+</p>
+</div>
+</body>
+</html>

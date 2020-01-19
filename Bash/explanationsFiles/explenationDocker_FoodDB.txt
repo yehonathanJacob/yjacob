@@ -1,0 +1,32 @@
+http://wiki.icx-il.local
+
+ssh prod@icx1
+
+== Production
+ssh foods.icx-il.com
+cd ~/icx
+
+branch release-fooddb
+crontab -l #for see all crontab
+crontab # for creating new crontab
+crontab $FOODDB_ROOT/conf/fooddb/crontab # for re-create foodDB crontab
+
+-- merge to release-fooddb
+-- git pull
+
+
+docker-compose -f $FOODDB_ROOT/docker/docker-compose.fooddb.prod.yml down
+docker-compose -f $FOODDB_ROOT/docker/docker-compose.fooddb.prod.yml build
+docker-compose -f $FOODDB_ROOT/docker/docker-compose.fooddb.prod.yml up -d
+
+== Test
+ssh foods-test.icx-il.com
+cd ~/icx
+
+branch master
+crontab -l
+
+
+docker-compose -f $FOODDB_ROOT/docker/docker-compose.fooddb.test.yml down
+docker-compose -f $FOODDB_ROOT/docker/docker-compose.fooddb.test.yml up -d
+docker-compose -f $FOODDB_ROOT/docker/docker-compose.fooddb.test.yml logs -f
