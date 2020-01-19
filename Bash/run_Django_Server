@@ -1,0 +1,54 @@
+#!/bin/bash
+echo "Creating an enviroment:"
+DB="prod"
+ROOT=2412
+function usage()
+{
+    echo "if this was a real script you would see something useful here"
+    echo ""
+    echo "./simple_args_parsing.sh"
+    echo "\t-h --help"
+    echo "\t-db=$DB"
+    echo "\t-root=$ROOT"
+    echo ""
+}
+
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    VALUE=`echo $1 | awk -F= '{print $2}'`
+    case $PARAM in
+        -h | --help)
+            usage
+            exit
+            ;;
+        --db)
+            DB=$VALUE
+            ;;
+        --root)
+            ROOT=$VALUE
+            ;;
+        *)
+            echo "ERROR: unknown parameter \"$PARAM\""
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+
+echo "ROOT: $ROOT";
+echo "DB:  $DB";
+source ~/myEnv/foodDB_Py3/bin/activate
+echo "Env: ~/myEnv/foodDB_Py3"
+cd ~/icx/tools/image/food/FoodDB/ui/;
+printf "run over branch: "
+git branch | grep \* | cut -d ' ' -f2
+echo "directory: ~/icx/tools/image/food/FoodDB/ui/"
+if [ $DB == "prod" ]; then
+	export DJANGO_SETTINGS_MODULE=ui.settings
+else
+	export DJANGO_SETTINGS_MODULE=ui.settings_$DB
+fi
+echo "DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE"
+python3 manage.py runserver 0:$ROOT

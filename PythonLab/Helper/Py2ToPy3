@@ -1,0 +1,13 @@
+print "" -> print("")
+a = [...] -> a= list([...])
+for .. dic.iteritems() -> for .. dic.items()
+fic.iterkeys() -> fic.keys()
+class name123: -> class name123(object):
+lambda (fid, unit_id, weight): weight == -> lambda fid_unit_id_weight: fid_unit_id_weight[2] ==
+unicode(...) -> str(...)
+raw_input(...) -> eval(...)
+a = zip(...) -> a = list(zip(...))
+int/int -> old_div(int,int)
+cPickle -> pickle
+cStringIO -> io
+StringIO -> BytesIO

@@ -1,0 +1,16 @@
+sudo docker ps //מראה את כל הדוקרים החיים כרגע
+sudo docker build . -f Dockerfile.fooddb //יוצר את הדוקר מהתקיה הנוכחית
+sudo docker images // מראה את כל הדוקרים הנוכחיים הקיימים
+sudo docker tag  e6d505f5def7  test:test // מקשר את הדוקר עם השם הנ"ל לתגית ושם הנוכחי
+sudo docker run -it test:test  bash // מריץ את הדוקר בלי פוקדות הבאש
+
+
+#### Virtualenv
+# Create
+virtualenv "name_of_env"
+# Create with default Python
+virtualenv -p python3.6 "name_of_env"
+# Connect to env
+source /path/to/env/../bin/activate
+# Disconnect
+deactivate
