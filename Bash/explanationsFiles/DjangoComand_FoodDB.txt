@@ -1,0 +1,113 @@
+python3 -m pip install django
+python3 -m pip install djangoproject
+python3 -m pip install pygments
+
+django-admin // פקודה בטרמינל שמראה כל מה שאפשר ליצור עם המערכת הזו
+django-admin startproject tutrial_django // פקודה ליצירת פרויקט חדש בשם tutrial_django
+cd tutrial_django/ //כניסה לפרויקט
+python3 manage.py runserver //פקודה להצרת השרת
+
+python3 manage.py startapp blog1 // יצירת מודל חדש
+
+python3 manage.py makemigrations // הכנת כל המסדי נתונים לקראת שמירה
+python3 manage.py migrate //שמירת כל השינויים במסדי נתונים
+python3 manage.py createsuperuser //יצירת משתמש ראשוני
+
+python3 manage.py sqlmigrate blog 0001
+
+
+
+python manage.py shell
+>>> from food.models import Food
+>>> a = Food.objects.all()
+>>> len(a)
+22085
+>>> from food.models import FoodAttributes
+>>> a = FoodAttributes.objects.all()
+>>> a[20].attr
+<Attribute: HIGH PROTEIN FOOD>
+
+python3 manage.py shell
+>>> from blog1.models import Post
+>>> Post.objects.all()
+<QuerySet []>
+>>> from django.contrib.auth.models import User
+>>> post_1 = Post(title='my first blog', content = 'some text for the content', author = User.objects.first())
+>>> post_1.save()
+>>> Post.objects.all()<QuerySet [<Post: my first blog>]>
+>>> user = User.objects.filter(username='yjacob').first()
+>>> user.post_set.all()
+<QuerySet [<Post: my first blog>]>
+#for updataing:
+>>> ps.author = us2
+>>> ps.save()
+
+
+# Modify db scheme:
+psql -h pgsql -U food
+e.g.:
+ALTER TABLE food add liquid_loss double precision
+# add sql code to:
+~/icx/tools/image/food/FoodDB/sql/sql
+
+# Modify django accordingly:
+export FOODDB_POSTGRES_HOST=pgsql
+cd $ICX_ROOT/tools/image/food/FoodDB/ui
+python manage.py inspectdb > ~/tmp
+# compare output to models.py and update required code
+E.g: grep -A15 -B10 "food_qattributes" ~/tmp
+
+# update test:
+psql -h  foods-test.icx-il.com -U food
+run sql command as written in ~/icx/tools/image/food/FoodDB/sql/sql
+git commit models.py and ~/icx/tools/image/food/FoodDB/sql/sql
+Pull request and merge to master
+
+# update production:
+psql -h foods.icx-il.com -U food
+Ask Alex to deploy to production
+
+#=============================================================
+Up docker:
+cd $ICX_ROOT
+docker-compose -f docker-compose.fooddb.local.yml up
+
+Run server:
+manage.py runserver 0:8123
+
+export FOODDB_POSTGRES_HOST=foodstest.icx-il.com
+export FOODDB_POSTGRES_HOST=foods.icx-il.com
+
+python $ICX_ROOT/tools/image/food/FoodDB/scripts/which_db.py
+
+export DJANGO_SETTINGS_MODULE=ui.settings_dev
+
+
+psql -h foods.icx-il.com -U food          #prod
+psql -h foods-test.icx-il.com -U food     #test
+psql -h pgsql -U food                     #dev
+
+grep -A15 "class Food(" ~/tmp
+
+to add ICX-TOOLS:
+vi .bashrc
+i
+# .bashrc
+export ICX_ROOT=/zzp/home/yjacob/icx
+:wq
+
+exclude_chinese =True
+inherit_com_spe, children_dict = update_food_nutrients(exclude_chinese=exclude_chinese, reference_node_type=1,enable_update=False)
+food==16978 and child==2145 True
+nut = 115
+
+ALTER TABLE food_qattributes ALTER COLUMN id SET DEFAULT nextval('food_qattributes_id_seq'::regclass);
+
+test API:
+
+@pytest.mark.django_db
+def test_1(client):
+    params = {u'database': [u'Tzameret'], u'queryName': [u'find_usda_reference_more_one_food'], u'alow_parent': [u'on']}
+    response = client.post('/food/fooddb_queries/', params)
+    data = json.loads(response.content, 'utf-8')
+    assert 1==2-1

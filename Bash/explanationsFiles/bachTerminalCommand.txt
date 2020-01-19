@@ -1,0 +1,55 @@
+הצגת כלל הקבצים
+ll
+הגעה אל תקיית בית
+cd ~
+הצגת הנתיב הנתון
+pwd
+יצירת נתיב (תקיה) חדש
+mkdir repos
+הגעה לנתיב ספציפיexport ICX_ROOT=/home/yjacob/icx
+cd repos
+יצירת מפתח SHH חדש
+ssh-keygen -t rsa -b 4096 -C "yjacob@icx-il.com"
+חשיפת מפתח הSHH
+eval "$(ssh-agent -s)"
+הוספה לנתיב
+ssh-add ~/.ssh/id_rsa
+עריכת קובץ
+vi ~/.ssh/id_rsa.pub
+
+מתן אפשרות להרצת קובץ bash חדש על השרת
+chmod +x file_name
+chmod 755 file_name
+
+חיפוש בתוך קובץ
+grep -A15 "class Food(" ~/tmp
+
+tree // פקודת לינוקס לראות את כלל הקבצים בתיקיה
+
+sudo mkdir -p /zzp/data
+sudo mkdir -p /zzp/home/yjacob
+חיבור לשרת מרוחקattributes
+ssh yjacob@icx10
+התנתקום משרת מרוחק
+exit
+
+חיבור תמידי גם לאחר ניתוק אינטרנט
+tmux
+חיבור מחדש
+tmux attach
+
+
+נתיב השרת
+ll /zzp
+ll /zzp/home/yjacob/
+ll /zzp/data/
+cd /zzp/data/
+
+
+vi ~/.bashrc
+:q
+:w
+nano ~/.bashrc
+
+
+terminal background color: #3B4960

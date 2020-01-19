@@ -1,0 +1,30 @@
+#FROM python:2.7
+FROM centos:centos7
+
+#### Install ffmpeg
+RUN yum -y install epel-release
+RUN yum install -y gcc python3-devel enchant
+
+#### Install pip and utils
+RUN yum install -y python3-pip wget less htop
+RUN pip3 install --upgrade pip setuptools
+
+RUN mkdir /FoodDB && \
+    mkdir /icx && \
+    mkdir /conf && \
+    mkdir /auth
+
+ADD FoodDB/requirements.txt /conf/
+ADD FoodDB/authentication/ /auth/
+
+RUN pip3 install -r /conf/requirements.txt
+
+ADD . /icx
+
+ENV ICX_ROOT /icx
+ENV FOODDB_ROOT /FoodDB
+ENV PYTHONPATH /FoodDB/ui
+
+WORKDIR /FoodDB/ui
+
+CMD bash -c "python3 manage.py collectstatic --no-input && gunicorn ui.wsgi -b 0.0.0.0:8000 --workers=16 --reload --timeout 120"

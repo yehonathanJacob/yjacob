@@ -1,0 +1,10 @@
+
+ICX_ROOT=/home/alex/icx
+FOODDB_ROOT=/home/alex/FoodDB
+LC_ALL=C
+SHELL=/bin/tcsh
+
+
+00 02 * * * /home/alex/FoodDB/scripts/backup.csh
+*/10 * * * * python3.7 /home/alex/FoodDB/scripts/update_food_nutrients.py >& /tmp/out.update_food_nutrients
+
