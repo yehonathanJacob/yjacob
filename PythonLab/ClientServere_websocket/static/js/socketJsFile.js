@@ -1,6 +1,6 @@
 var socket = null;
 $(function() {
-  socket = new WebSocket(`${websocket_protocol}://${host}:${port}/socketHandler`);
+  socket = new WebSocket(`${websocket_protocol}://${base_url}/socketHandler`);
   socket.onopen = () => socket.send(JSON.stringify({"name":UserName}));
 
   socket.onmessage = function(message) {
