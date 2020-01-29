@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign in</title>
+    <meta charset="UTF-8">
+    <base href="{{html_protocol}}://{{host}}:{{port}}">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/sign.css?v=1" type="text/css" >
+</head>
+<body>
+<form action="/home" method="get">
+    <h1>Welcome</h1>
+    <div class="form-group">
+        <input type="text" id="UserName" name="UserName" class="form-control" placeholder="User name" required="yes">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+</body>
+</html>
