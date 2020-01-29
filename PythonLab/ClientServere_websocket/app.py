@@ -13,7 +13,7 @@ sockets = Sockets(app)
 global UsersSockets, UsersDict
 
 parser = argparse.ArgumentParser(description='Process some integers.')
-parser.add_argument('--port', '-p', help='port to lissen server on', default=5443)
+parser.add_argument('--port', '-p', type=int, help='port to lissen server on', default=5443)
 parser.add_argument('--host', help='host to connect server to', default='0.0.0.0')
 parser.add_argument('--html_protocol', default='http')
 parser.add_argument('--web_socket_protocol', default='ws')
