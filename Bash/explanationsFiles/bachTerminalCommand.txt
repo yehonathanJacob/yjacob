@@ -6,6 +6,10 @@ cd ~
 pwd
 יצירת נתיב (תקיה) חדש
 mkdir repos
+.bashrc קובץ שמורץ בכל פתיחת טרמינל
+less <file name> הצגת תמצות של קובץ אם אופצית גרירה
+cat <file name> הדפסת קובץ לפלט הסטנדרטי
+nano/vi <file name> שתי תוכנות לעריכת קבצי טקסט
 הגעה לנתיב ספציפיexport ICX_ROOT=/home/yjacob/icx
 cd repos
 יצירת מפתח SHH חדש
