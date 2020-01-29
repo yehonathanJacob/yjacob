@@ -3,7 +3,7 @@
 <head>
     <title>Home</title>
     <meta charset="UTF-8">
-    <base href="{{html_protocol}}://{{host}}:{{port}}">
+    <base href="{{html_protocol}}://{{base_url}}">
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -46,12 +46,11 @@
     <script>
         const  html_protocol = "{{html_protocol}}";
         const  websocket_protocol = "{{web_socket_protocol}}";
-        const  host = "{{host}}";
-        const  port = "{{port}}";
+        const  base_url = "{{base_url}}";
         const  UserName = "{{UserName}}";
         var    UserId = "{{UserId}}";
     </script>
     <script src="static/js/basic.js?v=1.1"></script>
-    <script src="static/js/socketJsFile.js?v=1.3"></script>
+    <script src="static/js/socketJsFile.js?v=1.4"></script>
 </body>
 </html>
