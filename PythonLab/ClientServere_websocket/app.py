@@ -28,14 +28,14 @@ web_socket_protocol = args.web_socket_protocol
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    base_url = f"{host}:{port}" if not 'HTTP_HOTS' in request.environ else request.environ['HTTP_HOTS']
+    base_url = f"{host}:{port}" if not 'HTTP_HOST' in request.environ else request.environ['HTTP_HOST']
     data = {"html_protocol": html_protocol,"base_url":base_url}
     return render_template('sign.html',**data)
 
 @app.route('/home', methods=['GET'])
 def home():
     reqArgs = request.args.to_dict()
-    base_url = f"{host}:{port}" if not 'HTTP_HOTS' in request.environ else request.environ['HTTP_HOTS']
+    base_url = f"{host}:{port}" if not 'HTTP_HOST' in request.environ else request.environ['HTTP_HOST']
     UserName = reqArgs.get("UserName","No name")
     data = {"html_protocol": html_protocol,
             "base_url":base_url,
