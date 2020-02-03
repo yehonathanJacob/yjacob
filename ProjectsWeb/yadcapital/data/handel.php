@@ -2,23 +2,19 @@
 // Handling data in JSON format on the server-side using PHP
 //
 
-
-// echo $_POST['To'].'dasdasd';
-// // header("Content-Type: application/json");
-// // // build a PHP variable from JSON sent using POST method
-// // // $v = json_decode(stripslashes(file_get_contents("php://input")));
-// // // build a PHP variable from JSON sent using GET method
-// // $v = json_decode(stripslashes($_POST["data"]));
-// // // encode the PHP variable to JSON and send it back on client-side
-// // echo json_encode($v)."GET";
-
-
 function end_seccion($status){
     $response = array();
 	$response['posts'] = $status;
 	$v = json_encode($response);
 	echo $v;
 	die();
+}
+function render_php($path,array $args){
+    ob_start();
+    include($path);
+    $var=ob_get_contents(); 
+    ob_end_clean();
+    return $var;
 }
 
 header("Content-Type: application/json");
@@ -54,4 +50,23 @@ if ($actionOn == "json")
 	end_seccion('Data was saved on server!');
 }
 
+if ($actionOn == "test" || $actionOn == "production"){
+	if ($actionOn == "test"){
+		$args = array('URL' => 'http://test.yadcapital.com', 'directory' => '../test/files/');
+	}
+	if ($actionOn == "production"){
+		$args = array('URL' => 'https://yadcapital.com', 'directory' => '../files/');
+	}
+	$fileIndexName = 'index.html';
+
+	$HTML_PAGE = render_php('render.php', $args);
+
+	$fHtml = fopen($args['directory'].$fileIndexName, 'w');
+	fwrite($fHtml, $HTML_PAGE);
+	fclose($fHtml);
+
+	end_seccion($actionOn.' was update. The uploaded data was save also.');	
+}
+
+end_seccion('Action was not found.');
 ?>
