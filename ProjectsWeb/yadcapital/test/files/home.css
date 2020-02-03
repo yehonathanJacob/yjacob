@@ -230,7 +230,6 @@ nav #buttonsContainer button.selected{
 	color:#00305B;
 	font-size:140%;
 }
-.RealEs.form .dataText p{white-space: pre-wrap;}
 .RealEs.form .dataText{padding-bottom:15px;}
 .RealEs .RealEsData{margin: 0 0 10px 0;}
 .RealEs .DataLine .before{display:inline-block;width:110px;}
@@ -352,11 +351,6 @@ border: 0px solid #000000;
 	background-color:gray;
 	color:white;
 	border:solid 1px black;
-}
-.press .dataText p br{
-	content: "A" !important;
-    display: block !important;
-    margin-bottom: 0.6em !important;
 }
 .BioCard .modal-header .media-body, .modal-header .media-right{
 	vertical-align:middle;

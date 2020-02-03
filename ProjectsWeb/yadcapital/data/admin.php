@@ -11,15 +11,18 @@ if ( !isset($_POST['thisPS']) || !isset($_POST['thisUS'])){
 
 $fileName = 'datafile.json';
 $contents = file_get_contents('../data/'.$fileName);
+
 $data = json_decode($contents,true);
 
 if ($_POST['thisPS'] != $data['password'][0] || $_POST['thisUS'] != $data['username'][0]){
  	go_to_log_in('?status=wrong');
 }
 
-$cookie_name = "jsonData";
-$cookie_value = $contents;
-setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+// $cookie_name = "jsonData";
+// $cookie_value = $contents;
+// //setcookie($cookie_name, str_replace('\n',"<br>",$contents), time()+1500);
+// $compressedJSON = gzdeflate($json, 9);
+// setcookie('json', $compressedJSON);
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +36,7 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- <link href="images/ico_small.jpg" rel="icon" type="../image/ico_small.jpg"> -->
     <!-- <link href="images/ico_small.jpg" rel="shortcut icon" type="../image/ico_small.jpg"> -->
-    <link rel="stylesheet" href="../files/render.css?v=0.1">
+    <link rel="stylesheet" href="../files/render.css?v=0.2">
     <style type="text/css">
 
     </style>
@@ -50,109 +53,121 @@ setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
       <p><u><i>{{[underline & italic text]}}</i></u></p>   
   </div>
 </div>
-<form>
-    <input type="hidden" name="oldPs" value="<?php echo $data['password'][0]; ?>">
-    <input type="hidden" name="oldUs" value="<?php echo $data['username'][0]; ?>">
-    <div class="form-group">    
-        <div class="page_title">Log in page</div>
-        <label >User deails
-        </label><input type="text" class="form-control" name="username" placeholder="Enter username" title="username" value="" style="width:49%; margin-right:1%;"><input type="password" class="form-control" name="password" title="password" placeholder="Enter password" value="" style="width:50%;">
-    </div>
-    <div class="form-group">    
-        <div class="page_title">Legal Disclaimer</div>
-        <label>Legal Disclaimer text</label>
-        <textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="legal_disclaimer"></textarea>
-    </div>
-    <div class="form-group">
-        <div class="page_title">About</div>
-        <label>Info text</label>
-        <textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="about"></textarea>
-    </div>
-    <div class="form-group">    
-        <div class="page_title">Merchant Cash Advance</div>
-        <label>MCA head</label>
-        <textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="MCA_head"></textarea>
-        <label>MCA Funding</label>
-        <div class="form_box_container" id="mca_funding_box"><!-- 
-            <div class="form_box_input"><div class="form_box_input_data"><input type="text" class="form-control" name="mca_funcding_title" placeholder="Enter title" title="mca_funcding_title" value=""><textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="mca_funcding_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
-         --></div>
-        <button class="btn btn-secondary" type="button" onclick="add_box_input('mca_funding_box')">Add MCA funding</button>
-        <label>MCA Balls</label>
-        <div class="form_box_container" id="mca_ball_box"><!-- 
-            <div class="form_box_input"><div class="form_box_input_data"><input type="text" class="form-control" name="mca_ball_title" placeholder="Enter title" title="mca_ball_title" value="" style="width: 49%; margin-right:1%;"><input type="text" class="form-control" name="mca_ball_text" placeholder="Enter text" title="mca_ball_text" value="" style="width: 50%;"></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
-         --></div>
-        <button class="btn btn-secondary" type="button" onclick="add_box_input('mca_ball_box')">Add MCA ball</button>
-    </div>
-    <div class="form-group">    
-        <div class="page_title">Real Estate Debt</div>
-        <label>RED head</label>
-        <textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="RED_head"></textarea>
-        <label>RED cards</label>
-        <div class="form_box_container" id="red_card_box"><!-- 
-            <div class="form_box_input"><div class="form_box_input_data"><input type="text" class="form-control" name="red_card_title" placeholder="Enter title" title="red_card_title" value="" style="width: 49%; margin-right:1%;"><input type="text" class="form-control" name="red_card_text" placeholder="Enter text" title="red_card_text" value="" style="width: 50%;"><input type="text" class="form-control" name="red_card_bottom" placeholder="Enter bottom text" title="red_card_bottom" value="" style="width: 49%; margin-right:1%;"></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
-         --></div>
-        <button class="btn btn-secondary" type="button" onclick="add_box_input('red_card_box')">Add RED cards</button>        
-    </div>
-    <div class="form-group">    
-        <div class="page_title">Team</div>
-        <label>Team cards</label>
-        <div class="form_box_container" id="team_card_box"><!-- 
-            <div class="form_box_input"><div class="form_box_input_data"><input type="url" class="form-control" name="team_card_img" placeholder="Enter image url" title="team_card_img" value=""><input type="text" class="form-control" name="team_card_name" placeholder="Enter full name" title="team_card_name" value="" style="width: 49%; margin-right:1%;"><input type="text" class="form-control" name="team_card_title" placeholder="Enter full title" title="team_card_title" value="" style="width: 50%;"><input type="url" class="form-control" name="team_card_linkedin" placeholder="Enter linkedin URL" title="team_card_linkedin" value="" style="width: 49%; margin-right:1%;"><input type="email" class="form-control" name="team_card_email" placeholder="Enter email address" title="team_card_email" value="" style="width: 50%;"><textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter BIO" name="team_card_bio"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
-         --></div>
-        <button class="btn btn-secondary" type="button" onclick="add_box_input('team_card_box')">Add Team cards</button>
-    </div>
-    <div class="form-group">    
-        <div class="page_title">Press Release</div>
-        <label>Press section</label>        
-        <div class="form_box_container" id="press_section_box"><!-- 
-            <div class="form_box_input"><div class="form_box_input_data"><textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter data" name="press_section_data"></textarea><input type="url" class="form-control" name="press_section_url" placeholder="Enter read more url" title="press_section_url" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
-            </div>
-         --></div>
-        <button class="btn btn-secondary" type="button" onclick="add_box_input('press_section_box')">Add press section</button>        
-    </div>
-    <div class="form-group">    
-        <div class="page_title">Contact</div>
-        <label>Contact emails</label>        
-        <div class="form_box_container" id="contact_email_box"><!-- 
-            <div class="form_box_input"><div class="form_box_input_data"><input type="email" class="form-control" name="contact_email_mail" placeholder="Enter email address" title="contact_email_mail" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
-            </div>
-         --></div>
-        <button class="btn btn-secondary" type="button" onclick="add_box_input('contact_email_box')">Add contact email</button>        
-        <label >Location
-        </label><input type="text" class="form-control" name="address_text" placeholder="Enter address text" title="address_text" value="" style="width:49%; margin-right:1%;"><input type="text" class="form-control" name="address_pointer" title="address_pointer" placeholder="Enter pointer (example: 40.7629384,-73.978958)" value="" style="width:50%;">
-    </div>
+<form action="javascript:;" id="theForm">
+    <div id="form_body">
+        <input required="yes" type="hidden" name="oldPs" value="<?php echo $data['password'][0]; ?>">
+        <input required="yes" type="hidden" name="oldUs" value="<?php echo $data['username'][0]; ?>">
+        <div class="form-group">
+            <div class="page_title">Log in page</div>
+            <label >User deails
+            </label><input required="yes" type="text" class="form-control" name="username" placeholder="Enter username" title="username" value="" style="width:49%; margin-right:1%;"><input required="yes" type="password" class="form-control" name="password" title="password" placeholder="Enter password" value="" style="width:50%;">
+        </div>
+        <div class="form-group">
+            <div class="page_title">Legal Disclaimer</div>
+            <label>Legal Disclaimer text</label>
+            <textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="legal_disclaimer"></textarea>
+        </div>
+        <div class="form-group">
+            <div class="page_title">About</div>
+            <label>Info text</label>
+            <textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="about"></textarea>
+        </div>
+        <div class="form-group">
+            <div class="page_title">Merchant Cash Advance</div>
+            <label>MCA head</label>
+            <div class="form_box_container" id="mca_head_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="mca_head_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('mca_head_box')">Add MCA paragraph</button>
+            <label>MCA Funding</label>
+            <div class="form_box_container" id="mca_funding_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><input required="yes" type="text" class="form-control" name="mca_funcding_title" placeholder="Enter title" title="mca_funcding_title" value=""><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="mca_funcding_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('mca_funding_box')">Add MCA funding</button>
+            <label>MCA Balls</label>
+            <div class="form_box_container" id="mca_ball_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><input required="yes" type="text" class="form-control" name="mca_ball_title" placeholder="Enter title" title="mca_ball_title" value="" style="width: 49%; margin-right:1%;"><input required="yes" type="text" class="form-control" name="mca_ball_text" placeholder="Enter text" title="mca_ball_text" value="" style="width: 50%;"></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('mca_ball_box')">Add MCA ball</button>
+        </div>
+        <div class="form-group">
+            <div class="page_title">Real Estate Debt</div>
+            <label>RED head</label>
+            <div class="form_box_container" id="red_head_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="red_head_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('red_head_box')">Add RED paragraph</button>
+            <label>RED cards</label>
+            <div class="form_box_container" id="red_card_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><input required="yes" type="text" class="form-control" name="red_card_title" placeholder="Enter title" title="red_card_title" value="" style="width: 49%; margin-right:1%;"><input required="yes" type="text" class="form-control" name="red_card_text" placeholder="Enter text" title="red_card_text" value="" style="width: 50%;"><input required="yes" type="text" class="form-control" name="red_card_bottom" placeholder="Enter bottom text" title="red_card_bottom" value="" style="width: 49%; margin-right:1%;"></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('red_card_box')">Add RED cards</button>
+        </div>
+        <div class="form-group">
+            <div class="page_title">Team</div>
+            <label>Team cards</label>
+            <div class="form_box_container" id="team_card_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><input required="yes" type="url" class="form-control" name="team_card_img" placeholder="Enter image url" title="team_card_img" value=""><input required="yes" type="text" class="form-control" name="team_card_name" placeholder="Enter full name" title="team_card_name" value="" style="width: 49%; margin-right:1%;"><input required="yes" type="text" class="form-control" name="team_card_title" placeholder="Enter full title" title="team_card_title" value="" style="width: 50%;"><input required="yes" type="url" class="form-control" name="team_card_linkedin" placeholder="Enter linkedin URL" title="team_card_linkedin" value="" style="width: 49%; margin-right:1%;"><input required="yes" type="email" class="form-control" name="team_card_email" placeholder="Enter email address" title="team_card_email" value="" style="width: 50%;"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter BIO" name="team_card_bio"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('team_card_box')">Add Team cards</button>
+        </div>
+        <div class="form-group">
+            <div class="page_title">Press Release</div>
+            <label>Press section</label>
+            <div class="form_box_container" id="press_section_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter data" name="press_section_data"></textarea><input required="yes" type="url" class="form-control" name="press_section_url" placeholder="Enter read more url" title="press_section_url" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+                </div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('press_section_box')">Add press section</button>
+        </div>
+        <div class="form-group">
+            <div class="page_title">Contact</div>
+            <label>Contact emails</label>
+            <div class="form_box_container" id="contact_email_box"><!--
+                <div class="form_box_input"><div class="form_box_input_data"><input required="yes" type="email" class="form-control" name="contact_email_mail" placeholder="Enter email address" title="contact_email_mail" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button></div>
+                </div>
+             --></div>
+            <button class="btn btn-secondary" type="button" onclick="add_box_input('contact_email_box')">Add contact email</button>
+            <label >Location
+            </label><input required="yes" type="text" class="form-control" name="address_text" placeholder="Enter address text" title="address_text" value="" style="width:49%; margin-right:1%;"><input required="yes" type="text" class="form-control" name="address_pointer" title="address_pointer" placeholder="Enter pointer (example: 40.7629384,-73.978958)" value="" style="width:50%;">
+        </div>
+    </div><footer><div id="footer_button_container"><button type="submit" class="btn btn-info" onclick="download_data()">Download data</button><button type="button" class="btn btn-info" onclick="upload_data()">Upload data</button><button type="submit" class="btn btn-info" onclick="update_data('json')">Save data</button><button type="submit" class="btn btn-info" onclick="update_data('test')">Update test</button><button type="submit" class="btn btn-info" onclick="update_data('production')">Update production</button></div></footer>
 </form>
-<footer><div id="footer_button_container"><button type="button" class="btn btn-info" onclick="download_data()">Download data</button><button type="button" class="btn btn-info" onclick="upload_data()">Upload data</button><button type="button" class="btn btn-info" onclick="update_data('json')">Save data</button><button type="button" class="btn btn-info" onclick="update_data('test')">Update test</button><button type="button" class="btn btn-info" onclick="update_data('production')">Update production</button></div></footer>
-<!-- # TODO add buttons: download data, save data, update test, update production, upload data.
+<!-- <footer><div id="footer_button_container"><button type="submit" class="btn btn-info" onclick="download_data()">Download data</button><button type="button" class="btn btn-info" onclick="upload_data()">Upload data</button><button type="submit" class="btn btn-info" onclick="update_data('json')">Save data</button><button type="submit" class="btn btn-info" onclick="update_data('test')">Update test</button><button type="submit" class="btn btn-info" onclick="update_data('production')">Update production</button></div></footer> -->
+# TODO add buttons: download data, save data, update test, update production, upload data.
 # create with this page the data, and test123 page all based by the data in the html and button was tiped.
-# after finish, make this page rneder by php. -->
+# after finish, make this page rneder by php.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="../files/jquery.cookie.js"></script>
 <script type="text/javascript">
 //$("textarea").each(function(){autosize(this);});
-             
-function autosize(el){  
+
+function autosize(el){
   setTimeout(function(){
     el.style.cssText = 'height:auto; padding:0';
     // for box-sizing other than "content-box" use:
     // el.style.cssText = '-moz-box-sizing:content-box';
-    el.style.cssText = 'height:' + el.scrollHeight + 'px';
+    el.style.cssText = 'height:' + (el.scrollHeight+14) + 'px';
   },0);
 }
 var data = {
-    'mca_funding_box':'<div class="form_box_input_data"><input type="text" class="form-control" name="mca_funcding_title" placeholder="Enter title" title="mca_funcding_title" value=""><textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="mca_funcding_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
-    'mca_ball_box':'<div class="form_box_input_data"><input type="text" class="form-control" name="mca_ball_title" placeholder="Enter amount" title="mca_ball_title" value="" style="width: 49%; margin-right:1%;"><input type="text" class="form-control" name="mca_ball_text" placeholder="Enter text" title="mca_ball_text" value="" style="width: 50%;"></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
-    'red_card_box':'<div class="form_box_input_data"><input type="text" class="form-control" name="red_card_title" placeholder="Enter title" title="red_card_title" value="" style="width: 49%; margin-right:1%;"><input type="text" class="form-control" name="red_card_text" placeholder="Enter text" title="red_card_text" value="" style="width: 50%;"><input type="text" class="form-control" name="red_card_bottom" placeholder="Enter bottom text" title="red_card_bottom" value="" style="width: 49%; margin-right:1%;"></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
-    'team_card_box':'<div class="form_box_input_data"><input type="url" class="form-control" name="team_card_img" placeholder="Enter image url" title="team_card_img" value=""><input type="text" class="form-control" name="team_card_name" placeholder="Enter full name" title="team_card_name" value="" style="width: 49%; margin-right:1%;"><input type="text" class="form-control" name="team_card_title" placeholder="Enter full title" title="team_card_title" value="" style="width: 50%;"><input type="url" class="form-control" name="team_card_linkedin" placeholder="Enter linkedin URL" title="team_card_linkedin" value="" style="width: 49%; margin-right:1%;"><input type="email" class="form-control" name="team_card_email" placeholder="Enter email address" title="team_card_email" value="" style="width: 50%;"><textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter BIO" name="team_card_bio"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
-    'press_section_box':'<div class="form_box_input_data"><textarea class="form-control" onkeydown="autosize(this)" placeholder="Enter data" name="press_section_data"></textarea><input type="url" class="form-control" name="press_section_url" placeholder="Enter read more url" title="press_section_url" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
-    'contact_email_box':'<div class="form_box_input_data"><input type="email" class="form-control" name="contact_email_mail" placeholder="Enter email address" title="contact_email_mail" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+	'mca_head_box':'<div class="form_box_input_data"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="mca_head_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+    'mca_funding_box':'<div class="form_box_input_data"><input required="yes" type="text" class="form-control" name="mca_funcding_title" placeholder="Enter title" title="mca_funcding_title" value=""><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="mca_funcding_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+    'mca_ball_box':'<div class="form_box_input_data"><input required="yes" type="text" class="form-control" name="mca_ball_title" placeholder="Enter amount" title="mca_ball_title" value="" style="width: 49%; margin-right:1%;"><input required="yes" type="text" class="form-control" name="mca_ball_text" placeholder="Enter text" title="mca_ball_text" value="" style="width: 50%;"></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+    'red_head_box':'<div class="form_box_input_data"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter paragrapt" name="red_head_paragraph"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+    'red_card_box':'<div class="form_box_input_data"><input required="yes" type="text" class="form-control" name="red_card_title" placeholder="Enter title" title="red_card_title" value="" style="width: 49%; margin-right:1%;"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter middel text" name="red_card_text"></textarea>'+'<textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter bottom text" name="red_card_bottom"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+    'team_card_box':'<div class="form_box_input_data"><input required="yes" type="url" class="form-control" name="team_card_img" placeholder="Enter image url" title="team_card_img" value=""><input required="yes" type="text" class="form-control" name="team_card_name" placeholder="Enter full name" title="team_card_name" value="" style="width: 49%; margin-right:1%;"><input required="yes" type="text" class="form-control" name="team_card_title" placeholder="Enter full title" title="team_card_title" value="" style="width: 50%;"><input required="yes" type="url" class="form-control" name="team_card_linkedin" placeholder="Enter linkedin URL" title="team_card_linkedin" value="" style="width: 49%; margin-right:1%;"><input required="yes" type="email" class="form-control" name="team_card_email" placeholder="Enter email address" title="team_card_email" value="" style="width: 50%;"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter BIO" name="team_card_bio"></textarea></div><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+    'press_section_box':'<div class="form_box_input_data"><textarea required="yes" class="form-control" onkeydown="autosize(this)" placeholder="Enter data" name="press_section_data"></textarea><input required="yes" type="url" class="form-control" name="press_section_url" placeholder="Enter read more url" title="press_section_url" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
+    'contact_email_box':'<div class="form_box_input_data"><input required="yes" type="email" class="form-control" name="contact_email_mail" placeholder="Enter email address" title="contact_email_mail" value=""><button class="btn btn-danger" type="button" onclick="delete_box_input(this)">X</button>',
 }
 var title_to_key={
+    'mca_head_paragraph':'mca_head_box',
     'mca_funcding_title':'mca_funding_box',
     'mca_funcding_paragraph':'mca_funding_box',
     'mca_ball_title':'mca_ball_box',
     'mca_ball_text':'mca_ball_box',
+    'red_head_paragraph':'red_head_box',
     'red_card_title':'red_card_box',
     'red_card_text':'red_card_box',
     'red_card_bottom':'red_card_box',
@@ -166,7 +181,15 @@ var title_to_key={
     'press_section_url':'press_section_box',
     'contact_email_mail':'contact_email_box',
 }
-
+function validForm() {
+	var form = document.getElementById('theForm');
+    for(var i=0; i < form.elements.length; i++){
+        if(form.elements[i].value === '' && form.elements[i].hasAttribute('required')){
+            return false;
+        }
+    }
+	return true;
+}
 function delete_box_input(argument) {
     a = argument;
     var parent = argument.parentElement;
@@ -177,7 +200,7 @@ function add_box_input(id) {
      div.classList.add("form_box_input");
      div.innerHTML = data[id];
      document.getElementById(id).appendChild(div);
- } 
+ }
 
 function objectifyForm(formArray) {//serialize data function
 
@@ -196,11 +219,13 @@ function objectifyForm(formArray) {//serialize data function
 
  }
  function download_data(){
-    json_data = form_to_json();
-    delete json_data["oldPs"];
-    delete json_data["oldUs"];
-    myJSON = JSON.stringify(json_data);
-    downloadFile("datafile.json",myJSON);
+ 	if (validForm()){
+	    json_data = form_to_json();
+	    delete json_data["oldPs"];
+	    delete json_data["oldUs"];
+	    myJSON = JSON.stringify(json_data);
+	    downloadFile("datafile.json",myJSON);
+	}
  }
 
  function downloadFile(filename, text) {
@@ -286,30 +311,43 @@ function upload_data(){
 }
 var sendData;
 function update_data(actionOn){
-    json_data = form_to_json();
-    json_data['actionOn'] = actionOn;
-    // Sending and receiving data in JSON format using POST method
-    //
-    var xhr = new XMLHttpRequest();
-    var url = "https://yadcapital.com/data/handel.php";
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-        	res = JSON.parse(xhr.responseText);
-            alert(res['posts']);
-        }
-    };
-    sendData = JSON.stringify(json_data);
-    sendData = sendData.split("\\r\\n").join("<br>");
-    xhr.send(sendData);
+    if (validForm()){
+        json_data = form_to_json();
+        json_data['actionOn'] = actionOn;
+        // Sending and receiving data in JSON format using POST method
+        //
+        var xhr = new XMLHttpRequest();
+        var url = "https://yadcapital.com/data/handel.php";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                res = JSON.parse(xhr.responseText);
+                alert(res['posts']);
+            }
+        };
+        sendData = JSON.stringify(json_data);
+        sendData = sendData.split("\\r\\n").join("<br>");
+        xhr.send(sendData);
+    }
 }
 
 $(document).ready(function() {
-      myJSON =  $.cookie("jsonData");
-      json_data = JSON.parse(myJSON);
-      json_to_form(json_data);
-      $("textarea").each(function(){autosize(this);});
+	myJSON = "<?php
+	$cookie_value = str_replace('\n',"\\r\\n",$contents);
+	$cookie_value = str_replace('"','\\"',$cookie_value);
+	echo $cookie_value;
+	?>";
+	myJSON = myJSON.split("\r\n").join("\\r\\n");
+	json_data = JSON.parse(myJSON);
+	json_to_form(json_data);
+	$("textarea").each(function(){autosize(this);});
+    // if  ($.cookie("jsonData")){
+    //   myJSON =  $.cookie("jsonData");
+    //   json_data = JSON.parse(myJSON);
+    //   json_to_form(json_data);
+    //   $("textarea").each(function(){autosize(this);});
+    // }
 });
 
  //  TODO make all the fucntions of the button above.
