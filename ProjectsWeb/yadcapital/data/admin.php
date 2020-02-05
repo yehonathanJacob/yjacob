@@ -32,11 +32,17 @@ if ($_POST['thisPS'] != $data['password'][0] || $_POST['thisUS'] != $data['usern
     <meta charset="utf-8"/>
     <meta content="Administration render page" name="description">
     <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- <link href="images/ico_small.jpg" rel="icon" type="../image/ico_small.jpg"> -->
-    <!-- <link href="images/ico_small.jpg" rel="shortcut icon" type="../image/ico_small.jpg"> -->
-    <link rel="stylesheet" href="../files/render.css?v=0.2">
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!--bootstrap -> font awesome-->
+  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--icons-->
+    <link rel="icon" href="../images/ico_small.jpg" type="image/x-icon">
+  	<link rel="shortcut icon" href="../images/ico_small.jpg" type="image/x-icon">
+  	<!--css-->
+    <link rel="stylesheet" href="../files/admin.css?v=0.3">
     <style type="text/css">
 
     </style>
@@ -45,12 +51,12 @@ if ($_POST['thisPS'] != $data['password'][0] || $_POST['thisUS'] != $data['usern
 <div class="container" id="description_container">
   <h3>Text description:</h3>    
   <div id="description_p_container">
-      <p>normal text..</p>  
-      <p><strong>{strong text}</strong></p>
-      <p><u>{{underline text}}</u></p>
-      <p><i>[italic text]</i></p>
-      <p><strong><i>{[strong & italic text]}</i></strong></p>
-      <p><u><i>{{[underline & italic text]}}</i></u></p>   
+      <p>normal..</p>  
+      <p><strong>{Bold}</strong></p>
+      <p><u>{{underline}}</u></p>
+      <p><i>[italic]</i></p>
+      <p><strong><i>{[strong & italic]}</i></strong></p>
+      <p><u><i>{{[underline & italic]}}</i></u></p>   
   </div>
 </div>
 <form action="javascript:;" id="theForm">
@@ -131,12 +137,9 @@ if ($_POST['thisPS'] != $data['password'][0] || $_POST['thisUS'] != $data['usern
             <label >Location
             </label><input required="yes" type="text" class="form-control" name="address_text" placeholder="Enter address text" title="address_text" value="" style="width:49%; margin-right:1%;"><input required="yes" type="text" class="form-control" name="address_pointer" title="address_pointer" placeholder="Enter pointer (example: 40.7629384,-73.978958)" value="" style="width:50%;">
         </div>
-    </div><footer><div id="footer_button_container"><button type="submit" class="btn btn-info" onclick="download_data()">Download data</button><button type="button" class="btn btn-info" onclick="upload_data()">Upload data</button><button type="submit" class="btn btn-info" onclick="update_data('json')">Save data</button><button type="submit" class="btn btn-info" onclick="update_data('test')">Update test</button><button type="submit" class="btn btn-info" onclick="update_data('production')">Update production</button></div></footer>
+    </div><footer><div id="footer_button_container"><button type="submit" class="btn btn-info" onclick="download_data()" title="Download data"><i class="fa fa-cloud-download"></i></button><button type="button" class="btn btn-info" onclick="upload_data()" title="Upload data"><i class="fa fa-upload"></i></button><button type="submit" class="btn btn-info" onclick="update_data('json')" title="Save data"><i class="fa fa-floppy-o"></i></button><button type="submit" class="btn btn-info" onclick="update_data('test')">Test</button><button type="submit" class="btn btn-info" onclick="update_data('production')">Product</button></div></footer>
 </form>
 <!-- <footer><div id="footer_button_container"><button type="submit" class="btn btn-info" onclick="download_data()">Download data</button><button type="button" class="btn btn-info" onclick="upload_data()">Upload data</button><button type="submit" class="btn btn-info" onclick="update_data('json')">Save data</button><button type="submit" class="btn btn-info" onclick="update_data('test')">Update test</button><button type="submit" class="btn btn-info" onclick="update_data('production')">Update production</button></div></footer> -->
-# TODO add buttons: download data, save data, update test, update production, upload data.
-# create with this page the data, and test123 page all based by the data in the html and button was tiped.
-# after finish, make this page rneder by php.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="../files/jquery.cookie.js"></script>
