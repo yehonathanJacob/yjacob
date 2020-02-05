@@ -72,6 +72,18 @@
             width: 200px;
             margin: 10px 5%;
         }
+        .status_message{
+            color: red;
+            width: 90%;
+            margin: 0 auto;
+            font-weight: 600;
+            overflow: hidden;
+            height: 0px;
+            transition: 1s;
+        }
+        .status_message.show{
+            height: 20px;
+        }
 
     </style>
 </head>
@@ -81,7 +93,31 @@
     <img src="../images/Ico.png">
     <input name="thisUS" placeholder="Username" type="text">
     <input name="thisPS" placeholder="Password" type="password">
+    <div id="error_status_message" class="status_message">Wrong username or password</div>
     <button class="btn btn-primary" type="submit">Log In</button>
 </form>
+<script type="text/javascript">
+    function getSearchParameters() {
+          var prmstr = window.location.search.substr(1);
+          return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+    }
+
+    function transformToAssocArray( prmstr ) {
+        var params = {};
+        var prmarr = prmstr.split("&");
+        for ( var i = 0; i < prmarr.length; i++) {
+            var tmparr = prmarr[i].split("=");
+            params[tmparr[0]] = tmparr[1];
+        }
+        return params;
+    }
+
+    var params = getSearchParameters();
+    window.onload = function() {
+        if ("status" in params && params['status'] == "wrong"){
+            document.getElementById("error_status_message").classList.add("show");
+        }
+    };
+</script>
 </body>
 </html>
