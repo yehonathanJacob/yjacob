@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <base href="{{html_protocol}}://{{base_url}}">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <!--font awesome-->
+    <script src="https://kit.fontawesome.com/e0e187bb36.js" crossorigin="anonymous"></script>
+    <!--AOS OnScroll -->
+    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+    <!--Responsiv-->
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/home.css?v=1.2" type="text/css" >
+</head>
+<body>
+
+    <header>
+        <div class="header_box" id="header_box_left">
+            <div class="header_box_title">User</div>
+            <div id="UserName" class="header_box_content">{{UserName}}</div>
+        </div>
+        <div class="header_box" id="header_box_right">
+            <div class="header_box_title">ID</div>
+            <div id="UserID" class="header_box_content">{{UserId}}</div>
+        </div>
+    </header>
+
+    <form>
+        <label for="messageInput">Write a message</label>
+        <div class="form-group" id="messageContainer">
+            <textarea class="form-control" name="messageInput" id="messageInput" placeholder="Type here.." required="true"></textarea>
+           <button type="submit" class="btn btn-success">Send</button>
+        </div>
+    </form>
+
+    <div id="OutputMessages">
+    </div>
+
+    <!--AOS OnScroll -->
+    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+    <script>
+        const  html_protocol = "{{html_protocol}}";
+        const  websocket_protocol = "{{web_socket_protocol}}";
+        const  base_url = "{{base_url}}";
+        const  UserName = "{{UserName}}";
+        var    UserId = "{{UserId}}";
+    </script>
+    <script src="static/js/basic.js?v=1.1"></script>
+    <script src="static/js/socketJsFile.js?v=1.4"></script>
+</body>
+</html>
