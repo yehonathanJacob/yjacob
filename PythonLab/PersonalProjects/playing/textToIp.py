@@ -28,6 +28,10 @@ def text_arr_to_ip_arr(text_arr,*args):
 	return [format(int(__byte), *args).replace("0b","") for __byte in text_arr]
 
 def text_to_ip(tx):
+	"""
+	:param tx: Example of ip text e.x: '85.24.124.72', '172.31.37.72/20'
+	:return: The ip in binary string. If scope is existed so return the scope
+	"""
 	if '/' in tx:
 		ip,scope = tx.split('/')
 	else:
