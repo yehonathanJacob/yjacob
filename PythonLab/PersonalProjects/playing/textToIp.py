@@ -1,4 +1,15 @@
 """
+examples:
+
+python textToIp.py --ip 85.24.124.72
+'01010101 00011000 01111100 01001000'
+
+python textToIp.py --ip 172.31.37.72/20
+From:  10101100 00011111 00100101 01001000
+            172       31       37       72
+To:    10101100 00011111 00101111 11111111
+            172       31       47      255
+
 To get ip range in linux:	ip addr show
 """
 __author__ = "Yehonathan Jacob"
