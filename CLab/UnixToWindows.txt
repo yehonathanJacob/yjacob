@@ -1,0 +1,4 @@
+make: mingw32-make
+clear: cls
+ls: dir
+https://skimfeed.com/blog/windows-command-prompt-ls-equivalent-dir/
