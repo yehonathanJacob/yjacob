@@ -2,11 +2,12 @@
 examples:
 
 python textToIp.py --ip 85.24.124.72
-'01010101 00011000 01111100 01001000'
+IP:    01010101 00011000 01111100 01001000
 
 python textToIp.py --ip 172.31.37.72/20
-From:  10101100 00011111 00100101 01001000
-            172       31       37       72
+IP:    10101100 00011111 00100101 01001000
+From:  10101100 00011111 00100000 00000000
+            172       31       32        0
 To:    10101100 00011111 00101111 11111111
             172       31       47      255
 
@@ -40,24 +41,30 @@ def text_to_ip(tx):
 		ip, scope = tx, False
 
 	ipInts = ip.split('.')
-	res = ""
+	res = "IP:    "
+	# if scope:
+	# 	res += "From:  "
+	base_ip = text_arr_to_ip_arr(ipInts, "#010b")
+	res += " ".join(base_ip)
 	if scope:
-		res += "From:  "
-	start_ip = text_arr_to_ip_arr(ipInts, "#010b")
-	res += " ".join(start_ip)
-	if scope:
-		res += "\n" + " " * 7
-		res += " ".join(text_arr_to_ip_arr(ipInts, "#8"))
+		base_ip_continuous = "".join(base_ip)
 		di = ip_n - int(scope)  # delta i
-		from_ip = "".join(start_ip)
-		to_ip = from_ip[:-di] + "1" * di
+		from_ip =base_ip_continuous[:-di] + "0" * di
+		start_bin = [from_ip[i:i + b_n] for i in range(0, len(from_ip), b_n)]
+		start_int = [int(b_ip, 2) for b_ip in start_bin]
+		res += "\n"
+		res += "From:  "
+		res += " ".join(text_arr_to_ip_arr(start_int, "#010b"))
+		res += "\n" + " " * 7
+		res += " ".join(text_arr_to_ip_arr(start_int, "#8"))
+		to_ip = base_ip_continuous[:-di] + "1" * di
 		end_bin = [to_ip[i:i + b_n] for i in range(0, len(to_ip), b_n)]
 		end_int = [int(b_ip, 2) for b_ip in end_bin]
-		res += "\nTo:    "
+		res += "\n"
+		res += "To:    "
 		res += " ".join(text_arr_to_ip_arr(end_int, "#010b"))
 		res += "\n" + " " * 7
 		res += " ".join(text_arr_to_ip_arr(end_int, "#8"))
-
 	return res
 
 
