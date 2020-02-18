@@ -1,0 +1,3 @@
+int insert(int x);/*Input: key of new Node. Add value to RBTree. Discounts: RBTree is defined. Output: all dynamic allocation where successfuly allocated. Time complexity: O(log n).*/
+void printMedian();/*Output: print median value to screen. Time complexity: O(1).*/
+void MMN16(int arr[] ,int n1,int n2,int n3,int arrlength);/* Input: array is static allocated, and 3 points are > 0. Output: print to screen median after each point break, doing it in first pass of array.*/
