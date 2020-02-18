@@ -1,0 +1,9 @@
+Base:
+tmux # to ceate seccion
+tmux attach # to connect to last seccion
+Advance:
+tmux new -s myname # start new with session name
+tmux a -t myname # attach to named
+tmux ls # list sessions
+tmux kill-session -t myname # kill session (also can just do exit)
+ctrl+b , d # to logout from living seccion
