@@ -1,5 +1,5 @@
 # to create:
-conda create --name my_env_name
+conda create -y --name ex2 python=3.7
 # to make active
 conda activate my_env_name
 # to deactivate
