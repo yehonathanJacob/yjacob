@@ -1,0 +1,7 @@
+Host server1
+        HostName 3.12.86.141
+        User yonathan
+Host home
+        HostName {{ip}}
+        User yjacob
+
