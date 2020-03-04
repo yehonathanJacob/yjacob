@@ -14,3 +14,6 @@ __pycache__/
 *.classpath
 *.project
 doc/
+
+# Play Area
+playingArea/
