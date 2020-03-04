@@ -1,0 +1,6 @@
+if ! mountpoint -q /zzp/data; then
+        sshfs yjacob@icx3:/zzp/data /zzp/data
+fi
+if ! mountpoint -q /zzp/home/yjacob; then
+        sshfs yjacob@icx3:/zzp/home/yjacob /zzp/home/yjacob
+fi
