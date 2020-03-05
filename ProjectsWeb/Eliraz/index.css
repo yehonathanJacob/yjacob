@@ -1,0 +1,52 @@
+@font-face{
+	font-family: Alef;
+    src: url(Alef-Regular.ttf);
+}
+@font-face{
+	font-family: Alef-Bold;
+    src: url(Alef-Bold.ttf);
+}
+*{
+	font-family: "Alef";
+	font-size: 100%;
+	margin: 0 auto;
+	padding: 0;
+	border: 0;	
+	box-sizing: border-box;
+}
+body{background-color:rgb(230,230,230);}
+#pages{width:70%;
+background-color:white;
+margin-top:10px;
+margin-bottom:10px;
+text-align:center;
+border-radius:10px;
+padding-bottom:7px;
+-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.75);
+}
+#topTite{
+	background-color:#3998c9;
+	font-size:140%;
+	font-weight:600;
+	color:white;
+	border-radius:10px 10px 0 0;
+	border:solid 1px black;
+}
+.button{
+	margin-top:6px;	
+	width:120px;	
+	background-color:#999999;
+	padding:3px;
+	color:white;
+	border-radius:5px;
+	border:solid 1px black;
+}
+.button a{color:white;text-decoration:blink;}
+.button a .topTitle{direction:rtl;}
+.button a .dateTitle{font-family:cursive;}
+.button:hover a{	
+	color:black;
+}
+.button:hover{background-color:white;}

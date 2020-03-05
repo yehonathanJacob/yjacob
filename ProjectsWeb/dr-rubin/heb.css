@@ -1,0 +1,4 @@
+#contactDirect a, textarea, input, #imgContainer, #about, #headerMaiDiv, #barlink{direction:rtl;}
+#about img#leeimg{float:left;}
+#contact #contactDirect a{text-align:right;}
+#contact #contactDirect a hr { margin-left: 10px; margin-right: 15px; }

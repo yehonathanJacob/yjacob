@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>All Deals Israel</title>
+	<base href="https://all-deals.co.il/">
+	<meta charset="utf-8"/>
+	<meta name="description" content="">
+  	<!--Responsiv-->
+  	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />  	
+	<!--Jquery-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>	
+  	<!-- Latest compiled and minified CSS-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<!--font awesome-->
+  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<!--css-->  
+  	<link rel="stylesheet" href="files/base.css">  	
+	<!--Icon-->
+	<link rel="icon" href="images/FullIco.png" type="image/x-icon">
+	<link rel="shortcut icon" href="images/FullIco.png" type="image/x-icon">
+</head>
+<body class="desctop" onresize="resize()">
+<nav>
+<div id="containerMenuBar" onclick="openBar(this)">
+  <div class="bar1"></div>
+  <div class="bar2"></div>
+  <div class="bar3"></div>
+</div>
+<div id="navigationContainer">
+<!--<div id="buttonContainer"><button type="button" id="btn_Form1">מבצעים מובילים</button><button type="button" id="btn_Form2">לקטלוג המלא</button><button type="button" id="btn_Form3">כל החברות</button><button type="button" id="btn_Form4">צור קשר</button></div>-->
+<div id="buttonContainer" class="btn-group btn-group-lg">
+  <button type="button" id="btn_Form1" class="btn btn-primary btn-secondary">צור קשר</button>
+  <button type="button" id="btn_Form2" class="btn btn-primary btn-secondary">קטלוג מלא</button>
+  <button type="button" id="btn_Form3" class="btn btn-primary btn-secondary">חברות</button>
+  <button type="button" id="btn_Form4" class="btn btn-primary btn-secondary"><i class="fa fa-wheelchair-alt"></i></button>
+  <button type="button" id="btn_Form5" class="btn btn-primary btn-secondary"><i class="fa fa-user-o"></i></button>
+</div>
+</div><form id="NavSearchBox" action="javascript:alert('Submit')"><button class="searchIco" type="submit"><i class="fa fa-search"></i></button><input type="text" placeholder="חיפוש All Deals" name="navSearch"></form></nav>
+<div id="main"></div><footer></footer>
+<script src="https://cdn.enable.co.il/licenses/enable-L28091pm8tfjbec-1118-6489/init.js"></script>
+<script type="text/javascript" src="files/base.js"></script>	
+</body>
+</html>
