@@ -1,0 +1,7 @@
+
+# DO NOT REMOVE THIS LINE AND THE LINES BELOW SSL_REDIRECT:mylocker.yjacob.net
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^mylocker.yjacob.net$
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+# DO NOT REMOVE THIS LINE AND THE LINES ABOVE SSL_REDIRECT:mylocker.yjacob.net

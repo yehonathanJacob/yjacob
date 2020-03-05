@@ -1,0 +1,106 @@
+#about{
+	margin: 0 auto;	
+	text-align: left;
+	width: 50%;	
+	display: inline-block;	
+	margin-left:0;
+	margin-top:10px;
+	border-radius: 10px;
+	padding:1%;
+	vertical-align:top;
+	color: #fdfde9;
+	border:solid 1px white;
+	text-align:justify;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+#about a{color:#4285F4;}
+#about h3{
+	text-align:center;
+	font-family: "Sego-UI-Bold";
+	color: #FFCA00;
+	display: block;
+}
+form{	
+	width:100%;	
+	display:block;	
+	margin-top:10px;
+	padding:1%;
+	padding-top:0;	
+	border-radius:10px;
+	border:solid 1px #FFCA00;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+#LogInPage{
+margin-left:1%;
+display:inline-block;
+width: 49%;
+margin-top: 10px;
+vertical-align:top;		
+box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+form h3{
+	width:100%;
+	text-align:center;
+	font-family:'Sego-UI-Bold';
+	color:#FFCA00;
+	font-size:110%;
+	margin:2% auto;
+	text-decoration:underline;
+}
+form input{
+	padding:1%;
+	padding-left:2%;
+	width:96%;
+	background-color:transparent;
+	border:solid 1px;
+	font-size:100%;
+	border-radius:2px;
+	margin-bottom: 2px;
+	color:#FFCA00;
+}
+form #sendPs{
+	width:100%;
+	font-size:80%;
+	color:#4285F4;
+	text-decoration:underline;
+	cursor:pointer;
+}
+form img{
+	width:100px;
+	display:none;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+form .GoButton{	
+	display:block;	
+	text-align:center;	
+	background-color:#4285F4;
+	color:white;
+	padding:1%;
+	border:solid 1px white;
+	border-radius:2px;
+	margin: 2% 0;
+	cursor:pointer;
+}
+.googleCheckBt *{width:100%;border:0;margin:auto;margin-top:5px;}
+@media only screen and (max-width: 880px){
+#about{width:40%;padding:2%;}
+#LogInPage{width:59%;padding:2%;}
+form img{width:80px;}
+}
+@media only screen and (max-width: 485px){
+#about{width:100%;}
+#LogInPage{	
+	display:block;
+	width:100%;
+	margin:0 auto;
+	margin-top:7px;
+}
+form img{width:50px;}
+}
