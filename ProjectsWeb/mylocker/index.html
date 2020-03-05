@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyLocker</title>
+	<!--Hebrew-->
+	<meta charset="utf-8"/>
+	<!--Responsiv-->
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<!--font awesome from folder-->
+	<link rel="stylesheet" href="font-awesome-4.2.0/css/font-awesome.css">
+	<!--CSS Style-->
+	<link rel="stylesheet" type="text/css" href="common.css">
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<!--logo MyLocker-->
+	<link rel="icon" href="logoMyLocker.png" type="image/x-icon">
+	<link rel="shortcut icon" href="logoMyLocker.png" type="image/x-icon">
+	<!--Google reCAPTCHA-->
+	<script src='https://www.google.com/recaptcha/api.js'></script>	
+	<!--This Script to create and roll all tho rechaptcha button-->
+	<script type="text/javascript">	
+		var GoogleCheck1;var GoogleCheck2;
+		var created = 0;
+		var onloadCallback = function() {//this is the name of the function the create the button		
+		if(!created)
+		{
+			GoogleCheck1 = grecaptcha.render('GoogleCheck1', {//the id of the button
+			'sitekey' : '6LdTOBgUAAAAABnQOnadEQ_dODCP6KrQfhi2FGxv',//hear you set up your private key
+			//'size' : 'compact'
+			});
+			GoogleCheck2 = grecaptcha.render('GoogleCheck2', {//the id of the button
+			'sitekey' : '6LdTOBgUAAAAABnQOnadEQ_dODCP6KrQfhi2FGxv',//hear you set up your private key  
+			});
+			created = 1;
+		}
+		};
+		$(window).load(function(){
+			 /*onloadCallback();*/
+		});
+		//you can use grecaptcha.getResponse(GoogleCheck1); To Check the fist button
+		//if(grecaptcha.getResponse(GoogleCheck1) !== ""){ button is checked...}
+	</script>
+</head>
+<body>
+<div id="top"><div id="title" title="My Locker"><i class="fa fa-lock" ></i><span> My Locker Website</span></div></div>
+<div id="about" title="About My Locker"><h3>My Locker</h3>My Locker is a simple website, that has been built in order to solve the problem of people who have too many Password of diferent acounts.<br>With My Locker Website you will be need to remmember only one Password!<br>My Locker has been started as an exe program on windows, and can still be download <a href="DownloadFile.php" title="Download My Locker">Here!</a> for people who prefer extra safe to have the Password on there Computar
+</div><form id="LogInPage" method="post" action="home.php" title="Log In Page">	
+<h3>Log In</h3>
+<input class="onlyEng" name="User" id="LogUserName" type="text" placeholder="User Nmae" title="User Name">
+<input class="onlyEng" name="Ps" id="LogPassworrd" type="password" placeholder="Passworrd" title="Passworrd">
+<span id="sendPs">Forgot your password?</span>
+<!--id will be the name of the buttton-->
+<div class="googleCheckBt" id="GoogleCheck1"></div>
+<img id="LogLoad" src="circle-loading.gif"title="circle-loading" >
+<span class ="GoButton" id="TryLog" title="Log In" >Connect</span>
+</form><form id="SignUpPage" action="home.php" method="post" title="Sign Up Page">	
+<h3>Sign Up</h3>
+<input class="onlyEng" id="NUser" name="User" type="text" placeholder="User Nmae" title="New User Name">
+<input class="onlyEng" id="NPassword" name="Ps" type="password" placeholder="Passworrd" title="New Password">
+<input class="onlyEng" name="NRPassword" type="password" placeholder="Re Passworrd" title="Re New Password">
+<input class="onlyMail" name="NMail" type="email" placeholder="E-mail" title="New E-mail">
+<!--id will be the name of the buttton-->
+<div class="googleCheckBt" id="GoogleCheck2"></div>
+<img id="SignLoad" src="circle-loading.gif" title="circle-loading">
+<span class ="GoButton" id="TrySign" title="Sign Up">Sign</span>
+</form>
+<footer><div id="copyright"><i class="fa fa-copyright" aria-hidden="true"></i><a href="http://all-in-one.cf">All In One</a></div> </footer>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+var ul= $('#top #title span');
+$('#top #title').click(function(){
+	if(ul.css('display') == 'inline-block')
+	{
+		ul.hide(300);
+	}
+	else{
+		ul.show(300);
+	}
+});
+$('.onlyEng').bind('keypress', function (event) {
+    var regex = new RegExp("^[a-zA-Z0-9]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)&&event.charCode!=13) {
+		alert('you can type her only [a-zA-Z0-9]');
+    	event.preventDefault();
+    	return false;
+    }
+    if(event.charCode==13)
+    {
+    	if($(this).attr("id")=="LogPassworrd"||$(this).attr("id")=="LogUserName")
+    		TryLog($("#TryLog"));
+    	else
+    		TrySign($("#TrySign"));
+    }
+    	
+});
+$('.onlyMail').bind('keypress', function (event) {
+    var regex = new RegExp("^[a-zA-Z0-9.@_]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);    
+    if (!regex.test(key)&&event.charCode!=13) {
+		alert('you can type her only [a-zA-Z0-9.@_]');
+		event.preventDefault();
+    	return false;
+    }
+    if(event.charCode==13)
+    	TrySign($("#TrySign"));//there is a type Mail only in "TrySign"
+});
+</script>
+<!--Google reCAPTCHA-->
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-69454579-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125782776-1');
+</script>
+
+</body>
+</html>

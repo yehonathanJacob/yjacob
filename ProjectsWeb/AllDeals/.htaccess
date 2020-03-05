@@ -1,0 +1,6 @@
+Options -Indexes
+RewriteEngine on
+DirectoryIndex files/heb.html
+
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

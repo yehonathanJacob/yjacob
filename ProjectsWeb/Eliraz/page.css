@@ -1,0 +1,101 @@
+@font-face{
+	font-family: Alef;
+    src: url(Alef-Regular.ttf);
+}
+@font-face{
+	font-family: Alef-Bold;
+    src: url(Alef-Bold.ttf);
+}
+*{
+	font-family: "Alef";
+	font-size: 100%;
+	margin: 0 auto;
+	padding: 0;
+	border: 0;	
+	box-sizing: border-box;
+}
+body{background-color:rgb(230,230,230);}
+#body{width:70%;
+max-width:700px;
+margin-top:40px;}
+#topTitle{
+	direction:rtl;
+	width:100%;
+	text-align:center;	
+	font-size:15pt;
+	background-color:#3998c9;	
+	font-weight:600;
+	color:white;
+	border-radius:0 0 10px 10px;
+	border:solid 2px black;
+	padding:2px;	
+	position:fixed;
+	top:0;
+	width:70%;
+	max-width:700px;	
+	z-index:1;
+}
+.box{
+width:97%;
+-webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+border-radius:7px;
+margin-top:15px;
+}
+.title{
+	direction:rtl;
+	width:100%;
+	text-align:center;
+	background-color:black;
+	font-weight:400;
+	color:white;
+	padding:2px;	
+	border-radius:7px 7px 0 0;
+	border:solid 1px black;
+}
+.form{
+	direction:rtl;
+	padding:10px;
+	border-radius:0 0 7px 7px;
+	color: #237ace;
+	border:solid 1px black;
+	background-color:white;
+	width:100%;
+}
+.form .fa-heart{color:#F3163B;}
+.form audio{
+	width:80%;
+	margin-right:10%;
+}
+.prPic{
+	display:inline-block;
+	width:31%;
+	margin:1%;
+	margin-top:10px;
+	background-color:white;	
+	padding:5px;
+	border-radius:5px;
+	-webkit-box-shadow: 0px 0px 12px 0px blue;
+-moz-box-shadow: 0px 0px 12px 0px blue;
+box-shadow: 0px 0px 12px 0px blue;
+}
+.prPic .picToFan .img{
+	width:100%;	
+	height:100px;	
+	background-size:contain;
+	background-repeat:no-repeat;
+	background-position: center;
+}
+@media only screen and (max-width: 800px){
+	#body{width:90%;}
+	#topTitle{width:100%;right:0;max-width:none;}
+	.box{width:98%;}
+	.prPic{width:48%;}
+}
+@media only screen and (max-width: 450px){
+	#body{width:97%;}	
+	.form audio{width:100%;
+	margin:0;}
+	.prPic{width:98%;}
+}
