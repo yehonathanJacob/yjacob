@@ -1,0 +1,8 @@
+# to create:
+conda create -y --name ex2 python=3.7
+# to make active
+conda activate my_env_name
+# to deactivate
+conda deactivate
+# cd to anaconda env
+cd /home/yehonathanj/anaconda3/envs/
