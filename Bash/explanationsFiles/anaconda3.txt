@@ -1,8 +1,14 @@
+# to install on ubuntu
+https://www.digitalocean.com/community/tutorials/how-to-install-anaconda-on-ubuntu-18-04-quickstart
 # to create:
-conda create -y --name ex2 python=3.7
+conda create -y --name ENV_NAME python=3.7
 # to make active
-conda activate my_env_name
+conda activate ENV_NAME
 # to deactivate
 conda deactivate
 # cd to anaconda env
-cd /home/yehonathanj/anaconda3/envs/
+cd /home/USER/anaconda3/envs/
+# to remove environment
+conda env remove -n ENV_NAME
+# to list all env
+conda env list
