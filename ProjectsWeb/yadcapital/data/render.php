@@ -1,4 +1,4 @@
-<?php 
+<?php
 function celanHTML($Text){
   $Html = str_replace('\n',"<br>",$Text);
   $Html = str_replace("\n","<br>",$Text);
@@ -22,7 +22,7 @@ $jsonData = json_decode($contents, true);
   <!--<base href="../">-->
   <meta charset="utf-8"/>
   <meta name="description" content="Investment Firm Focused on Alternative Credit Opportunities">
-  <!--css-->  
+  <!--css-->
   <link rel="stylesheet" href="files/home.css?v=2.0">
   <!--Responsiv-->
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
@@ -105,7 +105,7 @@ if (isset($jsonData['red_card_title'])){
     echo "<div class='box' data-aos='flip-left'><div class='box_title'>".celanHTML($jsonData['red_card_title'][$i])."</div><div class='box_middel'>".celanHTML($jsonData['red_card_text'][$i])."</div><div class='box_bottom'>".celanHTML($jsonData['red_card_bottom'][$i])."</div></div>";
   }
 }
-?></div> 
+?></div>
 </div>
 <div class="walkingPeople" data-parallax="scroll" data-image-src="images/walkingPeople.jpg">
 </div><div class="form team"><div data-aos="zoom-in" class="Ftitle">TEAM
@@ -180,9 +180,9 @@ if (isset($jsonData['address_text'])){
 if (isset($jsonData['team_card_img'])){
   for ($i =0; $i < count($jsonData['team_card_img']);$i++){
     echo "<div class='modal fade BioCard' id='cardModalId".$i."' role='dialog'>
-    <div class='modal-dialog'>    
+    <div class='modal-dialog'>
       <div class='modal-content'>
-        <div class='modal-header media'>          
+        <div class='modal-header media'>
           <div class='media-left'>
             <img src='".$jsonData['team_card_img'][$i]."' class='media-object' style='width:60px' alt='".celanHTML($jsonData['team_card_name'][$i])."' >
           </div>
@@ -195,8 +195,8 @@ if (isset($jsonData['team_card_img'])){
         </div>
         <div class='modal-body'>
           <p>".celanHTML($jsonData['team_card_bio'][$i])."</p>
-        </div>        
-      </div>      
+        </div>
+      </div>
     </div>
   </div>";
   }
@@ -205,9 +205,9 @@ if (isset($jsonData['team_card_img'])){
 ?>
 <!-- Modal Daniel Rubin Card -->
   <!-- <div class="modal fade BioCard" id="DanielRubinModal" role="dialog">
-    <div class="modal-dialog">    
+    <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header media">          
+        <div class="modal-header media">
           <div class="media-left">
             <img src="images/danielRubin.jpg" class="media-object" style="width:60px" alt="Daniel Rubin profile">
           </div>
@@ -226,15 +226,15 @@ Prior to co-founding YAD Capital LLC, Mr. Rubin was the COO &amp; CFO of Halpern
 Prior to that, Mr. Rubin invested in and advised several real estate operating companies, REITs and private equity real estate firms on more than $4.5 billion of complex corporate finance transactions at various organizations including Silverkey Capital, JEN Partners, Lehman Brothers and EdgeRock Realty Advisors. Mr. Rubin started his career at Deloitte, first as an auditor and subsequently as a turnaround consultant.
 <br>
 Mr. Rubin holds an MBA from NYU Stern School of Business, an M.S. degree in Financial Engineering from University of Paris Creteil, and a B.S. degree in Accounting, Finance, and Corporate Taxation from University of Paris Dauphine. Mr. Rubin is a member of the NYU Stern School of Business Alumni Council and Chair of its Finance Committee.</p>
-        </div>        
-      </div>      
+        </div>
+      </div>
     </div>
   </div> -->
  <!-- Modal David Perez Card -->
   <!-- <div class="modal fade BioCard" id="DavidPerezModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header media">          
+        <div class="modal-header media">
           <div class="media-left">
             <img src="images/DavidPerez.jpg" class="media-object" style="width:60px" alt="David Perez profile">
           </div>
@@ -253,8 +253,8 @@ Prior to co-founding YAD Capital LLC, Mr. Perez was a senior Portfolio Manager a
 Prior to that, Mr. Perez was a Managing Director at Goldman Sachs, where he spent 14 years, most recently as the Head of its US Index Volatility Trading Business. He spent the first 6 years in London, and the last 8 years in New York.
 <br>
 Mr. Perez studied in Paris, France where he received a B.A. in Computer Sciences and Mathematics from University Paris Dauphine, as well as an M.S. degree in Finance.</p>
-        </div>        
-      </div>      
+        </div>
+      </div>
     </div>
   </div> -->
 <!-- Modal Legal Disclaimer -->
@@ -287,10 +287,10 @@ Mr. Perez studied in Paris, France where he received a B.A. in Computer Sciences
       zoom: 14
     });
     var coordInfoWindow = new google.maps.InfoWindow();
-    coordInfoWindow.setContent('YAD Capital LLC');    
+    coordInfoWindow.setContent('YAD Capital LLC');
     coordInfoWindow.setPosition(location);
     coordInfoWindow.open(map);
-  }  
+  }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3XSPD7dNWCkDaI4JJIe3EpzvN3mhJQ5I&callback=initMap&language=en">
 </script>
