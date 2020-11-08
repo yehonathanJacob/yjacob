@@ -13,24 +13,24 @@ body{
 }
 header{
   width:100%;
-  background: url(../images/homeImage.jpg) no-repeat fixed; 
+  background: url(../images/homeImage.jpg) no-repeat fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   min-height:100vh;
   padding-top:100px;
-  position:relative;  
+  position:relative;
 }
 header #headerDataContainer{
 	background-color: rgba(0,48,91,0.7);
 	width:30%;
-	margin-left:2%;	
+	margin-left:2%;
 	position:relative;
 	padding:25px 10px;
 }
 header #headerData{
-	width:80%;	
+	width:80%;
 	max-width:400px;
 	margin:auto;
 	color:white;
@@ -40,21 +40,31 @@ header #headerData img{
     margin: auto;
     width: 70%;
 }
-header #headerData p{		
+header #headerData p{
 	font-size:140%;
-	font-weight:400;	
+	font-weight:400;
 	margin:auto;
 	margin-top:20px;
 }
 header #headerData #LegalDisclaimerButton{
 	display:block;
-	font-size:120%;	
+	font-size:120%;
 	margin:auto;
-	margin-top:20px;	
+	margin-top:20px;
 	cursor:pointer;
 }
 header #headerData #LegalDisclaimerButton:hover{
 	text-decoration:underline;
+}
+header #headerData #seocnd_p{
+	font-size:120%;
+	margin: 25px 0;
+}
+header #headerData img#diamond_svg{
+display:inline;
+height:19px;
+width:auto;
+margin: 0 5px;
 }
 #LegalDisclaimerModal .modal-content{
 	overflow:hidden;
@@ -63,7 +73,7 @@ header #headerData #LegalDisclaimerButton:hover{
 #LegalDisclaimerModal .modal-header{border-bottom:solid 1px black;}
 #LegalDisclaimerModal .modal-header .media-heading{
 	text-align:center;
-	font-weight: 600;	
+	font-weight: 600;
 }
 nav{
 	position:fixed;
@@ -82,14 +92,14 @@ nav img{
 	float:left;
 	width:auto;
 	height:50px;
-	margin-top:5px;	
+	margin-top:5px;
 	margin-left:10px;
-	display:flex;	
+	display:flex;
 }
 nav #menueButton{
 	direction:rtl;
 	cursor: pointer;
-	margin:2px 5px;	
+	margin:2px 5px;
 }
 nav #menueButton{display:none!important;}
 .bar1, .bar2, .bar3 {
@@ -97,7 +107,7 @@ nav #menueButton{display:none!important;}
     height: 5px;
     background-color: #FFF;
     margin: 6px 0;
-    -webkit-transition: 0.4s; /* Safari */    
+    -webkit-transition: 0.4s; /* Safari */
     transition: 0.4s;
 }
 .show .bar1 {
@@ -140,13 +150,13 @@ nav #buttonsContainer button.selected{
 .form{
 	background-color:white;
 	padding-top:20px;
-	min-height:100vh;	
+	min-height:100vh;
 	/*border:solid 1px red;*/
 }
 .form .Ftitle{
 	display:block;
 	text-align:center;
-	color:#00305B;	
+	color:#00305B;
 	font-size:200%;
 	font-weight:600;
 	text-decoration:underline;
@@ -159,11 +169,11 @@ nav #buttonsContainer button.selected{
 	margin:auto;
 	text-align:justify;
 	font-size:110%;
-	color:#00305B;	
+	color:#00305B;
 	padding-bottom:50px;
 }
-.about{	
-	background: url(../images/blackAndWhite.jpg) no-repeat center bottom fixed; 
+.about{
+	background: url(../images/blackAndWhite.jpg) no-repeat center bottom fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -171,11 +181,11 @@ nav #buttonsContainer button.selected{
   	width:100%;
   	padding-bottom: 26vw;
 }
-.mca{	
+.mca{
 	-webkit-box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);
 	box-shadow: 0px 0px 22px -3px rgba(0,0,0,0.75);
-	padding-bottom:20px;	
+	padding-bottom:20px;
 }
 
 .mca.form .TextContainer{
@@ -183,9 +193,10 @@ nav #buttonsContainer button.selected{
 	margin:auto;
 	border-bottom:dashed 1.5px;
 	margin-bottom:15px;
+	text-align: center;
 }
 .mca.form .TextContainer .dataText{
-	width:25%;
+	width: 33%;
 	display:inline-block;
 	margin: 0 auto;
 	text-align: left;
@@ -239,7 +250,7 @@ nav #buttonsContainer button.selected{
 	width:60%;
 	margin:auto;
 }
-.RealEs .boxContainer .box{	
+.RealEs .boxContainer .box{
 	color:#00305B;
 	border: 0.5em double;
 	display:inline-block;
@@ -252,7 +263,7 @@ nav #buttonsContainer button.selected{
 }
 .RealEs .boxContainer .box .box_title{
 	text-align:center;
-	margin-top:10px;	
+	margin-top:10px;
 }
 .RealEs .boxContainer .box .box_middel{
 	position:absolute;
@@ -274,7 +285,7 @@ nav #buttonsContainer button.selected{
 	min-height:400px;
 }
 .team{
-	background-color:rgb(230,230,230);	
+	background-color:rgb(230,230,230);
 	padding-bottom:30px;
 }
 .team .card{
@@ -291,7 +302,7 @@ padding-top:2%;
 padding-bottom:10px;
 }
 .team .card .profilePic{
-	width:150px;	
+	width:150px;
 	border-radius: 5px 5px 5px 5px;
 -moz-border-radius: 5px 5px 5px 5px;
 -webkit-border-radius: 5px 5px 5px 5px;
@@ -302,14 +313,14 @@ border: 0px solid #000000;
 }
 .team .card h3, .role{
 	width:100%;
-	text-align:center;	
+	text-align:center;
 	margin-top:5px;
 }
-.team .card hr{	
-	width:85%;	
+.team .card hr{
+	width:85%;
 	margin:10px auto;
 }
-.team .card a, .link{ 
+.team .card a, .link{
 	width:75%;
 	display:block;
 	margin:10px auto;
@@ -330,7 +341,7 @@ border: 0px solid #000000;
 .team .card a .LinkIco{
 	display:inline-block;
 	width:20%;
-	text-align:center;	
+	text-align:center;
 	margin-right:5px;
 	padding-top:2px;
 	height: 100%;
@@ -343,7 +354,7 @@ border: 0px solid #000000;
 
 .team .card a.mail{border:solid 1px #3b5998;}
 .team .card a.mail .LinkIco{ background-color:#3b5998; color:white;}
-.team .card .link{	
+.team .card .link{
 	text-align:center;
 	cursor:pointer;
 }
@@ -364,22 +375,22 @@ border: 0px solid #000000;
 .BioCard .modal-header .media-body .media-heading{
 	font-size:130%;
 }
-.modal-header .media-right .close{	
+.modal-header .media-right .close{
 	font-size:30pt;
 }
 .BioCard .modal-header{
 	background-color:rgb(230,230,230);
 }
 .modal-body p{
-	padding:5px;	
+	padding:5px;
 	font-size:100%;
 	text-align:justify;
 }
 .modal-body p br{
 	line-height:2;
 }
-.contact{	
-	background: url(../images/blackAndWhite2.jpg) no-repeat center bottom fixed; 
+.contact{
+	background: url(../images/blackAndWhite2.jpg) no-repeat center bottom fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -396,46 +407,46 @@ border: 0px solid #000000;
 	width:100%;
 	height:100%;
 	background-color:rgba(0,48,91,0.7);
-	z-index:-1;	
+	z-index:-1;
 }
 .contact .Ftitle {color:white;}
 .contact form{
 	display:inline-block;
 	color:white;
-	width:49%;	
+	width:49%;
 	padding: 10px;
-	font-size:100%;	
+	font-size:100%;
 	vertical-align:top;
 }
 .contact form #description{
 	display:block;
-	margin-bottom:5px;	
+	margin-bottom:5px;
 }
 .contact form #inputs{
 	display:inline-block;
-	width:50%;		
+	width:50%;
 }
 .contact form #inputs input, .contact form textarea{
 	vertical-align:top;
 	background-color:white;
 	border:solid 1px white;
-	color:#00305B;	
+	color:#00305B;
 	padding:4px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 .contact form #inputs input{
-	width:90%;	
+	width:90%;
 	display:block;
-	margin:5px auto;	
+	margin:5px auto;
 }
 .contact form textarea{
 	width:40%;
 	display:inline-block;
 	margin-left:5%;
 	margin-top:5px;
-	line-height:1.5;	
+	line-height:1.5;
 }
 .contact form #inputs input:focus{
 	background-color:#00305B;
@@ -459,7 +470,7 @@ border: 0px solid #000000;
 	-moz-box-shadow: 0px 2px 14px 0px rgba(0,0,0,0.75);
 	box-shadow: 0px 2px 14px 0px rgba(0,0,0,0.75);
 }
-.contact form button[type="submit"]:active{	
+.contact form button[type="submit"]:active{
 	-webkit-box-shadow:unset;
 	-moz-box-shadow:unset;
 	box-shadow:unset;
@@ -467,7 +478,7 @@ border: 0px solid #000000;
 .contact #htLine{
 	width:2px;
 	margin:0 0.5%;
-	height:250px;
+	height: 600px;
 	background-color:white;
 	display:inline-block;
 	vertical-align:middle;
@@ -476,13 +487,13 @@ border: 0px solid #000000;
 	width:49%;
 	display:inline-block;
 	overflow:overlay;
-	vertical-align:top;	
+	vertical-align:top;
 }
 .contact #contactDirectly a{
 	color:white;
 	display:block;
 	border:solid 1px;
-	margin: 12px 5%; 
+	margin: 12px 5%;
 	text-decoration:none;
 	-webkit-box-shadow: 0px 2px 14px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 2px 14px 0px rgba(0,0,0,0.75);
@@ -521,47 +532,47 @@ border: 0px solid #000000;
 	padding:0 5px;
 	width: 100%;
 	vertical-align:middle;
-	overflow-x:scroll;	
+	overflow-x:scroll;
 	line-height:28px;
 }
-.contact #contactDirectly a .adressData::-webkit-scrollbar { 
-    display:none; 
+.contact #contactDirectly a .adressData::-webkit-scrollbar {
+    display:none;
 }
 .contact #contactDirectly a.locationCon{
 	width:90%;
 }
-.contact #contactDirectly #map{
+.contact #contactDirectly .map{
 	display:block;
 	margin:auto;
 	border:0;
 	width:90%;
-	height:250px;	
+	height:250px;
 	max-width:700px;
 }
 footer{
 	height:120px;
-	background-color:rgb(230,230,230);	
+	background-color:rgb(230,230,230);
 	position:relative;
-	padding-top:50px;	
+	padding-top:50px;
 }
 footer #bootomTtle{
-	text-align:center;	
+	text-align:center;
 }
 @media only screen and (min-width: 800px)
 {
 header{ overflow: hidden; }
-header #headerDataContainer{ 
+header #headerDataContainer{
 	min-width:400px;
 	height:100%;
 	position:absolute;
 }
-nav #buttonsContainer button:hover{	
+nav #buttonsContainer button:hover{
 	/*background-color:white;
 	color:#00305B;
 	-moz-border-radius: 5px;
 -webkit-border-radius: 5px;
-	border-radius: 5px;*/	
-	border-color: white;	
+	border-radius: 5px;*/
+	border-color: white;
 	-webkit-transition: all 0.8s; /* Safari */
     transition: all 0.8s;
 }
@@ -572,11 +583,11 @@ nav #buttonsContainer{	min-width:595px; }
 header{
 	padding-top:50px;
 }
-header #headerDataContainer{	
+header #headerDataContainer{
 	width:50%;
 	min-width:unset;
 }
-header #headerData img{	
+header #headerData img{
     width: 50%;
 }
 header #headerData p{margin-top:10px;}
@@ -601,7 +612,7 @@ nav #buttonsContainer button:active{
 	color:#00305B;
 	-moz-border-radius: 2px;
 -webkit-border-radius: 5px;
-	border-radius: 5px;	
+	border-radius: 5px;
 }
 .form .Ftitle{
 	font-size:140%;
@@ -612,7 +623,7 @@ nav #buttonsContainer button:active{
 	font-size:105%;
 }
 .mca.form .TextContainer{
-	width:90%;	
+	width:90%;
 }
 .mca strong{ font-size:110%; font-weight:600;}
 .mca #MCA_circels{
@@ -625,12 +636,12 @@ nav #buttonsContainer button:active{
 .mca #MCA_circels .circel_box .circel_container{
 	width:120px;
 	height:120px;
-	padding:20px 20px;	
+	padding:20px 20px;
 }
 .mca #MCA_circels .circel_content{
 	font-size:115%;
 }
-.mca #MCA_circels .circel_content strong{	
+.mca #MCA_circels .circel_content strong{
 	font-size:130%;
 }
 .RealEs .boxContainer{width:80%;}
@@ -642,7 +653,7 @@ nav #buttonsContainer button:active{
 	margin-right:calc(25% - 120px);
 }
 .team .card .profilePic{ width:60%; margin-bottom:10px;}
-.team .card a, .link{ 
+.team .card a, .link{
 	width:85%;
 }
 .team .card a:hover{opacity:0.8;}
@@ -674,14 +685,14 @@ nav #menueButton{
 nav #menueContainer{
 	position:fixed;
 	top:0;
-	left:0;	
+	left:0;
 	visibility: hidden;
 	width:100%;
 	height:100vh;
 	background-color: rgba(3,3,3,0.7);
 	z-index:-1;
 	-webkit-transition: width 0.8s; /* Safari */
-    transition: width 0.8s;    
+    transition: width 0.8s;
 }
 nav #menueContainer.show{
 	visibility:initial;
@@ -699,7 +710,7 @@ nav #menueContainer.show #buttonsContainer{
 	width:70%;
 }
 nav #menueContainer #buttonsContainer button{
-	display:block;	
+	display:block;
 	width:50%;
 	margin-left:25%;
 	margin-top:5px;
@@ -741,12 +752,12 @@ nav #menueContainer #buttonsContainer button{
 	width:118px;
 	height:118px;
 	padding:20px 20px;
-	border:solid 2.5px #00305B;	
+	border:solid 2.5px #00305B;
 }
 .mca #MCA_circels .circel_content{
 	font-size:105%;
 }
-.mca #MCA_circels .circel_content strong{	
+.mca #MCA_circels .circel_content strong{
 	font-size:120%;
 }
 .RealEs .boxContainer {width:85%;}
