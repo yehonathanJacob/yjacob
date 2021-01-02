@@ -1,0 +1,555 @@
+psql -h pgsql
+CREATE USER food PASSWORD 'foooddd' CREATEDB;
+CREATE DATABASE food WITH ENCODING='UTF8' OWNER=food;
+\connect food
+GRANT ALL PRIVILEGES ON database food TO food;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO food;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO food;
+
+CREATE USER tom PASSWORD 'UcXJ9RZoB110' ;
+GRANT CONNECT ON DATABASE food TO tom;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO tom;
+
+
+
+create table food
+(
+  fid                 serial        primary key,
+  name                varchar(256)  not null,
+  for_classification  boolean       not null,
+  bad                 boolean       not null default false
+);
+-- alter table food add bad boolean default false;
+create unique index food_i1 on food(name);
+
+alter table food add class_num integer;
+create unique index food_class_num_ui on food(class_num)
+
+
+insert into food (name,for_classification) values ('food',true);
+insert into food (name,for_classification) values ('not_food',true);
+
+create table food_hier
+(
+   id         serial       primary key,
+   fid         integer not null references food,
+   parent      integer not null references food,
+   is_primary  boolean not null,
+   is_representative boolean not null default true
+);
+create index food_hier_i1 on food_hier(fid);
+create index food_hier_i2 on food_hier(parent);
+create unique index food_hier_i3 on food_hier(fid,parent);
+alter table food_hier add is_representative boolean not null default true;
+
+create table lang
+(
+   code  char(2) primary key,
+   lang  varchar(64) not null
+);
+create unique index lang_i1 on lang(lang);
+insert into lang values ('en','English');
+insert into lang values ('he','Hebrew');
+insert into lang values ('cn','Chinese');
+insert into lang values ('ru','Russian');
+
+
+create table food_names
+(
+    id         serial       primary key,
+    fid        integer      not null references food,
+    lang_code  char(2)      not null references lang,
+    name       varchar(256) not null
+);
+create index food_names_i1 on food_names(fid);
+create unique index food_names_i2 on food_names(fid,lang_code,name);
+
+create table food_comments
+(
+    id         serial       primary key,
+    fid        integer      not null references food,
+    comment    text
+);
+create index food_comments_i1 on food_comments(fid);
+
+drop table food_references;
+create table food_references
+(
+    id         serial       primary key,
+    fid        integer      not null references food,
+    lang_code  char(2)      references lang,
+    reftype    varchar(64),
+    url        varchar(1024)
+);
+create index food_references_i1 on food_references(fid);
+
+
+create table datasets
+(
+   name varchar(64)   primary key,
+   comment    text,
+   url        varchar(1024)
+);
+alter table datasets add for_classification boolean not null default true;
+
+create table dataset_categories
+(
+   dataset  varchar(64) references   datasets,
+   category_id varchar(256) not null,
+   fid      integer   references food,
+   dcid serial NOT NULL,
+   primary key (dataset,category_id)
+);
+alter table dataset_categories add cnt integer;
+
+
+create table attributes
+(
+   name varchar(64)   primary key,
+   comment    text,
+   url        varchar(1024)
+);
+insert into attributes (name,comment) values ('chinese_dishes','Chinese dishes and ingreients');
+
+
+create table food_attributes
+(
+    fid        integer      not null references food,
+    attribute  varchar(64)  not null references attributes,
+    primary key (fid,attribute)
+);
+
+
+create table food_qattributes
+(
+    fid        integer      not null references food,
+    attribute  varchar(64)  not null,
+    quantity    numeric,
+    primary key (fid,attribute)
+);
+
+
+create table food_units
+(
+    id         serial       primary key,
+    fid        integer      not null references food,
+    weight     integer      not null,
+    unit       varchar(64)
+);
+
+alter table food_quantitytype add name_cn varchar(255);
+
+
+
+
+
+create table food_complex_dishes
+(
+      id         serial       primary key,
+      main       integer      not null references food,
+      additional integer      not null references food
+);
+
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='meat_dish'), (select fid from food where name='rice_dishes'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='meat_dish'), (select fid from food where name='vegetable_dishes'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='meat_dish'), (select fid from food where name='pasta'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='meat_dish'), (select fid from food where name='salad'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='meat_dish'), (select fid from food where name='vegetable'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='meat_dish'), (select fid from food where name='sauces'));
+
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pizza'), (select fid from food where name='vegetable'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pizza'), (select fid from food where name='sausages'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pizza'), (select fid from food where name='mushroom'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pizza'), (select fid from food where name='pineapple'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pizza'), (select fid from food where name='anchovy'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pizza'), (select fid from food where name='shrimps'));
+
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pasta'), (select fid from food where name='sauces'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pasta'), (select fid from food where name='mushroom'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='pasta'), (select fid from food where name='cheese'));
+
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='sandwich'), (select fid from food where name='sausages'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='sandwich'), (select fid from food where name='cheese'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='sandwich'), (select fid from food where name='egg_dishes'));
+
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='fish'), (select fid from food where name='vegetable'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='fish'), (select fid from food where name='vegetable_dishes'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='fish'), (select fid from food where name='pasta'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='fish'), (select fid from food where name='salad'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='fish'), (select fid from food where name='sauces'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='fish'), (select fid from food where name='rice_dishes'));
+
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='rice_dishes'), (select fid from food where name='vegetable'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='rice_dishes'), (select fid from food where name='salad'));
+
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='juice'), (select fid from food where name='fruit'));
+insert into food_complex_dishes(main,additional) values ((select fid from food where name='yogurt'), (select fid from food where name='fruit'));
+
+
+create or replace view food_complex_dishes_hier as
+select fp_main.fid as main, fp_additional.fid as additional from food_complex_dishes join  food_xpredecessors as fp_main on (main=fp_main.parent) join food_xpredecessors fp_additional on (additional = fp_additional.parent)
+;
+
+
+
+
+
+
+create table food_nutrition_refs
+(
+    id  serial       primary key,
+    fid integer not null references food,
+    -- nutrition_ref character varying(512) NOT NULL,
+    -- percentage integer NOT NULL DEFAULT 100,
+    usda_id    integer NOT NULL references usda_food
+);
+-- alter table food_nutrition_refs add usda_id integer references usda_food;
+create table food_nutrition_refs_backup as select * from food_nutrition_refs;
+alter table food_nutrition_refs drop nutrition_ref;
+alter table food_nutrition_refs drop percentage;
+
+
+
+create table food_components
+(
+  id serial       primary key,
+  fid integer NOT NULL references food,
+  component integer NOT NULL references food,
+  amount double precision NOT NULL,
+);
+
+create table named_timestamps
+(
+  name        varchar(64)  primary key,
+  timestamp   timestamp with time zone not null
+);
+
+
+
+create table usda_food (
+       usda_id   serial       primary key,
+       name      varchar(256) not null,
+       database  varchar(256) not null
+);
+create unique index usda_food_i1 on usda_food(name,database);
+update food_nutrition_refs set usda_id = (select usda_id from usda_food where name=nutrition_ref);
+
+
+create table usda_nutrient (
+       id         serial       primary key,
+       name       varchar(256) not null
+);
+create unique index usda_nutrient_i1 on usda_nutrient(name);
+
+
+create table usda_food_nutrient (
+       id          serial       primary key,
+       usda_id     integer      not null references usda_food,
+       nutrient_id integer      not null references usda_nutrient,
+       amount      numeric not null,
+       unit        varchar(256) not null
+);
+create        index usda_food_nutrient_i1 on usda_food_nutrient(usda_id);
+create unique index usda_food_nutrient_i2 on usda_food_nutrient(usda_id,nutrient_id);
+
+
+create view usda_data as
+select * from usda_food_nutrient join usda_nutrient on (nutrient_id=usda_nutrient.id) join  usda_food using (usda_id)
+where usda_nutrient.name = 'energy' and lower(unit) != 'kcal'
+;
+ limit 5
+
+select distinct unit from usda_food_nutrient where nutrient_id in (select id from usda_nutrient where name='energy')
+
+
+CREATE OR REPLACE VIEW food_predecessors as
+WITH RECURSIVE food_pred(fid,parent) as (
+     select fid,parent from food_hier
+UNION ALL
+      SELECT cur.fid, nxt.parent  from   food_pred cur, food_hier nxt
+      WHERE cur.parent = nxt.fid
+)
+SELECT * from food_pred
+;
+
+CREATE OR REPLACE VIEW food_xpredecessors as
+WITH RECURSIVE food_pred(fid,parent) as
+(
+     select fid,fid from food
+UNION ALL
+      SELECT cur.fid, nxt.parent  from   food_pred cur, food_hier nxt
+      WHERE cur.parent = nxt.fid
+)
+SELECT * from food_pred
+;
+
+
+
+select name from food where fid in (
+       select fid from food_predecessors where parent in (select fid from food where name in ('chinese_dishes','chinese_ingredients','chinese_missing_ingredients'))
+)
+
+
+insert into food_attributes (select fid,'chinese_dishes' from food_predecessors where parent in (select fid from food where name in ('chinese_dishes','chinese_ingredients','chinese_missing_ingredients')))
+
+
+
+select fid from food_attributes where attribute = 'chinese_dishes'
+
+
+
+select fid from food_components
+
+
+
+
+
+
+
+
+
+select distinct fid from(
+select fid from food_components group by fid having sum(amount)=100
+union
+select distinct fid from food_nutrition_refs) as NUTR;
+
+
+
+============================
+
+
+
+
+
+WITH RECURSIVE food_hh(fid,xname,lev) as
+(
+     select fid,name::text,1,name from food where fid not in (select fid from food_hier)
+UNION ALL
+      SELECT nxt.fid, cur.xname || '.' || food.name ::varchar,  cur.lev + 1,food.name
+      FROM   food_hh cur, food_hier nxt, food
+      WHERE cur.fid = nxt.parent and food.fid = nxt.fid
+)
+SELECT fid,name,lev from food_hh
+where fid not in (select fid from food_attributes where attribute='chinese_dishes')
+ order by xname
+;
+
+
+
+create table food_nutrient (
+       fid     integer      not null references food,
+       nutrient_id integer      not null references usda_nutrient,
+       amount      numeric not null,
+       sd_amount   numeric,
+       unit        varchar(256) not null,
+       primary key (fid,nutrient_id)
+);
+
+insert into food_nutrient (fid,nutrient_id,unit,amount,sd_amount) select distinct on(fid,nutrient_id,unit) fid,nutrient_id,unit,amount,sd_amount from (select fid, usda_nutrient.id as nutrient_id, avg(amount) as amount, stddev(amount) as sd_amount, unit, CASE WHEN usda_food.database='Tzameret' THEN 1 WHEN usda_food.database='usda' THEN 2 ELSE 3 END as source from food_nutrition_refs join usda_food_nutrient using (usda_id) join usda_nutrient on (usda_nutrient.id=nutrient_id) join usda_food using (usda_id) group by fid,usda_nutrient.id,unit,source order by source) as q;
+
+
+
+create table food_amount_question (
+        id              serial          primary key,
+        en              varchar(256)    not null,
+        he              varchar(256)    not null,
+        cn              varchar(256)    not null,
+        fid             integer         not null references food,
+        food_to_add     integer         not null references food,
+        quantity_type   integer         references food_quantitytype
+);
+
+
+create table food_boolean_question (
+        id                  serial          primary key,
+        en                  varchar(256)    not null,
+        he                  varchar(256)    not null,
+        cn                  varchar(256)    not null,
+        fid                 integer         not null references food,
+        positive_answer     integer         not null references food,
+        negative_answer     integer         not null references food
+);
+
+create table food_multiple_choice_question (
+        id                  serial          primary key,
+        en                  varchar(256)    not null,
+        he                  varchar(256)    not null,
+        cn                  varchar(256)    not null,
+        fid                 integer         not null references food
+);
+
+
+create table food_answer (
+        id                          serial          primary key,
+        multiple_choice_question    integer         not null references food_multiplechoice_altquestion,
+        answer                      integer         not null  references food
+);
+
+ALTER TABLE food_amount_question RENAME TO amount_question;
+
+ALTER TABLE amount_question DROP COLUMN fid;
+
+create table food_amount_question (
+    id                  serial          primary key,
+    fid                 integer     not null references food,
+    amount_question     integer     not null references amount_question
+);
+
+ALTER TABLE food_boolean_question RENAME TO boolean_question;
+
+ALTER TABLE boolean_question DROP fid;
+
+ALTER TABLE boolean_question ADD COLUMN positive_amount numeric, ADD COLUMN negative_amount numeric, ADD COLUMN action varchar(10) not null default 'replace';
+
+ALTER TABLE boolean_question ALTER COLUMN positive_answer DROP NOT NULL, ALTER COLUMN negative_answer DROP NOT NULL;
+
+CREATE TABLE food_boolean_question (
+    id                  serial      primary key,
+    fid                 integer     not null references food,
+    boolean_question    integer     not null references boolean_question
+   );
+
+INSERT INTO food_boolean_question VALUES (1, 626, 1);
+
+ALTER TABLE food_multiple_choice_question ADD COLUMN action varchar(10) not null default 'add';
+
+ALTER TABLE food_answer ADD COLUMN amount numeric;
+
+CREATE TABLE multiple_choice_question (
+    id                  serial          primary key,
+    en                  varchar(256)    not null,
+    he                  varchar(256)    not null,
+    cn                  varchar(256),
+    action              varchar(10)     not null default 'replace'
+);
+
+INSERT INTO multiple_choice_question(id, en, he, cn)
+SELECT id, en, he, cn FROM food_multiple_choice_question;
+ALTER TABLE food_answer ADD COLUMN question integer references multiple_choice_question;
+UPDATE food_answer SET question=multiple_choice_question;
+ALTER TABLE food_multiple_choice_question ADD COLUMN question integer references multiple_choice_question;
+UPDATE food_multiple_choice_question SET question=id;
+
+ALTER TABLE food_multiple_choice_question DROP en, DROP he, DROP cn, DROP action;
+ALTER TABLE food_multiple_choice_question ALTER COLUMN question SET NOT NULL;
+ALTER TABLE food_answer ALTER COLUMN question SET NOT NULL;
+ALTER TABLE food_answer DROP COLUMN multiple_choice_question;
+
+
+ALTER TABLE amount_question ADD COLUMN default_amount numeric not null default 0;
+
+ALTER TABLE amount_question ADD COLUMN ask_on varchar(10) not null default 'all';
+ALTER TABLE multiple_choice_question ADD COLUMN ask_on varchar(10) not null default 'all';
+ALTER TABLE boolean_question ADD COLUMN ask_on varchar(10) not null default 'all';
+
+ALTER TABLE food_answer ADD COLUMN number integer;
+ALTER TABLE food_answer ADD UNIQUE(question, number);
+
+ALTER TABLE food_quantitytype ADD COLUMN max_amount numeric not null default 10;
+ALTER TABLE food_quantitytype ADD COLUMN step numeric not null default 0.5;
+ALTER TABLE food_quantitytype DROP COLUMN fid_id;
+
+ALTER TABLE food_answer ADD COLUMN en varchar(256);
+ALTER TABLE food_answer ADD COLUMN he varchar(256);
+ALTER TABLE food_answer ADD COLUMN cn varchar(256);
+
+
+CREATE OR REPLACE VIEW food_predecessor_rank as
+WITH RECURSIVE food_pred(fid,parent,rank) as (
+     select fid,fid as parent ,0 as rank from food
+UNION ALL
+      SELECT cur.fid, nxt.parent , rank + 1 from  food_pred cur, food_hier nxt
+      WHERE cur.parent = nxt.fid
+)
+SELECT * from food_pred
+;
+
+
+
+
+
+create table tmp_food_items ( id integer,patient integer,food_id integer);
+COPY  tmp_food_items ( id,patient,food_id)
+FROM '/zzp/home/alex/icx/tools/image/food/classes_analysis/items.csv' DELIMITER ',' CSV HEADER;
+
+CREATE OR REPLACE VIEW tmp_food_stat as
+select food_id as fid ,count(*) as cnt from tmp_food_items group by food_id having count(*)>1 order by cnt desc;
+
+
+select parent, sum(cnt) as i  from food_predecessor_rank join tmp_food_stat using(fid) group by parent having sum(cnt)>0
+
+
+
+
+
+
+WITH summary AS (
+select food_predecessor_rank.fid as fid ,unit_id, weight, rank, ROW_NUMBER() OVER( PARTITION BY food_predecessor_rank.fid, unit_id ORDER BY food_predecessor_rank.rank)
+ as qqq from  food_predecessor_rank join food_units on (food_units.fid=food_predecessor_rank.parent)
+)
+SELECT fid,unit_id,weight
+  FROM summary s
+ WHERE s.qqq = 1
+
+
+
+select fid_id, name_en, amount from food_fooddefaultunit join units using (unit_id)
+select * from food_fooddefaultunit;
+
+
+
+
+WITH units_inhereted AS (
+                     select H.fid as fid, unit_id, amount, ROW_NUMBER() OVER( PARTITION BY H.fid ORDER BY H.rank) as inh_rank
+                     from food_predecessor_rank as H join food_fooddefaultunit as U on (U.fid_id=H.parent)
+                   )
+                 SELECT fid , name_en, amount FROM units_inhereted join units using (unit_id) where inh_rank=1 order by fid;
+
+
+ALTER TABLE food add is_countable boolean;
+ALTER TABLE food add liquid_loss double precision;
+
+ALTER TABLE food_components add unit_amount double precision;
+ALTER TABLE food_components add unit_id integer references units;
+
+ALTER TABLE food_qattributes DROP CONSTRAINT food_qattributes_pkey;
+ALTER TABLE food_qattributes ADD COLUMN id SERIAL PRIMARY KEY;
+ALTER TABLE food_qattributes ADD UNIQUE (fid, attribute);
+
+ALTER TABLE food_units ADD UNIQUE (fid, unit_id);
+
+ALTER TABLE food ADD COLUMN node_type integer;
+
+ALTER TABLE food_useractivitylog ADD fid integer references food;
+ALTER TABLE food_useractivitylog ADD description text;
+
+ALTER TABLE food_units ADD UNIQUE (fid, unit_id);
+
+ALTER TABLE food DROP COLUMN node_type;
+
+CREATE TABLE food_node_type (
+    id                  serial      primary key,
+    name                varchar(256)     not null,
+    description         text
+   );
+
+ALTER TABLE food ADD COLUMN node_type integer references food_node_type;
+
+SELECT MAX(id) + 1 FROM food_qattributes; --return [23661]
+CREATE SEQUENCE food_qattributes_id_seq START WITH 23661;
+ALTER TABLE food_qattributes ALTER COLUMN id SET DEFAULT nextval('food_qattributes_id_seq'::regclass);
+
+create table deleted_food(
+    id         serial       primary key,
+    fid        integer      not null,
+    name       varchar(256)  not null,
+    substitute integer
+);
+
+ALTER TABLE food_useractivitylog ADD COLUMN dataCange varchar(256);
+ALTER TABLE food_useractivitylog DROP COLUMN dataCange;
+ALTER TABLE food_useractivitylog ADD COLUMN dataCange text;
+ALTER TABLE food_useractivitylog DROP COLUMN datacange;
+ALTER TABLE food_useractivitylog ADD COLUMN datachange JSON DEFAULT '{}'::JSON;
+
+ALTER TABLE food_nutrient ADD COLUMN inherited integer DEFAULT 0;
