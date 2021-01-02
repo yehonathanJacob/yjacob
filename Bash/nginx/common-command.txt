@@ -1,0 +1,19 @@
+  360  sudo apt install nginx
+  384  sudo systemctl enable nginx
+  385  sudo systemctl start nginx
+  388  sudo ufw allow http comment 'Open access Nginx port 80'
+  389  sudo ufw allow https comment 'Open all to access Nginx port 443'
+  390  sudo ufw status
+  391  sudo ufw allow ssh comment 'Open access OpenSSH port 22'
+  392  sudo ufw enable
+  393  sudo ufw status
+
+  473  sudo nano /etc/nginx/sites-available/http.all-deals.co.il
+  423  cd /etc/nginx/sites-enabled/
+  425  sudo ln -v -s /etc/nginx/sites-available/http.all-deals.co.il .
+
+  433  sudo nginx -t
+  434  sudo systemctl reload nginx
+
+  541  host all-deals.co.il
+
