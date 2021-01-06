@@ -7,9 +7,11 @@ import logging
 root_path = os.getcwd()
 template_folder = os.path.join(root_path, 'templates')
 static_folder = os.path.join(root_path, 'static')
-log_path = os.path.join(root_path, 'logs', 'log.txt')
+log_path = os.path.join(root_path, 'logs')
+os.makedirs(log_path, exist_ok=True)
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)-15s   %(levelname)s   %(message)s', filename='logs/log.txt')
+logging.basicConfig(level=logging.INFO, format='%(asctime)-15s   %(levelname)s   %(message)s',
+                    filename=f'{log_path}/log.txt')
 logging.getLogger().addHandler(logging.StreamHandler())
 # logging.getLogger().setLevel(logging.DEBUG)
 
