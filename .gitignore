@@ -19,4 +19,4 @@ doc/
 playingArea/
 
 #Logs
-logs/
+log*
