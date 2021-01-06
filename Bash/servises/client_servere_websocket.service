@@ -1,0 +1,11 @@
+Unit]
+Description=My first websockets app
+
+[Service]
+User=yjacob
+WorkingDirectory=/home/yjacob/repos/yjacob/PythonLab/PersonalProjects/WebsocketsPractice/ClientServere_websocket/
+ExecStart=/home/yjacob/repos/yjacob/Bash/run_files/client_servere_websocket.bs
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
