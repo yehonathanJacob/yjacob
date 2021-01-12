@@ -1,0 +1,3 @@
+. /home/yjacob/.bashrc
+conda activate webSoc
+python app.py --host 0.0.0.0 --port 8000 --html_protocol https --web_socket_protocol wss
