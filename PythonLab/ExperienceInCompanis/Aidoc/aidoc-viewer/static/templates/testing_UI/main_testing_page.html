@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+  <!-- Support for mobile touch devices -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="static/images/favicon.png" sizes="32x32">
+
+  <title>Testing UI environment</title>
+  <!-- Include JQuery -->
+  <base href="{{base_url}}/">
+  <!-- CSS -->
+
+  <!-- Font awesome CSS for tool icons -->
+  <link rel="stylesheet" href="static/lib/font-awesome.min.css">
+
+  <!-- Bootstrap CSS -->
+  <link href="static/lib/bootstrap.min.css" rel="stylesheet">
+
+  <link href="static/lib/jquery.qtip.min.css" rel="stylesheet">
+
+  <!-- UI CSS -->
+  <link href="static/lib/jquery-ui.min.css" rel="stylesheet">
+
+  <link href="static/lib/toastr.min.css" rel="stylesheet">
+
+  <!-- Cornerstone Base CSS -->
+  <link href="static/lib/cornerstone.min.css" rel="stylesheet">
+
+  <!-- Aidoc App CSS -->
+  <link href="static/css/styles.css" rel="stylesheet">
+
+  <!-- Development CSS -->
+  <link href="static/css/testing_page.css" rel="stylesheet">
+</head>
+<body>
+
+<!--  nav bar-->
+  <nav class="myNav navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav pull-left">
+                <li>
+                    <div class="aidoc-logo-floating">
+                        <img src="static/images/logo-white.png">
+                    </div>
+                </li>
+                <li>
+                    <div class="navbar-user-name">{{username}}</div>
+                </li>
+            </ul>
+            <div class="center-content">
+                <lable for="PluginSelection">Selected plugin:
+                </lable><select onchange="ChangePlugin()" name="PluginSelection" id="PluginSelection">
+                </select>
+            </div>
+            <ul class="nav navbar-nav pull-right">
+                <li class="admin-link-container hidden">
+                    <a href="admin" class="admin-link"><i class="fa fa-user-secret" aria-hidden="true"></i> Admin</a>
+                </li>
+                <li class="call-support-link-container hidden">
+                    <a href="" class="call-support-link"><i class="glyphicon glyphicon-phone-alt" aria-hidden="true"></i> Support</a>
+                </li>
+                <li>
+                    <a href="login/logout" class="logout-link"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                </li>
+                <li class="quit-app-link-container hidden">
+                    <a href="" class="quit-app-link"><span class="fa fa-power-off"></span> Quit</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+<div id="search_scan_container"><form action="javascript:" onsubmit="return submittingForm(this);"><label for="username_select2">Username:
+  </label><select id="username_select2" class="select_username" name="username"></select><br><label for="studyUid_select2">Study UID:
+  </label><select id="studyUid_select2" class="select_uid" name="workItem" required></select><br><label for="seriesKey_select2">Series UID:
+  </label><select id="seriesKey_select2" class="select_uid" name="seriesKey" required></select><br><label for="sliceNumber_select2">Slice:
+  </label><select id="sliceNumber_select2" class="select_number" name="sliceNumber" required></select><br><input name="Submit" class="btn btn-secondary" type="submit" value="Load DICOM" id="load_dicom_btn"/></form></div>
+
+<!--List of button to the dicoms in a given series-->
+<div id="btnList"></div>
+<div id="center_page">
+  <!-- The element target -->
+  <div class="cornerstone-element-wrapper">
+    <div class="cornerstone-element" data-index="0" oncontextmenu="return false"></div>
+  </div>
+  <div id="timer-container"><div id="time-label">Last load: </div><div id="time-result"></div></div>
+</div>
+
+<!-- Javascripts -->
+<!-- Include JQuery -->
+<script src="static/lib/jquery.min.js"></script>
+<script src="static/lib/jq-ajax-progress.min.js"></script>
+
+<!-- Include event emitter implementation -->
+<script src="static/lib/eventemitter2.js"></script>
+
+<script src="static/lib/jquery.qtip.min.js"></script>
+<script src="static/lib/loadingoverlay.min.js"></script>
+<script src="static/lib/loadingoverlay_progress.min.js"></script>
+<!-- Include JQuery UI for drag/drop -->
+<script src="static/lib/jquery-ui.min.js"></script>
+<!-- Include JQuery Hammerjs adapter for mobile touch-->
+<script src="static/lib/hammer.min.js"></script>
+<!-- Include Bootstrap js -->
+<script src="static/lib/bootstrap.min.js"></script>
+<!-- Include Bootbox js -->
+<script src="static/lib/bootbox.js"></script>
+<!-- Include Bootbox js -->
+<script src="static/lib/uuid.min.js"></script>
+<!-- include the cornerstone library -->
+<script src="static/lib/cornerstone.js"></script>
+<!-- include the cornerstone library -->
+<script src="static/lib/cornerstoneMath.js"></script>
+<!-- include the cornerstone tools library -->
+<script src="static/lib/cornerstoneTools.js"></script>
+
+<script src="static/js/jquery.binarytransport.js"></script>
+<script src="static/js/initNamespaces.js"></script>
+
+<!-- select2 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
+
+<!--JS script for testing environment-->
+<script src="static/js/for_testing/timerServise.js"></script>
+<script src="static/js/for_testing/loadImageBasic.js"></script>
+<script src="static/js/for_testing/scanImageLoader.js"></script>
+<script src="static/js/for_testing/functionalityInTestingPafe.js"></script>
+
+<!--JS Plugins for development environment-->
+<script src="static/js/for_testing/Plugins/load_full_scans.js"></script>
+<script src="static/js/for_testing/Plugins/load_singel_dicom.js"></script>
+
+<!-- Define selected plugin-->
+<script src="static/js/for_testing/pluginCpntroler.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+name: aidoc-demo-viewer
+channels: !!python/tuple
+- conda-forge
+- defaults
+- kidzik
+dependencies:
+- bcrypt=3.1.2=py36_0
+- conda-forge::ca-certificates=2016.9.26=0
+- conda-forge::certifi=2017.1.23=py36_0
+- conda-forge::cffi=1.7.0=py36_0
+- conda-forge::click=6.7=py36_0
+- conda-forge::flask-login=0.3.2=py36_0
+- conda-forge::flask-migrate=2.0.3=py36_0
+- conda-forge::flask-script=2.0.5=py36_1
+- conda-forge::h5py=2.6.0=np112py36_2
+- conda-forge::hdf5=1.8.15.1=vc14_4
+- conda-forge::jinja2=2.8=py36_1
+- conda-forge::m2-libffi=3.2.1=2
+- conda-forge::libpq=9.5.4=vc14_3
+- conda-forge::markupsafe=0.23=py36_1
+- conda-forge::m2-ncurses=6.0.20160220=2
+- conda-forge::numpy=1.12.0=py36_0
+- conda-forge::openssl=1.0.2h=vc14_3
+- conda-forge::pip=9.0.1=py36_0
+- conda-forge::psycopg2=2.6.2=py36_1
+- conda-forge::pydicom=0.9.9=py36_0
+- conda-forge::python=3.6.0=1
+- conda-forge::pyreadline=2.1=py36_0
+- conda-forge::scipy=0.18.1=np112py36_1
+- conda-forge::setuptools=33.1.0=py36_0
+- conda-forge::six=1.10.0=py36_1
+- conda-forge::sqlalchemy=1.1.5=py36_0
+- conda-forge::sqlite=3.16.2=vc14_0
+- conda-forge::tk=8.5.19=vc14_1
+- conda-forge::wheel=0.29.0=py36_0
+- conda-forge::xz=5.2.2=0
+- conda-forge::zlib=1.2.11=vc14_0
+- conda-forge::python-dateutil=2.6.1=py36_0
+- flask=0.12=py36_0
+- itsdangerous=0.24=py36_0
+- m2w64-gcc-libgfortran=5.3.0=6
+- mkl=2017.0.1=0
+- pycparser=2.17=py36_0
+- werkzeug=0.11.15=py36_0
+- pip:
+  - flask-sqlalchemy==2.1
+  - flask-autodoc
+  - sendgrid==3.6.3
+  - applicationinsights==0.11.4
+  - dicomaizer==1.0.17
+  - flask-autodoc
+
+prefix: /home/dolev/anaconda3/envs/aidoc-demo-viewer
+
