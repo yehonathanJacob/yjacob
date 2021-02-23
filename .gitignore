@@ -21,7 +21,10 @@ playingArea/
 #Logs
 logs/
 
+
 #Medai
 *.png
 *.jpg
 *.mp4
+
+instance/
