@@ -1,0 +1,35 @@
+##
+## domain http://yjacob.net/
+##
+server {
+    listen 80;
+    listen [::]:80;
+    server_name yjacob.net;
+
+    # log files
+    access_log  /var/log/nginx/yjacob.net_access.log;
+    error_log   /var/log/nginx/yjacob.net_error.lg;
+
+    location /socketHandler {
+        proxy_pass http://0.0.0.0:8000/socketHandler;
+        proxy_redirect off;
+        proxy_buffering off;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+    }
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+
+        proxy_pass http://0.0.0.0:8000;
+
+    }
+}
