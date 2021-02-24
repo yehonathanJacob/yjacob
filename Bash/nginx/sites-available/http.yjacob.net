@@ -1,0 +1,13 @@
+server {
+    listen      80;             # port
+    server_name yjacob.net; # dns server name
+    
+    # log files
+    access_log  /var/log/nginx/yjacob.net_access.log;
+    error_log   /var/log/nginx/yjacob.net_error.lg;
+
+    # document root where files stores for test.yjacob.net domain
+    root /home/yjacob/repos/yadcapital_edition/yjacob/ProjectsWeb/yjacob.net;
+ 
+   index index.html index.html;
+}
