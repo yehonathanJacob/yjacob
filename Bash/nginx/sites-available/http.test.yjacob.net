@@ -6,8 +6,25 @@ server {
     access_log  /var/log/nginx/test.yjacob.net_access.log;
     error_log   /var/log/nginx/test.yjacob.net_error.lg;
 
-    # document root where files stores for test.yjacob.net domain
-    root /home/yjacob/tmp/nginx_game/;
- 
-   index index.html index.html;
+    location /socketHandler {
+        proxy_pass http://0.0.0.0:8080/socketHandler;
+        proxy_redirect off;
+        proxy_buffering off;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+    }
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+
+        proxy_pass http://0.0.0.0:8080;
+    }
 }
