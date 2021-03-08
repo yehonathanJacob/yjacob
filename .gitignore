@@ -20,7 +20,7 @@ playingArea/
 
 #Logs
 logs/
-.log
+*.log
 
 #Medai
 *.png
