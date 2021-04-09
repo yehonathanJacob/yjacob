@@ -19,8 +19,9 @@ doc/
 playingArea/
 
 #Logs
-logs/0
+logs/
 *.log
+
 instance/
 
 #Medai
