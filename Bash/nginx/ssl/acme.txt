@@ -1,3 +1,4 @@
+# Installing acme (for SSL)
 mkdir ssl_games
 cd ssl_games/
 ll
@@ -9,15 +10,25 @@ sudo su
 . "/root/.acme.sh/acme.sh.env"
 acme.sh --version
 
-mkdir -pv /etc/nginx/ssl/letsencrypt/all-deals.co.il
-cd /etc/nginx/ssl/letsencrypt/all-deals.co.il/
+
+# Installing new SSL certification
+mkdir -pv /etc/nginx/ssl/letsencrypt/domain.co.il
+cd /etc/nginx/ssl/letsencrypt/domain.co.il/
 openssl dhparam -out dhparams.pem -dsaparam 4096
 ll
+
+sudo su
 export CF_Key="..."
 export CF_Email=".."
 acme.sh --issue --dns dns_cf -d all-deals.co.il
 acme.sh \
-    --installcert -d all-deals.co.il \
-    --keypath /etc/nginx/ssl/letsencrypt/all-deals.co.il/ssl.key \
-    --fullchainpath /etc/nginx/ssl/letsencrypt/all-deals.co.il/ssl.crt \
+    --installcert -d domain.co.il \
+    --keypath /etc/nginx/ssl/letsencrypt/domain.co.il/ssl.key \
+    --fullchainpath /etc/nginx/ssl/letsencrypt/domain.co.il/ssl.crt \
     --reloadcmd 'systemctl reload nginx'
+
+# Listing all SSL
+/root/.acme.sh/acme.sh --list
+
+# Removing SSL
+/root/.acme.sh/acme.sh --remove --domain domain.co.il
