@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<form action="/load_event_bins" method="get">
+    <input type="text" name="csv_path" placeholder="path to csv file">
+    <input type="submit">
+</form>
+<body>
+{% if list_events %}
+<table>
+    <thead>
+        <tr>
+          <th>Time Bin</th>
+          <th>Mean Value</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for record in list_events  %}
+        <tr>
+          <td>{{record.bins}}</td>
+          <td>{{record.value}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+</body>
+</html>
