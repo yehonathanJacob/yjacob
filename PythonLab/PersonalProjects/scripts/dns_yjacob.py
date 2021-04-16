@@ -37,7 +37,7 @@ def update_dns_ip_address(configuration_dict:dict, dns_records, ip_address, just
     head_authentication = configuration_dict['head_authentication']
 
     for record in tqdm(dns_records):
-        if record['type'] is not 'A':
+        if record['type'] != 'A':
             tqdm.write(f"Expected type: A in '{record['name']}' got: {record['type']}")
         elif record['content'] == ip_address:
             tqdm.write(f"The record '{record['name']}' is already set dedicated server IP.")
