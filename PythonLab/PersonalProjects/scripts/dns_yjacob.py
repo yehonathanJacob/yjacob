@@ -33,30 +33,32 @@ def get_local_ip_address():
     ip = requests.get('https://api.ipify.org').text
     return ip
 
-def update_dns_ip_address(configuration_dict:dict, dns_records, ip_address):
+def update_dns_ip_address(configuration_dict:dict, dns_records, ip_address, just_print_status=False):
     head_authentication = configuration_dict['head_authentication']
 
     for record in tqdm(dns_records):
         if record['type'] is not 'A':
             tqdm.write(f"Expected type: A in '{record['name']}' got: {record['type']}")
-            continue
         elif record['content'] == ip_address:
             tqdm.write(f"The record '{record['name']}' is already set dedicated server IP.")
-            continue
         else:
             record_id = record['id']
             zone_id = record['zone_id']
             record['content'] = ip_address
             body = json.dumps(record)
             url_to_set = API_TO_SET_RECORD.format(selected_zone=zone_id, record_id=record_id)
-            # r = requests.patch(url_to_set, data=body, headers=head_authentication)
-            tqdm.write(f"Updated '{record['name']}' to dedicated server IP.")
+            if not just_print_status:
+                r = requests.patch(url_to_set, data=body, headers=head_authentication)
+                tqdm.write(f"Updated '{record['name']}' to dedicated server IP.")
+            else:
+                tqdm.write(f"JUST PRINTING: '{record['name']}' to dedicated server IP.")
 
 def init_argparse():
     parser = argparse.ArgumentParser(description='Process some data.')
     parser.add_argument('--ip_address', help='ip address to set all domain, default local ip')
     parser.add_argument('--janjak2411_path', help='root to private repo, default from environ variable')
     parser.add_argument('--zone_name', default='yjacob.net')
+    parser.add_argument('--just_print_status', action='store_true')
 
     args = parser.parse_args()
     return args
@@ -68,6 +70,6 @@ if __name__ == '__main__':
     dns_records = get_all_dns_records(configuration_dict, args.zone_name)
     ip_address = args.ip_address or get_local_ip_address()
 
-    update_dns_ip_address(configuration_dict, dns_records, ip_address)
+    update_dns_ip_address(configuration_dict, dns_records, ip_address, args.just_print_status)
 
 
