@@ -20,5 +20,14 @@ playingArea/
 
 #Logs
 logs/
+*.log
 
 instance/
+
+#Medai
+*.png
+*.jpg
+*.mp4
+
+#Nural network
+*.caffemodel
