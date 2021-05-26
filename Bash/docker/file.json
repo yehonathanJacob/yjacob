@@ -1,0 +1,97 @@
+[
+    {
+        "Id": "sha256:1d7e05819ee1a1188a327076bae0dc835c9250c4c9edef780aa18aecf86bcdbf",
+        "RepoTags": [
+            "web_server/exampel1:latest"
+        ],
+        "RepoDigests": [],
+        "Parent": "sha256:b2f15c63c097c91a5b8ec8470e8490c02e32580c5cbc4e8f2e1071d8135b549d",
+        "Comment": "",
+        "Created": "2021-05-17T18:01:29.250940911Z",
+        "Container": "41021249ae979fb62b0df491750598ea13a29e1df2777fe130ab2e684f149b2c",
+        "ContainerConfig": {
+            "Hostname": "41021249ae97",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "ENTRYPOINT [\"python3\"]"
+            ],
+            "Image": "sha256:b2f15c63c097c91a5b8ec8470e8490c02e32580c5cbc4e8f2e1071d8135b549d",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "python3"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "DockerVersion": "20.10.6",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/opt/source-code/app.py"
+            ],
+            "Image": "sha256:b2f15c63c097c91a5b8ec8470e8490c02e32580c5cbc4e8f2e1071d8135b549d",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "python3"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 511089428,
+        "VirtualSize": 511089428,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/1ef02e61a57a25e02927af7d896fb497593405e684c8a07bcb1628571343ed5c/diff:/var/lib/docker/overlay2/76e3d158770d0a7e0843b3adb4a6b8f323129320130424ab28b826395b80a8b4/diff:/var/lib/docker/overlay2/da6e8333ed3f75edfd5da5136588fc935103aea4ade0de56ce18f0c2e59f9df3/diff:/var/lib/docker/overlay2/26d08814f28893d7024a2dc3947889de56d16277aa5ecf8cede98ffbf099b342/diff:/var/lib/docker/overlay2/3224632b7f2ff1c85ebd11d6744bd5273a52b112e531ca292543381fa20faf7f/diff:/var/lib/docker/overlay2/36c074d9a34e7cd108723593ede10fba08a95c09a97920e824e37ca457d1dd5b/diff:/var/lib/docker/overlay2/4c9c0937f585d5af9ea04cc040bc184425f94ad9e4d716a96c7381abddd26b60/diff",
+                "MergedDir": "/var/lib/docker/overlay2/34542278ba0200facc51ac60225e012b3cea401da5b7feb2b4e49649c718aa09/merged",
+                "UpperDir": "/var/lib/docker/overlay2/34542278ba0200facc51ac60225e012b3cea401da5b7feb2b4e49649c718aa09/diff",
+                "WorkDir": "/var/lib/docker/overlay2/34542278ba0200facc51ac60225e012b3cea401da5b7feb2b4e49649c718aa09/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:5153e1acaabce0d87adbf4a717bdc5e26cf86d851330830589a6b2bf5ede30ee",
+                "sha256:a5d4bacb035190f03e3e1dc36846fd3db0f6773f4823f2a85fc59351af78574a",
+                "sha256:8cafc6d2db454d0e10cc9042980edb065c149b2cbde12a904b0da3f2cb26f62a",
+                "sha256:409c3ece842ff857d12a17ffc87895f1e0b34012ad2a11bd41e2baf3e90b70d4",
+                "sha256:ba4af180e2ae2ebe3547506c57fb3e9bec074a8a0e0d6340611cac7cf7e69882",
+                "sha256:cb16c031fe64301d4cd70af8d784c26c314a293a60fb31a6e723636b7a5aa3dc",
+                "sha256:ccbc9aa7ee3dea2df17394e09a17acfb99f60480a210d4fa8fe47e2a222d0dbc",
+                "sha256:1220681234eec75f50df178d324714ff47efdfcca3bf8178094d9ac10f5243d7"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2021-05-17T21:01:29.287902543+03:00"
+        }
+    }
+]

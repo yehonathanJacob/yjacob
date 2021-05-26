@@ -1,0 +1,27 @@
+docker rm <container_name> // to remove container
+docker rm -f $(docker ps -a -q) // to delete all images
+docker rmi <image_name> // to remove image DELETE ALL DEPENTED CONTAINER FIRST
+
+docker ps // show all runnig containers
+docker ps -a // show all existing containers
+docker images // show all existing images
+
+docker pull <image> // made to just download an exsiting image from hub.docker.com
+docker run <image> // to run the images as a task
+docker stop <image> // to stop the images as a task
+docker run -d <image> // to run image in the backgroun (to be abel return to promote).
+docker attach <image_id> // to attach back to docker image
+docker logs <image_id> // to view logs of image
+
+docekr run -p <external_port>:<internal_port> // to bind an external port for internal container
+docekr run --network=host // to just use host network insted of mapping ports
+docekr run -v <external_path>:<internal_path> // to bind an external path for internal container
+
+docker run -e ENV_NAME="env value" // to create enviroment variable
+docker run -i // to permit input from stdin
+docker run -t // to permit output to stdout
+
+docker build . -t <web_server/exampel1>
+
+docker run -it --entrypoint sh <image_name> // to see bash in image
+docker run -it --rm python:rc // run lateset python version
