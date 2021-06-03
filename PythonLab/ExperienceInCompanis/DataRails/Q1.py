@@ -19,10 +19,13 @@ def sub(a, b):
     return a - b
 
 
-print_args()
-print_args(1, 2, 3, 4)
-print_args(1, 2, 3, 4, a=5, b=6, c=7)
 
-sub(3, 2)
-sub(a=3, b=2)
+if __name__ == '__main__':
+    print_args()
+    print_args(1, 2, 3, 4)
+    print_args(1, 2, 3, 4, a=5, b=6, c=7)
+
+    print(sub(3, 2))
+    print(sub(a=3, b=2))
+
 
