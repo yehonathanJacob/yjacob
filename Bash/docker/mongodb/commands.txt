@@ -1,0 +1,23 @@
+https://hub.docker.com/_/mongo?tab=description&page=1&ordering=last_updated
+https://www.w3schools.com/python/python_mongodb_getstarted.asp
+
+docker pull mongo:latest
+
+## FOR SIMPLY RUNING
+docker run --name some-mongo -p 27017:27017 -d mongo
+##
+
+## FOR RUNNING WITH WEB INTERFACE (mongo-express)
+docker run --name some-mongo -p 27017:27017 -d \
+    -e ME_CONFIG_MONGODB_ADMINUSERNAME="root" -e ME_CONFIG_MONGODB_ADMINPASSWORD="example" \
+    mongo
+docker run --name mogo-express -p 8081:8081 -d \
+    -e ME_CONFIG_MONGODB_ADMINUSERNAME="root" -e ME_CONFIG_MONGODB_ADMINPASSWORD="example" --link some-mongo:mongo \
+    mongo-express
+
+# goto: http://localhost:8081/
+##
+
+python:
+https://www.w3schools.com/python/python_mongodb_getstarted.asp
+simple connect to localhost:27017
