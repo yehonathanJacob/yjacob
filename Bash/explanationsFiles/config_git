@@ -1,0 +1,32 @@
+Host home
+	HostName yjacob-HP-MiniPc.local
+	User yjacob
+Host aws1
+        HostName 13.58.32.66
+        User yjacob
+        IdentityFile ~/.ssh/id_rsa
+
+# GIT
+# Personal account, - the default config
+Host github.com
+   HostName github.com
+   User git
+   IdentityFile ~/.ssh/id_rsa
+   
+# Work account icx
+Host github.com-icx
+   HostName github.com
+   User git
+   IdentityFile ~/.ssh/id_rsa_icx
+# Work account aidoc
+Host bitbucket.org
+	HostName bitbucket.org
+	User git
+	IdentityFile ~/.ssh/id_rsa_aidoc
+
+# Yadcapital account
+Host yadcapital
+        HostName ec2-18-221-162-217.us-east-2.compute.amazonaws.com
+        User yjacob
+        IdentityFile ~/.ssh/id_rsa
+
