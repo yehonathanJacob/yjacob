@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 REDSHIFT = 'redshift+psycopg2://user:password@host:port/db_name'
 POSTGRES = 'postgres://user:password@host:port/db_name'
+MYSQL = 'mysql+pymysql://user:password@host:port/db_name'
 
 CONNECTION = POSTGRES
 
@@ -29,3 +30,9 @@ def AIDBSession():
         raise e
     finally:
         session.close()
+
+
+# pull metadata of a table
+metadata = MetaData(bind=_engine)
+metadata.reflect(only=['test_table'])
+test_table = metadata.tables['test_table']
