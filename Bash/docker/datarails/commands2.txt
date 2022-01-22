@@ -5,3 +5,9 @@ docker run --name sqllight-viwer -p 3000:3000 -v /Users/yehonathanjacob/repos/da
 docker run --link localhost:mongo --name mongo-viwer -p 8081:8081 -d -e ME_CONFIG_MONGODB_ADMINUSERNAME="root" -e ME_CONFIG_MONGODB_ADMINPASSWORD="example" mongo-express
 
 docker run --name=user_mysql_1 --env="MYSQL_ROOT_PASSWORD=root_password" -p 3306:3306 -d mysql:latest
+docker stop user_mysql_1
+docker start user_mysql_1
+
+docker run --name postgres-container -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+docker stop postgres-container
+docker start postgres-container

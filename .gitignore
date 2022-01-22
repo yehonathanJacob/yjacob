@@ -34,3 +34,6 @@ instance/
 
 #Nural network
 *.caffemodel
+
+#  Apple macOS https://en.wikipedia.org/wiki/.DS_Store
+.DS_Store
