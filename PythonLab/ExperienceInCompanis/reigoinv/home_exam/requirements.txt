@@ -3,7 +3,7 @@ pandas==1.1.5
 numpy==1.19.5
 pytest==6.2.4
 requests==2.25.1
-Scrapy==2.5.0
+Scrapy==2.6.1
 selenium==3.8.0
 SQLAlchemy==1.4.14
 starlette==0.14.2
