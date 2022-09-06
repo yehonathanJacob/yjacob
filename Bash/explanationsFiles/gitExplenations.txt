@@ -25,3 +25,8 @@ git reset --hard origin/html_page_reports //מחיקת כל השינויים ו�
 git cherry-pick branch_or_commit_name // הוספת קומית או בראנצ ספציפי לבראנץ שלך
 
 git log --graph --decorate --oneline // להצגת העץ
+
+
+git branch -D <branch_name> // למחיקת בראנצ׳ לוקלי
+
+git branch -D <branch_name> // אתחול בראנצ׳

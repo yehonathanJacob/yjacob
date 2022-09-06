@@ -40,7 +40,7 @@ class ParallelMatching:
 
     def load_matches_results(self):
         result_for_A_dir = []
-        with mp.Pool(processes=os.cpu_count() - 1) as pool:
+        with mp.Pool(processes=mp.cpu_count() - 1) as pool:
             for A_file_directory in iter(self.A_reader):
                 max_match_result = pool.apply_async(ParallelMatching._process_file_match,
                                                     (A_file_directory, self.B_reader, self.minimum_intersection))
