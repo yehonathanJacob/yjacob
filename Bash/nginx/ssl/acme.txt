@@ -32,3 +32,6 @@ acme.sh \
 
 # Removing SSL
 /root/.acme.sh/acme.sh --remove --domain domain.co.il
+
+# Renew SSL
+/root/.acme.sh/acme.sh -f -r -d domain.co.il

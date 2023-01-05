@@ -1,0 +1,18 @@
+source:
+https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/
+
+$ cd /etc/systemd/system
+
+create/edit a file.service (can see example in this folder on in the source above)
+
+$ sudo systemctl daemon-reload
+
+control:
+$ sudo systemctl start your-service.service
+$ sudo systemctl status your-service.service
+$ sudo systemctl stop your-service.service
+
+example:
+$ sudo systemctl start client_servere_websocket.service
+$ sudo systemctl status client_servere_websocket.service
+$ sudo systemctl stop client_servere_websocket.service
