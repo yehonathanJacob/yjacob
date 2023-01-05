@@ -29,4 +29,9 @@ git log --graph --decorate --oneline // להצגת העץ
 
 git branch -D <branch_name> // למחיקת בראנצ׳ לוקלי
 
-git branch -D <branch_name> // אתחול בראנצ׳
+// אתחול בראנצ׳ <branch_name> //
+git checkuot <some_branch>
+git branch -D <branch_name>
+git fetch
+git checkuot <branch_name>
+git pull
