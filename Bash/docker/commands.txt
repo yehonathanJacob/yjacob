@@ -10,7 +10,8 @@ docker images // show all existing images
 
 docker pull <image> // made to just download an exsiting image from hub.docker.com
 docker run <image> // to run the images as a new container
-docker stop <image> // to stop the images as a new container
+docker stop <container> // to stop the new container
+docker start <container> // to continue running the container
 docker run -d <image> // to run image in the backgroun (to be abel return to promote).
 docker attach <image_id> // to attach back to docker image
 docker logs <image_id> // to view logs of image
