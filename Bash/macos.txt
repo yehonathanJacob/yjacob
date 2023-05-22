@@ -1,0 +1,24 @@
+brew tap microsoft/mssql-release https://github.com/Microsoft/homebrew-mssql-release
+brew update
+HOMEBREW_NO_ENV_FILTERING=1 ACCEPT_EULA=Y brew install msodbcsql17 mssql-tools
+brew install ngrok/ngrok/ngrok
+brew services start --all
+brew service list
+brew services stop rabbitmq
+brew install sqldiff
+brew services run rabbitmq
+brew install python
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install freetds
+brew services status rabbitmq
+brew install rabbitmq
+brew tap mongodb/brew
+brew install libxmlsec1
+brew
+brew install git-lfs
+brew services status mongo
+brew services start
+brew services list
+brew install mongodb-community@4.4
+brew reinstall git-lfs
+brew services start rabbitmq
