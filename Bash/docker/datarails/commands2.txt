@@ -15,3 +15,15 @@ docker start postgres-container
 docker run --name some-mongo -p 27017:27017 -d mongo
 
 docker run -d --name my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+
+az login --tenant datarails.com
+az account set --subscription fa93968e-d972-4f97-b1a7-bf52a2ebc867
+az aks get-credentials --resource-group dr-prod-eastus-aks-rg --name dr-prod-eastus-aks-cluster
+kubectl get pods -n tpublic
+kubectl cp /Users/yehonathanjacob/Downloads/dr.demo.zip django-deployment-7b78886856-fz9l6:/srv/tmp_file/dr.demo.zip -c django -n tpublic
+kubectl cp .../basic.py django-deployment-7b78886856-fz9l6:/srv/tmp_file/dr.demo.zip -c django -n tpublic
+
+kubectl exec -it django-deployment-6d874cb7b6-jxqlk -c django -n tpublic -- bash
+
+cd /srv/HippiWeb
+python -i /srv/tmp_files/basic.py --settings=HippiWeb.settings.k8s.py

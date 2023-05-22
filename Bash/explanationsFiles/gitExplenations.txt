@@ -35,3 +35,5 @@ git branch -D <branch_name>
 git fetch
 git checkuot <branch_name>
 git pull
+
+git branch | grep -v "master\|prod\|prod_beta\|releasecandidate$" | xargs git branch -D // ליניקוי בראצ׳ים לוקלי

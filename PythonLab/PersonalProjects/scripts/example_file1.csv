@@ -1,0 +1,42 @@
+Date,Message
+2022-06-20T09:07:57.459Z,[AutoCalculate] doc_id=95496 request_id=791097 DELETE BECAUSE FINISH
+2022-06-20T09:07:57.459Z,[AutoCalculate] doc_id=95496 request_id=791097 FINISH trigger_by='trigger-table' CREATED new_doc_version=<DocumentVersion: DocumentVersion object (1958733)>
+2022-06-20T09:07:45.448Z,[AutoCalculate] doc_id=95496 request_id=791097 MOVED FROM WAITING TO PROCESSING
+2022-06-20T09:07:45.448Z,[AutoCalculate] doc_id=95496 request_id=791097 TRY GET REQUEST number_of_retry=1
+2022-06-20T09:07:36.211Z,[AutoCalculate] doc_id=95496 request_id=791097 CREATING Denied because exist
+2022-06-20T09:07:34.864Z,[AutoCalculate] doc_id=95496 request_id=791085 DELETE BECAUSE FINISH
+2022-06-20T09:07:34.864Z,[AutoCalculate] doc_id=95496 request_id=791085 FINISH trigger_by='trigger-table' CREATED new_doc_version=<DocumentVersion: DocumentVersion object (1958717)>
+2022-06-20T09:07:28.741Z,[AutoCalculate] doc_id=95496 request_id=791097 CREATING Denied because exist
+2022-06-20T09:07:25.098Z,[AutoCalculate] doc_id=95496 request_id=791097 Retry number: 1
+2022-06-20T09:07:25.098Z,[AutoCalculate] doc_id=95496 request_id=791097 Can not auto calculate.
+2022-06-20T09:07:25.098Z,[AutoCalculate] doc_id=95496 request_id=791097 TRY GET REQUEST number_of_retry=0
+2022-06-20T09:07:24.106Z,[AutoCalculate] doc_id=95496 request_id=791097 CREATING Success
+2022-06-20T09:07:20.842Z,[AutoCalculate] doc_id=95496 request_id=791085 MOVED FROM WAITING TO PROCESSING
+2022-06-20T09:07:19.841Z,[AutoCalculate] doc_id=95496 request_id=791085 TRY GET REQUEST number_of_retry=0
+2022-06-20T09:07:19.263Z,[AutoCalculate] doc_id=95496 request_id=791085 CREATING Success
+2022-06-20T09:05:06.462Z,[AutoCalculate] doc_id=95496 request_id=791071 Retry number: 1
+2022-06-20T09:05:06.462Z,[AutoCalculate] doc_id=95496 request_id=791071 Can not auto calculate.
+2022-06-20T09:05:06.462Z,[AutoCalculate] doc_id=95496 request_id=791071 TRY GET REQUEST number_of_retry=0
+2022-06-20T09:05:06.288Z,[AutoCalculate] doc_id=95496 request_id=791063 CREATING Success
+2022-06-20T09:04:40.017Z,[AutoCalculate] doc_id=95496 request_id=791028 DELETE BECAUSE FINISH
+2022-06-20T09:04:40.017Z,[AutoCalculate] doc_id=95496 request_id=791028 FINISH trigger_by='trigger-table' CREATED new_doc_version=<DocumentVersion: DocumentVersion object (1958591)>
+2022-06-20T09:04:39.381Z,[AutoCalculate] doc_id=95496 request_id=791028 MOVED FROM WAITING TO PROCESSING
+2022-06-20T09:04:39.376Z,[AutoCalculate] doc_id=95496 request_id=791028 TRY GET REQUEST number_of_retry=1
+2022-06-20T09:04:31.210Z,[AutoCalculate] doc_id=95496 request_id=791071 DELETE BECAUSE FINISH
+2022-06-20T09:04:31.210Z,[AutoCalculate] doc_id=95496 request_id=791071 FINISH trigger_by='trigger-table' CREATED new_doc_version=<DocumentVersion: DocumentVersion object (1958654)>
+2022-06-20T09:04:23.196Z,[AutoCalculate] doc_id=95496 request_id=791071 MOVED FROM WAITING TO PROCESSING
+2022-06-20T09:04:23.196Z,[AutoCalculate] doc_id=95496 request_id=791071 TRY GET REQUEST number_of_retry=1
+2022-06-20T09:04:10.888Z,[AutoCalculate] doc_id=95496 request_id=791063 DELETE BECAUSE FINISH
+2022-06-20T09:04:10.888Z,[AutoCalculate] doc_id=95496 request_id=791063 FINISH trigger_by='trigger-table' CREATED new_doc_version=<DocumentVersion: DocumentVersion object (1958644)>
+2022-06-20T09:04:02.127Z,[AutoCalculate] doc_id=95496 request_id=791071 CREATING Success
+2022-06-20T09:03:59.852Z,[AutoCalculate] doc_id=95496 request_id=791063 MOVED FROM WAITING TO PROCESSING
+2022-06-20T09:03:59.849Z,[AutoCalculate] doc_id=95496 request_id=791063 TRY GET REQUEST number_of_retry=0
+2022-06-20T09:02:06.764Z,[AutoCalculate] doc_id=95496 request_id=791015 DELETE BECAUSE FINISH
+2022-06-20T09:02:06.764Z,[AutoCalculate] doc_id=95496 request_id=791015 FINISH trigger_by='trigger-table' CREATED new_doc_version=<DocumentVersion: DocumentVersion object (1958563)>
+2022-06-20T09:02:04.759Z,[AutoCalculate] doc_id=95496 request_id=791028 Retry number: 1
+2022-06-20T09:02:04.759Z,[AutoCalculate] doc_id=95496 request_id=791028 Can not auto calculate.
+2022-06-20T09:02:04.759Z,[AutoCalculate] doc_id=95496 request_id=791028 TRY GET REQUEST number_of_retry=0
+2022-06-20T09:02:03.774Z,[AutoCalculate] doc_id=95496 request_id=791028 CREATING Success
+2022-06-20T09:01:57.752Z,[AutoCalculate] doc_id=95496 request_id=791015 MOVED FROM WAITING TO PROCESSING
+2022-06-20T09:01:57.752Z,[AutoCalculate] doc_id=95496 request_id=791015 TRY GET REQUEST number_of_retry=0
+2022-06-20T09:01:57.294Z,[AutoCalculate] doc_id=95496 request_id=791015 CREATING Success
