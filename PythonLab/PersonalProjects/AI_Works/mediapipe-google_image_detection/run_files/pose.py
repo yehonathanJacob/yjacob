@@ -19,12 +19,11 @@ with mp_pose.Pose(
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
     image.flags.writeable = False
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    results = pose.process(image)
+    image_bgr = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = pose.process(image_bgr)
 
     # Draw the pose annotation on the image.
     image.flags.writeable = True
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     mp_drawing.draw_landmarks(
         image,
         results.pose_landmarks,
