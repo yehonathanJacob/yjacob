@@ -1,0 +1,104 @@
+%% [MermaidChart: b96c1292-f3ee-4d9f-b0d5-ca2270ae8217]
+%% [MermaidChart: b96c1292-f3ee-4d9f-b0d5-ca2270ae8217]
+%% [MermaidChart: 999d9e63-3d44-468b-9764-94a0581bbcff]
+%% [MermaidChart: 999d9e63-3d44-468b-9764-94a0581bbcff]
+%% [MermaidChart: b96c1292-f3ee-4d9f-b0d5-ca2270ae8217]
+%% [MermaidChart: b96c1292-f3ee-4d9f-b0d5-ca2270ae8217]
+%% [MermaidChart: b96c1292-f3ee-4d9f-b0d5-ca2270ae8217]
+%% [MermaidChart: b96c1292-f3ee-4d9f-b0d5-ca2270ae8217]
+graph TD
+    %% External entities
+    Client[Client Application]
+    GoogleAPI[Google Places API]
+    SocialMedia[Social Media<br/>LinkedIn, Twitter, Facebook]
+    WebSites[Company Websites]
+    NewsAPI[News APIs]
+    BusinessDB[Business Directories]
+
+    %% Core system components
+    Gateway[API Gateway<br/>🔐 Auth, Rate Limiting]
+    Orchestrator[Research Orchestrator<br/>🎭 Workflow Management]
+
+    %% Data collection services
+    CompanyService[Company Info Service<br/>🏢 Basic Company Data]
+    WebScraper[Web Scraper Service<br/>🕷️ Website Content]
+    SocialService[Social Media Service<br/>📱 Social Profiles]
+    NewsService[News Service<br/>📰 News & Events]
+    IndustryService[Industry Data Service<br/>📊 Market Data]
+
+    %% Processing services
+    Validator[Data Validation Service<br/>✅ Cross-reference & Verify]
+    Analytics[Analytics Engine<br/>🧠 SWOT, Insights, Analysis]
+    ReportGen[Report Generator<br/>📋 Configurable Reports]
+
+    %% Storage layer
+    RawDB[(Raw Data Store<br/>MongoDB)]
+    ProcessedDB[(Processed Data<br/>PostgreSQL)]
+    Cache[(Cache Layer<br/>Redis)]
+    ReportStore[(Report Store<br/>S3/MinIO)]
+
+    %% Message queue
+    Queue[Message Queue<br/>📬 Kafka/RabbitMQ]
+
+    %% Data flow
+    Client --> Gateway
+    Gateway --> Orchestrator
+
+    %% Orchestrator coordinates all collection services
+    Orchestrator --> CompanyService
+    Orchestrator --> WebScraper
+    Orchestrator --> SocialService
+    Orchestrator --> NewsService
+    Orchestrator --> IndustryService
+
+    %% Collection services interact with external APIs
+    CompanyService --> GoogleAPI
+    WebScraper --> WebSites
+    SocialService --> SocialMedia
+    NewsService --> NewsAPI
+    IndustryService --> BusinessDB
+
+    %% All services communicate via message queue
+    CompanyService --> Queue
+    WebScraper --> Queue
+    SocialService --> Queue
+    NewsService --> Queue
+    IndustryService --> Queue
+    Queue --> Validator
+    Queue --> Analytics
+    Queue --> ReportGen
+
+    %% Data storage flows
+    CompanyService --> RawDB
+    WebScraper --> RawDB
+    SocialService --> RawDB
+    NewsService --> RawDB
+    IndustryService --> RawDB
+
+    Validator --> ProcessedDB
+    Analytics --> ProcessedDB
+    ReportGen --> ReportStore
+
+    %% Caching
+    Validator <--> Cache
+    Analytics <--> Cache
+    Gateway <--> Cache
+
+    %% Final report retrieval
+    Gateway --> ReportStore
+    Gateway --> ProcessedDB
+
+    %% Styling
+    classDef external fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef core fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef collection fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef processing fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef storage fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef queue fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+
+    class Client,GoogleAPI,SocialMedia,WebSites,NewsAPI,BusinessDB external
+    class Gateway,Orchestrator core
+    class CompanyService,WebScraper,SocialService,NewsService,IndustryService collection
+    class Validator,Analytics,ReportGen processing
+    class RawDB,ProcessedDB,Cache,ReportStore storage
+    class Queue queue

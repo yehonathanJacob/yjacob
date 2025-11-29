@@ -1,0 +1,104 @@
+sequenceDiagram
+    participant C as Client
+    participant G as API Gateway
+    participant O as Research Orchestrator
+    participant Q as Message Queue
+    participant CS as Company Info Service
+    participant WS as Web Scraper Service
+    participant SS as Social Media Service
+    participant NS as News Service
+    participant IS as Industry Service
+    participant V as Validation Service
+    participant A as Analytics Engine
+    participant R as Report Generator
+    participant RDB as Raw Data Store
+    participant PDB as Processed Data Store
+    participant RS as Report Store
+
+    Note over C,RS: Research Request Flow
+
+    C->>G: POST /research/companies<br/>{"companies": ["Company A", "Company B"]}
+    G->>G: Authenticate & Rate Limit
+    G->>O: Forward research request
+    O->>O: Create workflow & task breakdown
+    O->>C: Return job_id: "12345"
+
+    Note over O,IS: Parallel Data Collection Phase
+
+    par Company Info Collection
+        O->>Q: Publish task: collect_company_info
+        Q->>CS: Process company info task
+        CS->>CS: Call Google Places API
+        CS->>RDB: Store raw company data
+        CS->>Q: Publish: company_info_complete
+    and Web Scraping
+        O->>Q: Publish task: scrape_websites
+        Q->>WS: Process website scraping task
+        WS->>WS: Scrape company websites
+        WS->>RDB: Store raw web data
+        WS->>Q: Publish: web_scraping_complete
+    and Social Media Collection
+        O->>Q: Publish task: collect_social_data
+        Q->>SS: Process social media task
+        SS->>SS: Scrape LinkedIn, Twitter, etc.
+        SS->>RDB: Store raw social data
+        SS->>Q: Publish: social_data_complete
+    and News Collection
+        O->>Q: Publish task: collect_news
+        Q->>NS: Process news collection task
+        NS->>NS: Fetch recent news & events
+        NS->>RDB: Store raw news data
+        NS->>Q: Publish: news_collection_complete
+    and Industry Data Collection
+        O->>Q: Publish task: collect_industry_data
+        Q->>IS: Process industry data task
+        IS->>IS: Query business directories
+        IS->>RDB: Store raw industry data
+        IS->>Q: Publish: industry_data_complete
+    end
+
+    Note over V,A: Data Processing Phase
+
+    Q->>V: All collection complete - start validation
+    V->>RDB: Retrieve all raw data
+    V->>V: Cross-validate & resolve conflicts
+    V->>PDB: Store validated data
+    V->>Q: Publish: validation_complete
+
+    Q->>A: Start analytics processing
+    A->>PDB: Retrieve validated data
+    A->>A: Generate SWOT, insights, analysis
+    A->>PDB: Store analytics results
+    A->>Q: Publish: analytics_complete
+
+    Note over R,C: Report Generation & Delivery
+
+    Q->>R: Start report generation
+    R->>PDB: Retrieve all processed data
+    R->>R: Generate configurable report
+    R->>RS: Store final report
+    R->>Q: Publish: report_complete
+    Q->>O: Notify workflow complete
+    O->>C: Send completion notification
+
+    Note over C,RS: Report Retrieval
+
+    C->>G: GET /reports/12345
+    G->>RS: Fetch report
+    RS->>G: Return report data
+    G->>C: Return Market Intelligence report
+
+    Note over C,RS: Error Handling & Retries
+
+    alt Data Collection Failure
+        CS-->>Q: Publish: collection_failed
+        Q-->>O: Notify failure
+        O-->>O: Trigger retry with backoff
+        O-->>Q: Re-publish task
+    end
+
+    alt Rate Limit Hit
+        SS-->>SS: Detect rate limit
+        SS-->>Q: Publish: rate_limit_delay
+        Q-->>O: Schedule delayed retry
+    end
