@@ -37,13 +37,13 @@ class AnalyzeResponse(BaseModel):
 async def lifespan(app: FastAPI):
     """Lifespan context manager for FastAPI app initialization and cleanup."""
     global rabbitmq_connection, rabbitmq_channel
-    
+
     # Startup: Initialize RabbitMQ connection
     rabbitmq_host = os.getenv("RABBITMQ_HOST", "rabbitmq")
     rabbitmq_port = int(os.getenv("RABBITMQ_PORT", "5672"))
-    
+
     logger.info(f"Connecting to RabbitMQ at {rabbitmq_host}:{rabbitmq_port}")
-    
+
     try:
         rabbitmq_connection = await connect_robust(
             host=rabbitmq_host,
@@ -52,7 +52,7 @@ async def lifespan(app: FastAPI):
             password="guest",
         )
         rabbitmq_channel = await rabbitmq_connection.channel()
-        
+
         # Declare durable queue with configuration
         queue = await rabbitmq_channel.declare_queue(
             "frame_processing_queue",
@@ -61,11 +61,11 @@ async def lifespan(app: FastAPI):
                 "x-message-ttl": 3600000,  # 1 hour TTL in milliseconds
             }
         )
-        
+
         logger.info(f"RabbitMQ connected. Queue '{queue.name}' ready.")
-        
+
         yield
-        
+
     finally:
         # Shutdown: Close RabbitMQ connection
         if rabbitmq_channel:
@@ -93,19 +93,19 @@ async def health_check():
 async def analyze_video(request: AnalyzeRequest):
     """
     Analyze video endpoint: Extract frames at specified FPS and publish to RabbitMQ.
-    
+
     Args:
         request: AnalyzeRequest with file_path and fps (2 or 4)
-    
+
     Returns:
         AnalyzeResponse with processing status
-    
+
     Raises:
         HTTPException: 404 if file not found, 500 for processing errors
     """
     file_path = request.file_path
     target_fps = request.fps
-    
+
     # Validate file exists
     if not os.path.exists(file_path):
         logger.error(f"Video file not found: {file_path}")
@@ -113,62 +113,63 @@ async def analyze_video(request: AnalyzeRequest):
             status_code=404,
             detail=f"Video file not found: {file_path}"
         )
-    
+
     # Generate video_id from filename
     video_id = os.path.basename(file_path)
-    
+
     logger.info(f"Starting analysis for video: {video_id} with fps={target_fps}")
-    
+
     try:
         # Open video with OpenCV
         video_capture = cv2.VideoCapture(file_path)
-        
+
         if not video_capture.isOpened():
             raise HTTPException(
                 status_code=500,
                 detail=f"Failed to open video file: {file_path}"
             )
-        
+
         # Get source video FPS
         source_fps = video_capture.get(cv2.CAP_PROP_FPS)
         total_frames = int(video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
-        
+
         if source_fps == 0:
             video_capture.release()
             raise HTTPException(
                 status_code=500,
                 detail="Unable to determine video FPS"
             )
-        
+
         logger.info(f"Video metadata: source_fps={source_fps}, total_frames={total_frames}")
-        
+
         # Calculate frame interval
         frame_interval = source_fps / target_fps
-        
+
         frame_index = 0
         frames_extracted = 0
         current_position = 0.0
-        
-        while True:
+
+        while current_position < total_frames:
             # Calculate which frame to read
             target_frame_number = int(current_position)
-            
+
             # Set video position to target frame
             video_capture.set(cv2.CAP_PROP_POS_FRAMES, target_frame_number)
-            
+
             # Read frame
             ret, frame = video_capture.read()
-            
+
             if not ret:
+                logger.warning(f"Failed to read frame at position {target_frame_number}, stopping extraction")
                 break
-            
+
             # Encode frame as JPEG
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 85]
             _, buffer = cv2.imencode('.jpg', frame, encode_param)
-            
+
             # Convert to base64
             frame_data_base64 = base64.b64encode(buffer).decode('utf-8')
-            
+
             # Prepare message
             message_body = {
                 "video_id": video_id,
@@ -176,38 +177,34 @@ async def analyze_video(request: AnalyzeRequest):
                 "frame_data": frame_data_base64,
                 "fps": target_fps
             }
-            
+
             # Publish to RabbitMQ
             message = Message(
                 body=json.dumps(message_body).encode(),
                 delivery_mode=DeliveryMode.PERSISTENT,
                 content_type="application/json"
             )
-            
+
             await rabbitmq_channel.default_exchange.publish(
                 message,
                 routing_key="frame_processing_queue"
             )
-            
+
             frames_extracted += 1
             frame_index += 1
             current_position += frame_interval
-            
-            # Break if we've exceeded total frames
-            if current_position >= total_frames:
-                break
-        
+
         video_capture.release()
-        
+
         logger.info(f"Completed analysis: {frames_extracted} frames extracted and published")
-        
+
         return AnalyzeResponse(
             status="success",
             video_id=video_id,
             frames_processed=frames_extracted,
             message=f"Successfully extracted and published {frames_extracted} frames"
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -220,5 +217,6 @@ async def analyze_video(request: AnalyzeRequest):
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
