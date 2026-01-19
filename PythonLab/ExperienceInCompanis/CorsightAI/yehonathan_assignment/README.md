@@ -81,7 +81,7 @@ cd yehonathan_assignment
 ### 2. Start All Services
 
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 This command will:

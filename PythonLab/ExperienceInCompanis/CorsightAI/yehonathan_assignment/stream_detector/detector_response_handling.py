@@ -1,7 +1,7 @@
 
 from typing import List
 from pydantic import BaseModel
-from stream_detector.detector import BoundingBox
+from detector import BoundingBox
 
 
 class RespObject(BaseModel):
