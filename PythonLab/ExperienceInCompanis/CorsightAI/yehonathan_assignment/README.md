@@ -75,7 +75,7 @@ docker-compose --version
 
 ```bash
 git clone <repository-url>
-cd bmad_test
+cd yehonathan_assignment
 ```
 
 ### 2. Start All Services
@@ -436,7 +436,7 @@ See **[PRODUCTION_ARCHITECTURE.md](PRODUCTION_ARCHITECTURE.md)**
 ## Project Structure
 
 ```
-bmad_test/
+yehonathan_assignment/
 ├── video_analyzer/
 │   ├── main.py              # FastAPI application
 │   ├── requirements.txt     # Python dependencies
