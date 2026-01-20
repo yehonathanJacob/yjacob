@@ -128,8 +128,7 @@ async def analyze_video(request: AnalyzeRequest) -> AnalyzeResponse:
     if not os.path.exists(file_path):
         logger.error(f"Video file not found: {file_path}")
         raise HTTPException(
-            status_code=404,
-            detail=f"Video file not found: {file_path}"
+            status_code=404, detail=f"Video file not found: {file_path}"
         )
 
     # Generate video_id from filename
@@ -143,8 +142,7 @@ async def analyze_video(request: AnalyzeRequest) -> AnalyzeResponse:
 
         if not video_capture.isOpened():
             raise HTTPException(
-                status_code=500,
-                detail=f"Failed to open video file: {file_path}"
+                status_code=500, detail=f"Failed to open video file: {file_path}"
             )
 
         # Get source video FPS
@@ -154,8 +152,7 @@ async def analyze_video(request: AnalyzeRequest) -> AnalyzeResponse:
         if source_fps == 0:
             video_capture.release()
             raise HTTPException(
-                status_code=500,
-                detail="Unable to determine video FPS"
+                status_code=500, detail="Unable to determine video FPS"
             )
 
         logger.info(f"Video metadata: source_fps={source_fps}, total_frames={total_frames}")
@@ -216,7 +213,7 @@ async def analyze_video(request: AnalyzeRequest) -> AnalyzeResponse:
 
         video_capture.release()
 
-        logger.info(f"Completed analysis: {frames_extracted} frames extracted and published")
+        logger.info(f"Completed analysis: {frames_extracted} frames extracted and published")   
 
         return AnalyzeResponse(
             status="success",
@@ -230,8 +227,7 @@ async def analyze_video(request: AnalyzeRequest) -> AnalyzeResponse:
     except Exception as e:
         logger.error(f"Error processing video: {str(e)}", exc_info=True)
         raise HTTPException(
-            status_code=500,
-            detail=f"Error processing video: {str(e)}"
+            status_code=500, detail=f"Error processing video: {str(e)}"
         )
 
 

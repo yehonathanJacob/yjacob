@@ -53,9 +53,13 @@ def ensure_services_ready() -> None:
         asyncio.set_event_loop(loop)
         try:
             # Wait for VideoAnalyzer
-            loop.run_until_complete(check_service("http://localhost:8000/health"))
+            loop.run_until_complete(
+                check_service("http://localhost:8000/health")
+            )
             # Wait for StreamDetector
-            loop.run_until_complete(check_service("http://localhost:8001/health"))
+            loop.run_until_complete(
+                check_service("http://localhost:8001/health")
+            )
             # Give RabbitMQ a moment to fully initialize
             loop.run_until_complete(asyncio.sleep(2))
             print("✓ All services are ready")
@@ -128,7 +132,9 @@ async def cleanup_queue(rabbitmq_connection):
     # Purge the queue after test
     try:
         channel = await rabbitmq_connection.channel()
-        queue = await channel.get_queue("frame_processing_queue", ensure=False)
+        queue = await channel.get_queue(
+            "frame_processing_queue", ensure=False
+        )
         await queue.purge()
         await channel.close()
     except Exception as e:

@@ -106,8 +106,7 @@ async def test_frame_extraction_accuracy(
 
     # Test with fps=4
     response = await api_client.post(
-        "/analyze",
-        json={"file_path": video_file_path, "fps": 4}
+        "/analyze", json={"file_path": video_file_path, "fps": 4}
     )
 
     assert response.status_code == 200
@@ -144,7 +143,9 @@ async def test_end_to_end_pipeline(
 
     # Check queue - should be empty or nearly empty if processing is working
     channel = await rabbitmq_connection.channel()
-    queue = await channel.declare_queue("frame_processing_queue", passive=True)
+    queue = await channel.declare_queue(
+        "frame_processing_queue", passive=True
+    )
     message_count = queue.declaration_result.message_count
 
     await channel.close()
@@ -174,7 +175,9 @@ async def test_rabbitmq_queue_configuration(rabbitmq_connection):
 
     # Declare queue with passive=True to check it exists
     # Note: passive=True only checks existence, doesn't return full config
-    queue = await channel.declare_queue("frame_processing_queue", passive=True)
+    queue = await channel.declare_queue(
+        "frame_processing_queue", passive=True
+    )
     assert queue is not None
     assert queue.name == "frame_processing_queue"
 
