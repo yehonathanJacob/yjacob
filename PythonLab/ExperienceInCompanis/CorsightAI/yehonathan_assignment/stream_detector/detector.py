@@ -1,8 +1,9 @@
-import numpy as np
 from typing import List
-from pydantic import BaseModel
-import mediapipe as mp
+
 import cv2
+import mediapipe as mp
+import numpy as np
+from pydantic import BaseModel
 
 
 class BoundingBox(BaseModel):
@@ -13,7 +14,7 @@ class BoundingBox(BaseModel):
 
 
 class StreamFaceDetector:
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize Mediapipe Face Detection model."""
         # Initialize Mediapipe Face Detection with short-range model
         self.mp_face_detection = mp.solutions.face_detection
@@ -47,13 +48,13 @@ class StreamFaceDetector:
         if results.detections:
             for detection in results.detections:
                 # Get bounding box from detection
-                bboxC = detection.location_data.relative_bounding_box
+                relative_bbox = detection.location_data.relative_bounding_box
 
                 # Convert normalized coordinates to pixel coordinates
-                x = int(bboxC.xmin * width)
-                y = int(bboxC.ymin * height)
-                w = int(bboxC.width * width)
-                h = int(bboxC.height * height)
+                x = int(relative_bbox.xmin * width)
+                y = int(relative_bbox.ymin * height)
+                w = int(relative_bbox.width * width)
+                h = int(relative_bbox.height * height)
 
                 # Ensure coordinates are non-negative
                 x = max(0, x)
@@ -65,7 +66,7 @@ class StreamFaceDetector:
 
         return bounding_boxes
 
-    def close(self):
+    def close(self) -> None:
         """Clean up resources."""
         if hasattr(self, 'face_detection') and self.face_detection:
             self.face_detection.close()

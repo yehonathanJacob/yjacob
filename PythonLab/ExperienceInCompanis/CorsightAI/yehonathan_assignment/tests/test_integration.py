@@ -1,7 +1,6 @@
-import pytest
 import asyncio
-import json
-from typing import List
+
+import pytest
 
 
 @pytest.mark.asyncio

@@ -8,7 +8,7 @@ from aio_pika import connect_robust
 _services_ready = False
 
 
-async def check_service(url: str, max_retries: int = 30, delay: int = 2):
+async def check_service(url: str, max_retries: int = 30, delay: int = 2) -> bool:
     """Check if a service is ready by polling its health endpoint."""
     for i in range(max_retries):
         try:
@@ -27,7 +27,7 @@ async def check_service(url: str, max_retries: int = 30, delay: int = 2):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def ensure_services_ready():
+def ensure_services_ready() -> None:
     """Ensure services are ready before any tests run (sync fixture for session scope)."""
     global _services_ready
     if not _services_ready:

@@ -20,7 +20,7 @@ services:
   video_analyzer:
     build:
       context: ./video_analyzer
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     container_name: video_analyzer
     ports:
       - "8000:8000"
@@ -38,7 +38,7 @@ services:
   stream_detector:
     build:
       context: ./stream_detector
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     container_name: stream_detector
     ports:
       - "8001:8001"

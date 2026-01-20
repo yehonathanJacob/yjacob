@@ -3,10 +3,9 @@ import base64
 import json
 import logging
 from contextlib import asynccontextmanager
-from typing import Literal, Optional
+from typing import Any, Dict, Literal, Optional
 
 import cv2
-import numpy as np
 from aio_pika import connect_robust, Message, DeliveryMode
 from aio_pika.abc import AbstractRobustConnection, AbstractChannel
 from fastapi import FastAPI, HTTPException
@@ -84,7 +83,7 @@ app = FastAPI(
 
 
 @app.get("/health")
-async def health_check():
+async def health_check() -> Dict[str, str]:
     """Health check endpoint."""
     return {"status": "healthy", "service": "video_analyzer"}
 

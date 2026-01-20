@@ -4,7 +4,7 @@ import json
 import logging
 import asyncio
 from contextlib import asynccontextmanager
-from typing import Optional
+from typing import Any, Dict, Optional
 
 import cv2
 import numpy as np
@@ -26,10 +26,10 @@ face_detector: Optional[StreamFaceDetector] = None
 consumer_task: Optional[asyncio.Task] = None
 
 
-async def process_frame_message(message: IncomingMessage):
+async def process_frame_message(message: IncomingMessage) -> None:
     """
     Process incoming frame messages from RabbitMQ queue.
-    
+
     Args:
         message: Incoming message containing frame data
     """
@@ -77,7 +77,7 @@ async def process_frame_message(message: IncomingMessage):
             raise
 
 
-async def start_consumer():
+async def start_consumer() -> None:
     """Start consuming messages from RabbitMQ queue."""
     global rabbitmq_channel
     
@@ -173,7 +173,7 @@ app = FastAPI(
 
 
 @app.get("/health")
-async def health_check():
+async def health_check() -> Dict[str, Any]:
     """Health check endpoint."""
     return {
         "status": "healthy",
