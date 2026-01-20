@@ -1,0 +1,57 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"   # AMQP port
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - video_processing_network
+
+  video_analyzer:
+    build:
+      context: ./video_analyzer
+      dockerfile: Dockerfile
+    container_name: video_analyzer
+    ports:
+      - "8000:8000"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+    volumes:
+      - ./videos:/videos:ro
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - video_processing_network
+
+  stream_detector:
+    build:
+      context: ./stream_detector
+      dockerfile: Dockerfile
+    container_name: stream_detector
+    ports:
+      - "8001:8001"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - video_processing_network
+
+networks:
+  video_processing_network:
+    driver: bridge
+
