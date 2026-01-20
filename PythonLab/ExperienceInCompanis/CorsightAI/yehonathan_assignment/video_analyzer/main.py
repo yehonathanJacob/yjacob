@@ -1,19 +1,31 @@
-import os
 import base64
 import json
 import logging
+import os
 from contextlib import asynccontextmanager
-from typing import Any, Dict, Literal, Optional
+from typing import Dict, Literal, Optional
 
 import cv2
-from aio_pika import connect_robust, Message, DeliveryMode
-from aio_pika.abc import AbstractRobustConnection, AbstractChannel
+from aio_pika import DeliveryMode, Message, connect_robust
+from aio_pika.abc import AbstractChannel, AbstractRobustConnection
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
 logger = logging.getLogger(__name__)
+
+# Constants
+QUEUE_NAME = "frame_processing_queue"
+QUEUE_TTL_MS = 3600000  # 1 hour
+JPEG_QUALITY = 85
+RABBITMQ_DEFAULT_HOST = "rabbitmq"
+RABBITMQ_DEFAULT_PORT = 5672
+RABBITMQ_DEFAULT_USER = "guest"
+RABBITMQ_DEFAULT_PASSWORD = "guest"
 
 # Global variables for RabbitMQ connection
 rabbitmq_connection: Optional[AbstractRobustConnection] = None
@@ -38,8 +50,12 @@ async def lifespan(app: FastAPI):
     global rabbitmq_connection, rabbitmq_channel
 
     # Startup: Initialize RabbitMQ connection
-    rabbitmq_host = os.getenv("RABBITMQ_HOST", "rabbitmq")
-    rabbitmq_port = int(os.getenv("RABBITMQ_PORT", "5672"))
+    rabbitmq_host = os.getenv("RABBITMQ_HOST", RABBITMQ_DEFAULT_HOST)
+    rabbitmq_port = int(os.getenv("RABBITMQ_PORT", str(RABBITMQ_DEFAULT_PORT)))
+    rabbitmq_user = os.getenv("RABBITMQ_USER", RABBITMQ_DEFAULT_USER)
+    rabbitmq_password = os.getenv(
+        "RABBITMQ_PASSWORD", RABBITMQ_DEFAULT_PASSWORD
+    )
 
     logger.info(f"Connecting to RabbitMQ at {rabbitmq_host}:{rabbitmq_port}")
 
@@ -47,18 +63,18 @@ async def lifespan(app: FastAPI):
         rabbitmq_connection = await connect_robust(
             host=rabbitmq_host,
             port=rabbitmq_port,
-            login="guest",
-            password="guest",
+            login=rabbitmq_user,
+            password=rabbitmq_password,
         )
         rabbitmq_channel = await rabbitmq_connection.channel()
 
         # Declare durable queue with configuration
         queue = await rabbitmq_channel.declare_queue(
-            "frame_processing_queue",
+            QUEUE_NAME,
             durable=True,
             arguments={
-                "x-message-ttl": 3600000,  # 1 hour TTL in milliseconds
-            }
+                "x-message-ttl": QUEUE_TTL_MS,
+            },
         )
 
         logger.info(f"RabbitMQ connected. Queue '{queue.name}' ready.")
@@ -89,9 +105,12 @@ async def health_check() -> Dict[str, str]:
 
 
 @app.post("/analyze", response_model=AnalyzeResponse)
-async def analyze_video(request: AnalyzeRequest):
+async def analyze_video(request: AnalyzeRequest) -> AnalyzeResponse:
     """
-    Analyze video endpoint: Extract frames at specified FPS and publish to RabbitMQ.
+    Analyze video endpoint: Extract frames at specified FPS and publish.
+
+    Extracts frames from the video at the specified rate and publishes each
+    frame to RabbitMQ for downstream face detection processing.
 
     Args:
         request: AnalyzeRequest with file_path and fps (2 or 4)
@@ -159,34 +178,36 @@ async def analyze_video(request: AnalyzeRequest):
             ret, frame = video_capture.read()
 
             if not ret:
-                logger.warning(f"Failed to read frame at position {target_frame_number}, stopping extraction")
+                logger.warning(
+                    f"Failed to read frame at position {target_frame_number}, "
+                    f"stopping extraction"
+                )
                 break
 
             # Encode frame as JPEG
-            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 85]
-            _, buffer = cv2.imencode('.jpg', frame, encode_param)
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), JPEG_QUALITY]
+            _, buffer = cv2.imencode(".jpg", frame, encode_param)
 
             # Convert to base64
-            frame_data_base64 = base64.b64encode(buffer).decode('utf-8')
+            frame_data_base64 = base64.b64encode(buffer).decode("utf-8")
 
             # Prepare message
             message_body = {
                 "video_id": video_id,
                 "frame_index": frame_index,
                 "frame_data": frame_data_base64,
-                "fps": target_fps
+                "fps": target_fps,
             }
 
             # Publish to RabbitMQ
             message = Message(
                 body=json.dumps(message_body).encode(),
                 delivery_mode=DeliveryMode.PERSISTENT,
-                content_type="application/json"
+                content_type="application/json",
             )
 
             await rabbitmq_channel.default_exchange.publish(
-                message,
-                routing_key="frame_processing_queue"
+                message, routing_key=QUEUE_NAME
             )
 
             frames_extracted += 1

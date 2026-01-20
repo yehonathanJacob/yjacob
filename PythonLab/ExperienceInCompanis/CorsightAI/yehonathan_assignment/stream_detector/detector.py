@@ -5,8 +5,14 @@ import mediapipe as mp
 import numpy as np
 from pydantic import BaseModel
 
+# Constants
+MIN_DETECTION_CONFIDENCE = 0.5
+MODEL_SELECTION_SHORT_RANGE = 0  # For faces within 2 meters
+
 
 class BoundingBox(BaseModel):
+    """Represents a bounding box for detected face."""
+
     x: float
     y: float
     w: float
@@ -14,13 +20,15 @@ class BoundingBox(BaseModel):
 
 
 class StreamFaceDetector:
+    """Face detector using Mediapipe Face Detection."""
+
     def __init__(self) -> None:
         """Initialize Mediapipe Face Detection model."""
         # Initialize Mediapipe Face Detection with short-range model
         self.mp_face_detection = mp.solutions.face_detection
         self.face_detection = self.mp_face_detection.FaceDetection(
-            model_selection=0,  # 0 for short-range detection (within 2 meters)
-            min_detection_confidence=0.5
+            model_selection=MODEL_SELECTION_SHORT_RANGE,
+            min_detection_confidence=MIN_DETECTION_CONFIDENCE,
         )
 
     def detect_faces(self, frame: np.ndarray) -> List[BoundingBox]:
@@ -42,7 +50,7 @@ class StreamFaceDetector:
         # Process the frame with Mediapipe
         results = self.face_detection.process(rgb_frame)
 
-        bounding_boxes = []
+        bounding_boxes: List[BoundingBox] = []
 
         # Extract bounding boxes if faces are detected
         if results.detections:
@@ -67,6 +75,6 @@ class StreamFaceDetector:
         return bounding_boxes
 
     def close(self) -> None:
-        """Clean up resources."""
-        if hasattr(self, 'face_detection') and self.face_detection:
+        """Clean up Mediapipe resources."""
+        if hasattr(self, "face_detection") and self.face_detection:
             self.face_detection.close()

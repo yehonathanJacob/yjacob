@@ -1,18 +1,29 @@
 import asyncio
+
+import httpx
 import pytest
 import pytest_asyncio
-import httpx
 from aio_pika import connect_robust
 
 # Track if services have been checked
 _services_ready = False
 
+# Constants
+MAX_RETRIES = 30
+RETRY_DELAY = 2
+HEALTH_CHECK_TIMEOUT = 5.0
+RABBITMQ_HOST = "localhost"
+RABBITMQ_PORT = 5672
+RABBITMQ_USER = "guest"
+RABBITMQ_PASSWORD = "guest"
+VIDEO_FILE_PATH = "/videos/G20_Summit.mp4"
+API_TIMEOUT = 60.0
 
 async def check_service(url: str, max_retries: int = 30, delay: int = 2) -> bool:
     """Check if a service is ready by polling its health endpoint."""
     for i in range(max_retries):
         try:
-            async with httpx.AsyncClient(timeout=5.0) as client:
+            async with httpx.AsyncClient(timeout=HEALTH_CHECK_TIMEOUT) as client:
                 response = await client.get(url)
                 if response.status_code == 200:
                     print(f"✓ Service at {url} is ready")
@@ -28,7 +39,13 @@ async def check_service(url: str, max_retries: int = 30, delay: int = 2) -> bool
 
 @pytest.fixture(scope="session", autouse=True)
 def ensure_services_ready() -> None:
-    """Ensure services are ready before any tests run (sync fixture for session scope)."""
+    """
+    Ensure services are ready before any tests run.
+
+    This fixture runs once per test session and verifies that both
+    VideoAnalyzer and StreamDetector services are healthy before
+    proceeding with tests.
+    """
     global _services_ready
     if not _services_ready:
         # Run the async check in a new event loop
@@ -49,12 +66,20 @@ def ensure_services_ready() -> None:
 
 @pytest_asyncio.fixture
 async def rabbitmq_connection():
-    """Provide RabbitMQ connection for tests."""
+    """
+    Provide RabbitMQ connection for tests.
+
+    Yields:
+        RabbitMQ connection object
+
+    Cleanup:
+        Closes connection after test
+    """
     connection = await connect_robust(
-        host="localhost",
-        port=5672,
-        login="guest",
-        password="guest",
+        host=RABBITMQ_HOST,
+        port=RABBITMQ_PORT,
+        login=RABBITMQ_USER,
+        password=RABBITMQ_PASSWORD,
     )
 
     yield connection
@@ -64,23 +89,40 @@ async def rabbitmq_connection():
 
 @pytest.fixture
 def video_file_path() -> str:
-    """Provide path to test video file."""
-    return "/videos/G20_Summit.mp4"
+    """
+    Provide path to test video file.
+
+    Returns:
+        Path to G20_Summit.mp4 video file
+    """
+    return VIDEO_FILE_PATH
 
 
 @pytest_asyncio.fixture
 async def api_client():
-    """Provide HTTP client for VideoAnalyzer API."""
+    """
+    Provide HTTP client for VideoAnalyzer API.
+
+    Yields:
+        Async HTTP client configured for VideoAnalyzer service
+    """
     async with httpx.AsyncClient(
-            base_url="http://localhost:8000",
-            timeout=60.0  # Longer timeout for video processing
+        base_url="http://localhost:8000", timeout=API_TIMEOUT
     ) as client:
         yield client
 
 
 @pytest_asyncio.fixture
 async def cleanup_queue(rabbitmq_connection):
-    """Clean up RabbitMQ queue after each test."""
+    """
+    Clean up RabbitMQ queue after each test.
+
+    Purges the frame processing queue to prevent message accumulation
+    between test runs.
+
+    Args:
+        rabbitmq_connection: RabbitMQ connection fixture
+    """
     yield
 
     # Purge the queue after test

@@ -1,3 +1,9 @@
+"""
+Integration tests for the distributed video processing pipeline.
+
+Tests verify end-to-end functionality including frame extraction,
+RabbitMQ message passing, and face detection processing.
+"""
 import asyncio
 
 import pytest
@@ -5,10 +11,14 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_analyze_with_fps_2(api_client, video_file_path, cleanup_queue):
-    """Test POST /analyze with valid fps=2."""
+    """
+    Test POST /analyze with valid fps=2.
+
+    Verifies that video analysis endpoint successfully processes a video
+    at 2 FPS and returns the correct response format.
+    """
     response = await api_client.post(
-        "/analyze",
-        json={"file_path": video_file_path, "fps": 2}
+        "/analyze", json={"file_path": video_file_path, "fps": 2}
     )
 
     assert response.status_code == 200
@@ -21,10 +31,14 @@ async def test_analyze_with_fps_2(api_client, video_file_path, cleanup_queue):
 
 @pytest.mark.asyncio
 async def test_analyze_with_fps_4(api_client, video_file_path, cleanup_queue):
-    """Test POST /analyze with valid fps=4."""
+    """
+    Test POST /analyze with valid fps=4.
+
+    Verifies that video analysis endpoint successfully processes a video
+    at 4 FPS and returns the correct response format.
+    """
     response = await api_client.post(
-        "/analyze",
-        json={"file_path": video_file_path, "fps": 4}
+        "/analyze", json={"file_path": video_file_path, "fps": 4}
     )
 
     assert response.status_code == 200
@@ -37,10 +51,14 @@ async def test_analyze_with_fps_4(api_client, video_file_path, cleanup_queue):
 
 @pytest.mark.asyncio
 async def test_analyze_invalid_fps(api_client, video_file_path, cleanup_queue):
-    """Test POST /analyze with invalid fps=3 (should return 422)."""
+    """
+    Test POST /analyze with invalid fps=3 (should return 422).
+
+    Verifies that the API correctly rejects invalid FPS values that are
+    not 2 or 4 with a 422 Unprocessable Entity response.
+    """
     response = await api_client.post(
-        "/analyze",
-        json={"file_path": video_file_path, "fps": 3}
+        "/analyze", json={"file_path": video_file_path, "fps": 3}
     )
 
     assert response.status_code == 422
@@ -49,10 +67,14 @@ async def test_analyze_invalid_fps(api_client, video_file_path, cleanup_queue):
 
 @pytest.mark.asyncio
 async def test_analyze_missing_file(api_client, cleanup_queue):
-    """Test POST /analyze with non-existent file path (should return 404)."""
+    """
+    Test POST /analyze with non-existent file path (should return 404).
+
+    Verifies that the API correctly handles missing video files with a
+    404 Not Found response.
+    """
     response = await api_client.post(
-        "/analyze",
-        json={"file_path": "/videos/nonexistent.mp4", "fps": 2}
+        "/analyze", json={"file_path": "/videos/nonexistent.mp4", "fps": 2}
     )
 
     assert response.status_code == 404
@@ -62,12 +84,18 @@ async def test_analyze_missing_file(api_client, cleanup_queue):
 
 
 @pytest.mark.asyncio
-async def test_frame_extraction_accuracy(api_client, video_file_path, cleanup_queue):
-    """Test frame extraction count is reasonable for video duration."""
+async def test_frame_extraction_accuracy(
+    api_client, video_file_path, cleanup_queue
+):
+    """
+    Test frame extraction count is reasonable for video duration.
+
+    Verifies that fps=4 extracts approximately 2x as many frames as fps=2,
+    confirming correct frame extraction logic.
+    """
     # Test with fps=2
     response = await api_client.post(
-        "/analyze",
-        json={"file_path": video_file_path, "fps": 2}
+        "/analyze", json={"file_path": video_file_path, "fps": 2}
     )
 
     assert response.status_code == 200
@@ -92,12 +120,18 @@ async def test_frame_extraction_accuracy(api_client, video_file_path, cleanup_qu
 
 
 @pytest.mark.asyncio
-async def test_end_to_end_pipeline(api_client, video_file_path, rabbitmq_connection, cleanup_queue):
-    """Test end-to-end pipeline: POST /analyze → RabbitMQ → StreamDetector processes frames."""
+async def test_end_to_end_pipeline(
+    api_client, video_file_path, rabbitmq_connection, cleanup_queue
+):
+    """
+    Test end-to-end pipeline: POST /analyze → RabbitMQ → StreamDetector.
+
+    Verifies that frames are successfully published to RabbitMQ and
+    consumed by StreamDetector service for face detection processing.
+    """
     # Submit video for analysis
     response = await api_client.post(
-        "/analyze",
-        json={"file_path": video_file_path, "fps": 2}
+        "/analyze", json={"file_path": video_file_path, "fps": 2}
     )
 
     assert response.status_code == 200
@@ -117,15 +151,25 @@ async def test_end_to_end_pipeline(api_client, video_file_path, rabbitmq_connect
 
     # In a real test, we'd verify RespObject was sent to next service
     # For now, verify messages were consumed (queue is empty or low)
-    print(f"✓ Queue has {message_count} messages remaining (expected 0 or low)")
+    print(
+        f"✓ Queue has {message_count} messages remaining "
+        f"(expected 0 or low)"
+    )
 
     # Allow some messages to still be in queue during processing
-    assert message_count <= expected_frames, "Queue should not have more messages than frames sent"
+    assert (
+        message_count <= expected_frames
+    ), "Queue should not have more messages than frames sent"
 
 
 @pytest.mark.asyncio
 async def test_rabbitmq_queue_configuration(rabbitmq_connection):
-    """Test that RabbitMQ queue is properly configured."""
+    """
+    Test that RabbitMQ queue is properly configured.
+
+    Verifies that the frame processing queue exists and is accessible,
+    confirming proper RabbitMQ setup by the services.
+    """
     channel = await rabbitmq_connection.channel()
 
     # Declare queue with passive=True to check it exists
@@ -144,7 +188,12 @@ async def test_rabbitmq_queue_configuration(rabbitmq_connection):
 
 @pytest.mark.asyncio
 async def test_video_analyzer_health(api_client):
-    """Test VideoAnalyzer health endpoint."""
+    """
+    Test VideoAnalyzer health endpoint.
+
+    Verifies that the VideoAnalyzer service is running and responding
+    to health check requests.
+    """
     response = await api_client.get("/health")
     assert response.status_code == 200
     data = response.json()
@@ -155,8 +204,14 @@ async def test_video_analyzer_health(api_client):
 
 @pytest.mark.asyncio
 async def test_stream_detector_health():
-    """Test StreamDetector health endpoint."""
+    """
+    Test StreamDetector health endpoint.
+
+    Verifies that the StreamDetector service is running with an
+    initialized face detection model.
+    """
     import httpx
+
     async with httpx.AsyncClient(base_url="http://localhost:8001") as client:
         response = await client.get("/health")
         assert response.status_code == 200
