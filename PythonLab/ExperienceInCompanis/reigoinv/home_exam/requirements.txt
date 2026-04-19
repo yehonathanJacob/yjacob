@@ -1,7 +1,7 @@
 fastapi==0.65.2
 pandas==1.1.5
 numpy==1.19.5
-pytest==6.2.4
+pytest==9.0.3
 requests==2.25.1
 Scrapy==2.5.0
 selenium==3.8.0
