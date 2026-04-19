@@ -37,3 +37,6 @@ instance/
 
 #  Apple macOS https://en.wikipedia.org/wiki/.DS_Store
 .DS_Store
+# Agent config
+.claude/
+.gemini/
