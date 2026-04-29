@@ -1,42 +1,66 @@
-# Python
-__pycache__/
-*.py[code]
-*$py.class
-
-# Pytest
-*.pytest_cache/
-
-# C and Bash
-*.exe
+# IDEs and Editors
 .idea/
+.vscode/
+.settings/
+.project
 .vs/
 
-# Java
-*.class
-.settings/
-*.classpath
-*.project
-doc/
-
-# Play Area
-playingArea/
-
-#Logs
-logs/
-*.log
-
-instance/
-
-#Medai
-*.png
-*.jpg
-*.mp4
-
-#Nural network
-*.caffemodel
-
-#  Apple macOS https://en.wikipedia.org/wiki/.DS_Store
-.DS_Store
 # Agent config
 .claude/
 .gemini/
+
+# Dependencies
+node_modules/
+/node_modules
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.pnp.*
+/.pnp
+
+# Next.js
+/.next/
+next-env.d.ts
+.vercel
+
+# Build and Output
+/build
+/out/
+/coverage
+*.exe
+*.tsbuildinfo
+
+# Environment and Secrets
+.env*
+*.pem
+
+# OS generated files
+.DS_Store
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[code]
+*.pytest_cache/
+instance/
+
+# Java
+*.class
+*$py.class
+
+# Media and Other
+*.jpg
+*.png
+*.mp4
+*.caffemodel
+doc/
+playingArea/
