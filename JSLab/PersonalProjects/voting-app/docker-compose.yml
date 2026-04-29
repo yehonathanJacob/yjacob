@@ -1,0 +1,73 @@
+services:
+  vote:
+    build:
+      context: ./vote
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./vote:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    environment:
+      - REDIS_HOST=redis
+      - NODE_OPTIONS=--inspect=0.0.0.0:9229
+    depends_on:
+      - redis
+
+  result:
+    build:
+      context: ./result
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./result:/app
+      - /app/node_modules
+    ports:
+      - "3001:3000"
+      - "9230:9230"
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - NODE_OPTIONS=--inspect=0.0.0.0:9230
+    depends_on:
+      - db
+
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./worker:/app
+      - /app/node_modules
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "9231:9231"
+    depends_on:
+      - redis
+      - db
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

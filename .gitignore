@@ -64,3 +64,4 @@ instance/
 *.caffemodel
 doc/
 playingArea/
+.next/
