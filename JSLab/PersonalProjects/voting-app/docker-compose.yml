@@ -6,6 +6,7 @@ services:
     volumes:
       - ./vote:/app
       - /app/node_modules
+      - ./shared:/shared
     ports:
       - "3000:3000"
       - "9229:9229"
@@ -41,6 +42,7 @@ services:
     volumes:
       - ./worker:/app
       - /app/node_modules
+      - ./shared:/shared
     environment:
       - REDIS_HOST=redis
       - POSTGRES_HOST=db
