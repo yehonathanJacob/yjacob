@@ -1,0 +1,3 @@
+# Terminal background transparency (cmux reads this)
+background-opacity = 0.85
+background-blur = 5

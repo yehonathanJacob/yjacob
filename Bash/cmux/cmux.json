@@ -1,0 +1,29 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+  "shortcuts": {
+    "bindings": {
+      "showHideAllWindows": {
+        "first": {
+          "command": false,
+          "control": false,
+          "key": "space",
+          "keyCode": 49,
+          "option": true,
+          "shift": false
+        }
+      }
+    }
+  },
+  "browser": {
+    "openTerminalLinksInCmuxBrowser": false
+  },
+  "app": {
+    "openSupportedFilesInCmux": false,
+    "openMarkdownInCmuxViewer": false,
+    "preferredEditor": "/Users/yehonathanjacob/.config/cmux/reveal-in-finder.sh",
+    "appearance": "dark",
+    "confirmQuit": "never",
+    "warnBeforeQuit": false
+  }
+}
